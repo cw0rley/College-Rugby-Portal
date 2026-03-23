@@ -1,0 +1,3901 @@
+[
+  {
+    "school": "Adrian College",
+    "gender": "mens",
+    "conference": "Big Rivers Rugby Conference"
+  },
+  {
+    "school": "American International College",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Aquinas College",
+    "gender": "mens",
+    "conference": "Big Rivers Rugby Conference"
+  },
+  {
+    "school": "Belmont Abbey College",
+    "gender": "mens",
+    "conference": "Atlantic Rugby Conference"
+  },
+  {
+    "school": "Brown University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Dartmouth College",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Drury University",
+    "gender": "mens",
+    "conference": "Big Rivers Rugby Conference"
+  },
+  {
+    "school": "Fairfield University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Fordham University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Harvard University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Indiana Institute of Technology",
+    "gender": "mens",
+    "conference": "Big Rivers Rugby Conference"
+  },
+  {
+    "school": "Indiana University",
+    "gender": "mens",
+    "conference": "Big 10 Men's Rugby"
+  },
+  {
+    "school": "Iona University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Iowa Central Community College",
+    "gender": "mens",
+    "conference": "Big Rivers Rugby Conference"
+  },
+  {
+    "school": "Kutztown University",
+    "gender": "mens",
+    "conference": "Atlantic Rugby Conference"
+  },
+  {
+    "school": "Marian University",
+    "gender": "mens",
+    "conference": "Big Rivers Rugby Conference"
+  },
+  {
+    "school": "Nazareth University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Northeastern University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Purdue University",
+    "gender": "mens",
+    "conference": "Big 10 Men's Rugby"
+  },
+  {
+    "school": "Queens University",
+    "gender": "mens",
+    "conference": "Atlantic Rugby Conference"
+  },
+  {
+    "school": "Appalachian State University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Babson College",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Baylor University",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "Boston College",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Bowling Green State University",
+    "gender": "mens",
+    "conference": "Mid-American Conference Men's Rugby"
+  },
+  {
+    "school": "Clemson University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Colgate University",
+    "gender": "mens",
+    "conference": "Lake Effect Rugby Conference"
+  },
+  {
+    "school": "Columbia University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "James Madison University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Kennesaw State University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Auburn University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Benedictine University",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Bloomsburg University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Boise State University",
+    "gender": "mens",
+    "conference": "Northwest Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Boston University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Bucknell University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Calvin University",
+    "gender": "mens",
+    "conference": "Great Lakes Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Central Michigan University",
+    "gender": "mens",
+    "conference": "Great Lakes Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Coastal Carolina University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Colorado Mesa University",
+    "gender": "mens",
+    "conference": "High Peaks Collegiate Rugby Conference"
+  },
+  {
+    "school": "Alfred University",
+    "gender": "mens",
+    "conference": "Lake Effect Rugby Conference"
+  },
+  {
+    "school": "American University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Amherst College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Angelo State",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "Baldwin Wallace University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Bard College",
+    "gender": "mens",
+    "conference": "Tri-State Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Bates College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Bemidji State University",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Benedictine College",
+    "gender": "mens",
+    "conference": "Gateway Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Bentley University",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Siena College",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Southern Nazarene University",
+    "gender": "mens",
+    "conference": "NCR Independent Men"
+  },
+  {
+    "school": "St. Bonaventure University",
+    "gender": "mens",
+    "conference": "Atlantic Rugby Conference"
+  },
+  {
+    "school": "Syracuse University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Thomas More University",
+    "gender": "mens",
+    "conference": "Big Rivers Rugby Conference"
+  },
+  {
+    "school": "University of Notre Dame",
+    "gender": "mens",
+    "conference": "Big 10 Men's Rugby"
+  },
+  {
+    "school": "University of Rio Grande",
+    "gender": "mens",
+    "conference": "Big Rivers Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin",
+    "gender": "mens",
+    "conference": "Big 10 Men's Rugby"
+  },
+  {
+    "school": "Walsh University",
+    "gender": "mens",
+    "conference": "Rugby East Conference"
+  },
+  {
+    "school": "Wheeling University",
+    "gender": "mens",
+    "conference": "Atlantic Rugby Conference"
+  },
+  {
+    "school": "Louisiana State University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Niagara University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "North Carolina State University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Ohio University",
+    "gender": "mens",
+    "conference": "Mid-American Conference Men's Rugby"
+  },
+  {
+    "school": "Oregon State University",
+    "gender": "mens",
+    "conference": "Northwest Men's Collegiate Rugby Conference",
+    "league": "CRAA D1AA"
+  },
+  {
+    "school": "Princeton University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Rice University",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "Rowan University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Rutgers University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Sam Houston State University",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "St. Joseph's University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "SUNY - Binghamton",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Temple University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Texas A&M University",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "Texas State University",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "University of Alabama",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Cincinnati",
+    "gender": "mens",
+    "conference": "Mid-American Conference Men's Rugby"
+  },
+  {
+    "school": "University of Connecticut",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "University of Delaware",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "University of Georgia",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Houston",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "University of Kentucky",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Louisville",
+    "gender": "mens",
+    "conference": "Mid-American Conference Men's Rugby"
+  },
+  {
+    "school": "University of Maryland",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "University of Massachusetts - Amherst",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "University of North Carolina - Charlotte",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "University of North Texas",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "University of Pennsylvania",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "University of Pittsburgh",
+    "gender": "mens",
+    "conference": "Mid-American Conference Men's Rugby"
+  },
+  {
+    "school": "University of South Carolina",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Tennessee",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Texas - San Antonio",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "Virginia Polytechnic Institute",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Washington State University",
+    "gender": "mens",
+    "conference": "Northwest Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "West Chester University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Western Michigan University",
+    "gender": "mens",
+    "conference": "Mid-American Conference Men's Rugby"
+  },
+  {
+    "school": "Yale University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Colorado School of Mines",
+    "gender": "mens",
+    "conference": "High Peaks Collegiate Rugby Conference"
+  },
+  {
+    "school": "Cornell University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "DePaul University",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Drexel University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "East Carolina University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "East Stroudsburg University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Ferris State University",
+    "gender": "mens",
+    "conference": "Great Lakes Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "George Mason University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Georgetown University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Georgia Institute of Technology",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Grand Valley State University",
+    "gender": "mens",
+    "conference": "Great Lakes Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Idaho State University",
+    "gender": "mens",
+    "conference": "High Peaks Collegiate Rugby Conference"
+  },
+  {
+    "school": "Illinois State University",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Indiana University of Pennsylvania",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "John Brown University",
+    "gender": "mens",
+    "conference": "Gateway Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Kent State University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Lehigh University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Louisiana Tech University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Loyola University Chicago",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Marist College",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Marquette University",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Maryville University",
+    "gender": "mens",
+    "conference": "Gateway Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Miami University of Ohio",
+    "gender": "mens",
+    "conference": "Great Lakes Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Michigan Technological University",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Middle Tennessee State University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Minnesota State University - Mankato",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Mississippi State University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Montana State University",
+    "gender": "mens",
+    "conference": "High Peaks Collegiate Rugby Conference"
+  },
+  {
+    "school": "Montclair State University",
+    "gender": "mens",
+    "conference": "Tri-State Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Montclair State University",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "North Dakota State University",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Northern Illinois University",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Northern Michigan University",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Northwestern University",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Norwich University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Old Dominion University",
+    "gender": "mens",
+    "conference": "Cardinals Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Ole Miss: University of Mississippi",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Pittsburg State University",
+    "gender": "mens",
+    "conference": "Gateway Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Rensselaer Polytechnic Institute",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Rochester Institute of Technology",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Saginaw Valley State University",
+    "gender": "mens",
+    "conference": "Great Lakes Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Saint Louis University",
+    "gender": "mens",
+    "conference": "Gateway Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Salisbury University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Southern Illinois University",
+    "gender": "mens",
+    "conference": "Gateway Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Southern Methodist University",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "Stony Brook University",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "SUNY - Albany",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "SUNY - Oswego",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "Tennessee Tech University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "The College of New Jersey",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Towson University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Tulane University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "University at Albany",
+    "gender": "mens",
+    "conference": "Liberty Rugby Conference"
+  },
+  {
+    "school": "University of Chicago",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Illinois - Chicago",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Maine - Orono",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "University of Maryland - Baltimore County",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "University of Massachusetts - Lowell",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "University of Memphis",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Minnesota - Duluth",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Missouri - Science & Technology",
+    "gender": "mens",
+    "conference": "Gateway Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of New Hampshire",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "University of North Carolina Greensboro",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "University of North Carolina - Wilmington",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "University of North Dakota",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Northern Iowa",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of North Georgia",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Scranton",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "University of Vermont",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "University of Virginia",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "University of Wisconsin - Milwaukee",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - Platteville",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - Whitewater",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Valdosta State University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Villanova University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Virginia Commonwealth University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Washington University - St. Louis",
+    "gender": "mens",
+    "conference": "Gateway Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Weber State University",
+    "gender": "mens",
+    "conference": "High Peaks Collegiate Rugby Conference"
+  },
+  {
+    "school": "Western Carolina University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "West Virginia University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Winona State University",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Bowdoin College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Bridgewater State University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Bryant University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "California State University - Monterey Bay",
+    "gender": "mens",
+    "conference": "Northern California Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Cal Poly Humboldt",
+    "gender": "mens",
+    "conference": "Northern California Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Carleton College",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Carnegie Mellon University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Catholic University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Central Connecticut State University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Central Oregon Community College",
+    "gender": "mens",
+    "conference": "Northwest Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Christendom College",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Christopher Newport University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Clarkson University",
+    "gender": "mens",
+    "conference": "Upstate New York Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Colby College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "College of Charleston",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "College of St. Scholastica",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "College of the Holy Cross",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "College of William & Mary",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Colorado College",
+    "gender": "mens",
+    "conference": "High Peaks Collegiate Rugby Conference"
+  },
+  {
+    "school": "Creighton University",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Curry College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "DeSales University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Diablo Valley College",
+    "gender": "mens",
+    "conference": "Northern California Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Duke University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Duquesne University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Eastern Connecticut State University",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Elon University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Emory and Henry College",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Endicott College",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Fairmont State University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Franciscan University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Franklin & Marshall College",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Frostburg State University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Furman University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Geneva College",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "George Washington University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Gettysburg College",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Gonzaga University",
+    "gender": "mens",
+    "conference": "Northwest Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Grove City College",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Hamilton College",
+    "gender": "mens",
+    "conference": "Upstate New York Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Hampden-Sydney College",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Hillsdale College",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Hofstra University",
+    "gender": "mens",
+    "conference": "Tri-State Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Ithaca College",
+    "gender": "mens",
+    "conference": "Lake Effect Rugby Conference"
+  },
+  {
+    "school": "John Carroll University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Johns Hopkins University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Juniata College",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Keene State College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Lafayette College",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Lee University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Le Moyne College",
+    "gender": "mens",
+    "conference": "Lake Effect Rugby Conference"
+  },
+  {
+    "school": "LeTourneau University",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "Loyola University - Maryland",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Macalester College",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Massachusetts Maritime Academy",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Merrimack College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Middlebury College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Millersville University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Milwaukee School of Engineering",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Minnesota State University - Moorhead",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Molloy College",
+    "gender": "mens",
+    "conference": "Tri-State Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "New Mexico Institute of Mining and Technology",
+    "gender": "mens",
+    "conference": "High Peaks Collegiate Rugby Conference"
+  },
+  {
+    "school": "Nichols College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Oregon Institute of Technology",
+    "gender": "mens",
+    "conference": "Northwest Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Paul Smith's College",
+    "gender": "mens",
+    "conference": "Upstate New York Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Penn State - Berks",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Plymouth State University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Providence College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Quinnipiac University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Radford University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Roanoke College",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Robert Morris University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Roger Williams University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Sacred Heart University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Salve Regina University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Seton Hall University",
+    "gender": "mens",
+    "conference": "Tri-State Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Sewanee: The University of the South",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Slippery Rock University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "South Dakota State University",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Southeastern Louisiana University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Southern Connecticut State University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Southwest Minnesota State University",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Springfield College",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "St. Edwards University",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "St. John's University",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "St. Lawrence University",
+    "gender": "mens",
+    "conference": "Upstate New York Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "St. Michael's College",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Stonehill College",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "SUNY - Brockport",
+    "gender": "mens",
+    "conference": "Lake Effect Rugby Conference"
+  },
+  {
+    "school": "SUNY - Buffalo State College",
+    "gender": "mens",
+    "conference": "Lake Effect Rugby Conference"
+  },
+  {
+    "school": "SUNY - Fredonia",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "SUNY - Geneseo",
+    "gender": "mens",
+    "conference": "Lake Effect Rugby Conference"
+  },
+  {
+    "school": "SUNY - Maritime College",
+    "gender": "mens",
+    "conference": "Tri-State Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "SUNY - Potsdam",
+    "gender": "mens",
+    "conference": "Upstate New York Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Susquehanna University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Taylor University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Texas A&M University - Corpus Christi",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "Texas Christian University",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "The Citadel",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Thomas College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union"
+  },
+  {
+    "school": "Tufts University",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "University of Dallas",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "University of Denver",
+    "gender": "mens",
+    "conference": "High Peaks Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Idaho",
+    "gender": "mens",
+    "conference": "Northwest Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Maine - Farmington",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "University of Montana",
+    "gender": "mens",
+    "conference": "High Peaks Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of New England",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "University of North Alabama",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Northern Colorado",
+    "gender": "mens",
+    "conference": "High Peaks Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Pittsburgh - Johnstown",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "University of Richmond",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "University of Rochester",
+    "gender": "mens",
+    "conference": "Lake Effect Rugby Conference"
+  },
+  {
+    "school": "University of St. Thomas",
+    "gender": "mens",
+    "conference": "Northern Lights Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Texas - Dallas",
+    "gender": "mens",
+    "conference": "Lonestar Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - Eau Claire",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - La Crosse",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - Oshkosh",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - Stevens Point",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - Stout",
+    "gender": "mens",
+    "conference": "Great Midwest Collegiate Rugby Conference"
+  },
+  {
+    "school": "Valley Forge Military College",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Vanderbilt University",
+    "gender": "mens",
+    "conference": "Southeastern Collegiate Rugby Conference"
+  },
+  {
+    "school": "Vassar College",
+    "gender": "mens",
+    "conference": "Tri-State Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Virginia Military Institute",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Wabash College",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "Wake Forest University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Washington and Lee University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Wentworth Institute of Technology",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Wesleyan University",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Western New England University",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Western Oregon University",
+    "gender": "mens",
+    "conference": "Northwest Men's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Wheaton College",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Widener University",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Williams College",
+    "gender": "mens",
+    "conference": "New England Rugby Football Union Men"
+  },
+  {
+    "school": "Wingate University",
+    "gender": "mens",
+    "conference": "Southern Rugby Conference Men"
+  },
+  {
+    "school": "Worcester Polytechnic Institute",
+    "gender": "mens",
+    "conference": "North Atlantic Collegiate Rugby Men"
+  },
+  {
+    "school": "Xavier University",
+    "gender": "mens",
+    "conference": "Allegheny Rugby Union Men's Collegiate Conference"
+  },
+  {
+    "school": "York College",
+    "gender": "mens",
+    "conference": "Mid-Atlantic Rugby Conference Men"
+  },
+  {
+    "school": "Aquinas College",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Brigham Young University",
+    "gender": "mens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Pennsylvania State University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Southern Nazarene University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "St. Bonaventure University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Walsh University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Wheeling University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference",
+    "league": "CRAA D1"
+  },
+  {
+    "school": "Adrian College",
+    "gender": "womens",
+    "conference": "Big 10 Women's Rugby"
+  },
+  {
+    "school": "Baylor University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "Boise State University",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Boston College",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Boston University",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Clemson University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Colorado Mesa University",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Colorado State University",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Florida State University",
+    "gender": "womens",
+    "conference": "Florida Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Howard University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "American University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Appalachian State University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Ball State University",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Bloomsburg University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Bowling Green State University",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Central Michigan University",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Coastal Carolina University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "College of Charleston",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "College of William & Mary",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Columbia University",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Alfred University",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Angelo State University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "Augustana College",
+    "gender": "womens",
+    "conference": "Prairie States Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Babson College",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Baldwin Wallace University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Bemidji State University",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Benedictine College",
+    "gender": "womens",
+    "conference": "Mid-America Women's Rugby Football Union"
+  },
+  {
+    "school": "Bentley University",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Brandeis University",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Bryant University",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Indiana University",
+    "gender": "womens",
+    "conference": "Big 10 Women's Rugby"
+  },
+  {
+    "school": "Iowa State University",
+    "gender": "womens",
+    "conference": "Midwest Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "James Madison University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Lander University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Michigan State University",
+    "gender": "womens",
+    "conference": "Big 10 Women's Rugby"
+  },
+  {
+    "school": "Montana State University",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "North Carolina State University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Northeastern University",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Purdue University",
+    "gender": "womens",
+    "conference": "Big 10 Women's Rugby"
+  },
+  {
+    "school": "Texas A&M University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "The Ohio State University",
+    "gender": "womens",
+    "conference": "Big 10 Women's Rugby"
+  },
+  {
+    "school": "University of Central Florida",
+    "gender": "womens",
+    "conference": "Florida Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Colorado",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Connecticut",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Florida",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Iowa",
+    "gender": "womens",
+    "conference": "Midwest Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Massachusetts - Amherst",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Michigan",
+    "gender": "womens",
+    "conference": "Big 10 Women's Rugby"
+  },
+  {
+    "school": "University of Minnesota",
+    "gender": "womens",
+    "conference": "Midwest Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of North Carolina - Chapel Hill",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Northern Iowa",
+    "gender": "womens",
+    "conference": "Midwest Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Notre Dame",
+    "gender": "womens",
+    "conference": "Big 10 Women's Rugby"
+  },
+  {
+    "school": "University of Pittsburgh",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "University of Rhode Island",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Texas - Austin",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "University of Virginia",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin",
+    "gender": "womens",
+    "conference": "Midwest Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wyoming",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Utah State University",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Winona State University",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Cornell University",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "DePaul University",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Drexel University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Fairfield University",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Fordham University",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "George Mason University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Georgetown University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "George Washington University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Georgia College and State University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Georgia Institute of Technology",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Grand Valley State University",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Illinois State University",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Indiana University - Indianapolis",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Indiana University of Pennsylvania",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Kennesaw State University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Kent State University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Kutztown University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Louisiana State University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "Loyola University Chicago",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Marquette University",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Minnessota State University - Mankato",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "New Mexico State University",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "North Dakota State University",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Northern Illinois University",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Northwestern University",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Norwich University",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Oakland University",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Ohio University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Oklahoma State University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "Oklahoma University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "Providence College",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Rensselaer Polytechnic Institute",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Roger Williams University",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Rowan University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Rutgers University",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Saginaw Valley State University",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Sam Houston State University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "South Dakota State University",
+    "gender": "womens",
+    "conference": "Prairie States Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Southern Utah University",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Stony Brook University",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "SUNY - Binghamton",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Temple University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Texas State University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "Texas Tech University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "The College of New Jersey",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Towson University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "United States Coast Guard Academy",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "University of Alabama",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Arkansas",
+    "gender": "womens",
+    "conference": "Mid-America Women's Rugby Football Union"
+  },
+  {
+    "school": "University of Buffalo",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Central Missouri",
+    "gender": "womens",
+    "conference": "Mid-America Women's Rugby Football Union"
+  },
+  {
+    "school": "University of Cincinnati",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "University of Dayton",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Delaware",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "University of Georgia",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Houston",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "University of Illinois - Chicago",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Illinois",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Kansas",
+    "gender": "womens",
+    "conference": "Mid-America Women's Rugby Football Union"
+  },
+  {
+    "school": "University of Maine - Orono",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Maryland",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "University of Mary Washington",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "University of Massachusetts - Lowell",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Missouri",
+    "gender": "womens",
+    "conference": "Mid-America Women's Rugby Football Union"
+  },
+  {
+    "school": "University of New Hampshire",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "University of North Carolina - Charlotte",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of North Georgia",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of North Texas",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "University of Pennsylvania",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "University of South Carolina",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of South Florida",
+    "gender": "womens",
+    "conference": "Florida Women's Collegiate Rugby Conference",
+    "league": "CRAA D2"
+  },
+  {
+    "school": "University of Tennessee",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Texas - San Antonio",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "University of Utah",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Vermont",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "University of Wisconsin - Eau Claire",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - La Crosse",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - Milwaukee",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - Oshkosh",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - Stevens Point",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - Whitewater",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Utah Tech University",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Virginia Commonwealth University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Weber State University",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Western Carolina University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Western Michigan University",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "West Virginia University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Calvin University",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Carleton College",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Carnegie Mellon University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Castleton University",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Catholic University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Central Connecticut State University",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Christopher Newport University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Clarkson University",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Colby College",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Colgate University",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "College of St. Benedict",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "College of St. Scholastica",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Colorado College",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Colorado School of Mines",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Connecticut College",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Denison University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "DeSales University",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Drury University",
+    "gender": "womens",
+    "conference": "Mid-America Women's Rugby Football Union"
+  },
+  {
+    "school": "Eastern Connecticut State University",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "East Stroudsburg University",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Eckerd College",
+    "gender": "womens",
+    "conference": "Florida Women's Collegiate Rugby Conference",
+    "league": "CRAA D2"
+  },
+  {
+    "school": "Elon University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Endicott College",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Fairmont State University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Ferris State University",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Franklin & Marshall College",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Gannon University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Geneva College",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Gettysburg College",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Grace College",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Gustavus Adolphus College",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Hamilton College",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Idaho State University",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "John Carroll University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Juniata College",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Keene State College",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Lafayette College",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Lasell University",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Lee University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Lehigh University",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Le Moyne College",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Letourneau University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "Longwood University",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Loyola University - Maryland",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Macalester College",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Massachusetts Institute of Technology",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "McKendree University",
+    "gender": "womens",
+    "conference": "Mid-America Women's Rugby Football Union",
+    "league": "CRAA D1"
+  },
+  {
+    "school": "Merrimack College",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Michigan Technological University",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Middlebury College",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Millersville University",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Molloy College",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Nazareth University",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "New England College",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "New Mexico Institute of Mining and Technology",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Niagara University",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Northern Michigan University",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Ohio Wesleyan University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Penn West University - California",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Penn West University - Clarion",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Pittsburg State University",
+    "gender": "womens",
+    "conference": "Mid-America Women's Rugby Football Union"
+  },
+  {
+    "school": "Plymouth State University",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Rice University",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "Roanoke College",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "Robert Morris University",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "Rochester Institute of Technology",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Salve Regina University",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Shippensburg University",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Siena College",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Smith College",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Southern Connecticut State University",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Southern Illinois University",
+    "gender": "womens",
+    "conference": "Mid-America Women's Rugby Football Union"
+  },
+  {
+    "school": "Southwest Minnesota State University",
+    "gender": "womens",
+    "conference": "Prairie States Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Springfield College",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "St. Mary's College of Maryland",
+    "gender": "womens",
+    "conference": "Mid-Atlantic Rugby Conference Women"
+  },
+  {
+    "school": "St. Michael's College",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "SUNY - Brockport",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "SUNY - Cortland",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "SUNY - Fredonia",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "SUNY - Geneseo",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "SUNY - New Paltz",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "SUNY - Oneonta",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "SUNY - Oswego",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "SUNY - Potsdam",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Susquehanna University",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Taylor University",
+    "gender": "womens",
+    "conference": "Great Lakes Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Tennessee Tech University",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Texas A&M University - Corpus Christi",
+    "gender": "womens",
+    "conference": "Lonestar Women's Rugby Conference"
+  },
+  {
+    "school": "The Citadel",
+    "gender": "womens",
+    "conference": "South Atlantic Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Tufts University",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Union College",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "University of Chicago",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Denver",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Hartford",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "University of Maine - Farmington",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "University of Minnesota - Duluth",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Minnesota - Moorhead",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Missouri - Science & Technology",
+    "gender": "womens",
+    "conference": "Mid-America Women's Rugby Football Union"
+  },
+  {
+    "school": "University of New Haven",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women",
+    "league": "NIRA",
+    "website": "https://newhavenchargers.com"
+  },
+  {
+    "school": "University of North Dakota",
+    "gender": "womens",
+    "conference": "Northern Lights Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Northern Colorado",
+    "gender": "womens",
+    "conference": "High Peaks Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Pittsburgh - Johnstown",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "University of Rochester",
+    "gender": "womens",
+    "conference": "Upstate New York Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Scranton",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "University of South Dakota",
+    "gender": "womens",
+    "conference": "Prairie States Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Southern Indiana",
+    "gender": "womens",
+    "conference": "Allegheny Rugby Union Women's Collegiate Conference"
+  },
+  {
+    "school": "University of Wisconsin - Platteville",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "University of Wisconsin - Stout",
+    "gender": "womens",
+    "conference": "Great Waters Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Ursinus College",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Vassar College",
+    "gender": "womens",
+    "conference": "Tri-State Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Wayne State College",
+    "gender": "womens",
+    "conference": "Prairie States Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Wellesley College",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Wentworth Institute of Technology",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Wesleyan University",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Western Oregon University",
+    "gender": "womens",
+    "conference": "Cascade Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Wheaton College",
+    "gender": "womens",
+    "conference": "Rugby Northeast Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Willamette University",
+    "gender": "womens",
+    "conference": "Cascade Women's Collegiate Rugby Conference"
+  },
+  {
+    "school": "Williams College",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Worcester Polytechnic Institute",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "Yale University",
+    "gender": "womens",
+    "conference": "North Atlantic Collegiate Rugby Women"
+  },
+  {
+    "school": "York College",
+    "gender": "womens",
+    "conference": "Eastern Penn Rugby Union"
+  },
+  {
+    "school": "Florida Atlantic University Florida State University University of Central Florida",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Florida Atlantic University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Florida State University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "FCRC"
+  },
+  {
+    "school": "University of Central Florida",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Millennial Atlantic University University of South Florida University of Florida",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Millennial Atlantic University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "FCRC"
+  },
+  {
+    "school": "University of South Florida",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "FCRC"
+  },
+  {
+    "school": "University of Florida",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Iowa  State University Kansas State University Oklahoma State University University of Arkansas",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "Iowa  State University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "Kansas State University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "Oklahoma State University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "University of Arkansas",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "University of Health Sciences & Pharmacy in St. Louis",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "University of Iowa",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "University of Kansas",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "University of Minnesota",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "University of Missouri University of Nebraska University of Oklahoma Wayne State College",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "University of Missouri",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "University of Nebraska",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "University of Oklahoma",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "Wayne State College",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Heart of America"
+  },
+  {
+    "school": "American River College",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "NorCal"
+  },
+  {
+    "school": "California State Polytechnic University, Humboldt",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "NorCal"
+  },
+  {
+    "school": "California State University Maritime Academy",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "NorCal"
+  },
+  {
+    "school": "Chico State University Fresno State University   San Francisco State University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "NorCal"
+  },
+  {
+    "school": "Chico State University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "NorCal"
+  },
+  {
+    "school": "Fresno State University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "NorCal"
+  },
+  {
+    "school": "San Francisco State University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "NorCal"
+  },
+  {
+    "school": "San Jose State University Stanford University University of Nevada Reno",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "NorCal"
+  },
+  {
+    "school": "San Jose State University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "NorCal"
+  },
+  {
+    "school": "Stanford University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "NorCal"
+  },
+  {
+    "school": "University of Nevada Reno",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "NorCal"
+  },
+  {
+    "school": "Central Washington University Oregon State University University of Oregon",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Northwest"
+  },
+  {
+    "school": "Central Washington University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Northwest"
+  },
+  {
+    "school": "University of Oregon",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Northwest"
+  },
+  {
+    "school": "University of Washington Western Washington University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Northwest"
+  },
+  {
+    "school": "University of Washington",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Northwest"
+  },
+  {
+    "school": "Western Washington University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Northwest"
+  },
+  {
+    "school": "Arizona State University Claremont Colleges Loyola Marymount University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Southwest"
+  },
+  {
+    "school": "Arizona State University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Southwest"
+  },
+  {
+    "school": "Claremont Colleges",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Southwest"
+  },
+  {
+    "school": "Loyola Marymount University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Southwest"
+  },
+  {
+    "school": "University of Southern California University of Texas El Paso",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Southwest"
+  },
+  {
+    "school": "University of Southern California",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Southwest"
+  },
+  {
+    "school": "University of Texas El Paso",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Southwest"
+  },
+  {
+    "school": "University of North Carolina at Chapel Hill University of Texas at El Paso   Trine University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Independent"
+  },
+  {
+    "school": "University of North Carolina at Chapel Hill",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Independent"
+  },
+  {
+    "school": "University of Texas at El Paso",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Independent"
+  },
+  {
+    "school": "Trine University",
+    "gender": "mens",
+    "league": "CRAA D1AA",
+    "conference": "Independent"
+  },
+  {
+    "school": "Ave Maria University Eckerd College Embry-Riddle Aeronautical University",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Ave Maria University",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Eckerd College",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Embry-Riddle Aeronautical University",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Florida International University University of North Florida University of Miami",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Florida International University",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "University of North Florida",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "University of Miami",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "California Lutheran University California State University, Fullerton MiraCosta College",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "California Lutheran University",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "California State University, Fullerton",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "MiraCosta College",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "Norco College Occidental College Pepperdine University",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "Norco College",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "Occidental College",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "Pepperdine University",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "Point Loma Nazarene University",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "University of California, Riverside",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "University of California, San Diego",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "University of Nevada Las Vegas",
+    "gender": "mens",
+    "league": "CRAA D2",
+    "conference": "Gold Coast"
+  },
+  {
+    "school": "Brigham Young University   Life University   Lindenwood University McKendree University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Independent"
+  },
+  {
+    "school": "Brigham Young University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Independent"
+  },
+  {
+    "school": "Life University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Independent"
+  },
+  {
+    "school": "Lindenwood University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Independent"
+  },
+  {
+    "school": "Penn State University   United States Air Force Academy   Wheeling University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Independent"
+  },
+  {
+    "school": "Penn State University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Independent"
+  },
+  {
+    "school": "Arizona State University   University of Arizona   Claremont Colleges",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "Arizona State University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "University of Arizona",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "Claremont Colleges",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "Grand Canyon University Sacramento State University San Diego State University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "Grand Canyon University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "Sacramento State University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "San Diego State University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "University of California Los Angeles",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "University of California San Diego",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "University of California Santa Barbara",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "California State University, Chico",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "California State University, Fresno",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "Central Washington University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "Gonzaga University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "Oregon State University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "Stanford University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "University of California Berkeley",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "University of California Davis",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "University of Oregon",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "University of Washington",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "Washington State University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "Western Washington University",
+    "gender": "womens",
+    "league": "CRAA D1",
+    "conference": "Pacific Mountain"
+  },
+  {
+    "school": "Eckerd College   Florida Atlantic University   Florida International University",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Florida Atlantic University",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "Florida International University",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "St. Thomas University   University of Miami   University of South Florida",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "St. Thomas University",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "University of Miami",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "FCRC"
+  },
+  {
+    "school": "California State University, Northridge",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "California State University, Long Beach",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "Mira Costa College",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "Occidental College   University of California Irvine   University of California Riverside",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "Occidental College",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "University of California Irvine",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "University of California Riverside",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "University of Nevada Las Vegas   University of San Diego   University of Southern California",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "University of Nevada Las Vegas",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "University of San Diego",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "University of Southern California",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "Pacific Desert"
+  },
+  {
+    "school": "California Polytechnic State University",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "West Coast"
+  },
+  {
+    "school": "California State Polytechnic University, Humboldt",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "West Coast"
+  },
+  {
+    "school": "California State University Maritime Academy",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "West Coast"
+  },
+  {
+    "school": "Saint Mary’s College San Jose State University Santa Clara University",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "West Coast"
+  },
+  {
+    "school": "Saint Mary’s College",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "West Coast"
+  },
+  {
+    "school": "San Jose State University",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "West Coast"
+  },
+  {
+    "school": "Santa Clara University",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "West Coast"
+  },
+  {
+    "school": "University of California, Santa Cruz University of Nevada, Reno University of San Francisco",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "West Coast"
+  },
+  {
+    "school": "University of California, Santa Cruz",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "West Coast"
+  },
+  {
+    "school": "University of Nevada, Reno",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "West Coast"
+  },
+  {
+    "school": "University of San Francisco",
+    "gender": "womens",
+    "league": "CRAA D2",
+    "conference": "West Coast"
+  },
+  {
+    "school": "American International College",
+    "gender": "womens",
+    "website": "http://aicyellowjackets.com/",
+    "league": "NIRA"
+  },
+  {
+    "school": "Army West Point",
+    "gender": "womens",
+    "website": "http://goarmywestpoint.com/",
+    "league": "NIRA"
+  },
+  {
+    "school": "Bowdoin College",
+    "gender": "womens",
+    "website": "http://athletics.bowdoin.edu/",
+    "league": "NIRA"
+  },
+  {
+    "school": "Brown University",
+    "gender": "womens",
+    "website": "http://brownbears.com/",
+    "league": "NIRA"
+  },
+  {
+    "school": "Dartmouth College",
+    "gender": "womens",
+    "website": "http://www.dartmouthsports.com/",
+    "league": "NIRA"
+  },
+  {
+    "school": "Davenport University",
+    "gender": "womens",
+    "website": "https://dupanthers.com",
+    "league": "NIRA"
+  },
+  {
+    "school": "Emory & Henry College",
+    "gender": "womens",
+    "website": "https://www.gowasps.com/landing/index",
+    "league": "NIRA"
+  },
+  {
+    "school": "Frostburg State University",
+    "gender": "womens",
+    "website": "https://frostburgsports.com/",
+    "league": "NIRA"
+  },
+  {
+    "school": "Guilford College",
+    "gender": "womens",
+    "website": "https://guilfordquakers.com/sports/womens-rugby",
+    "league": "NIRA"
+  },
+  {
+    "school": "Harvard University",
+    "gender": "womens",
+    "website": "https://gocrimson.com",
+    "league": "NIRA"
+  },
+  {
+    "school": "Long Island University",
+    "gender": "womens",
+    "website": "https://www.liuathletics.com",
+    "league": "NIRA"
+  },
+  {
+    "school": "Mount Saint Mary’s University",
+    "gender": "womens",
+    "website": "https://mountathletics.com",
+    "league": "NIRA"
+  },
+  {
+    "school": "Newberry College",
+    "gender": "womens",
+    "website": "https://newberrywolves.com",
+    "league": "NIRA"
+  },
+  {
+    "school": "Princeton University",
+    "gender": "womens",
+    "website": "https://goprincetontigers.com/sports/wrugby",
+    "league": "NIRA"
+  },
+  {
+    "school": "Queens University",
+    "gender": "womens",
+    "website": "https://queensathletics.com",
+    "league": "NIRA"
+  },
+  {
+    "school": "Quinnipiac University",
+    "gender": "womens",
+    "website": "https://gobobcats.com",
+    "league": "NIRA"
+  },
+  {
+    "school": "Sacred Heart University",
+    "gender": "womens",
+    "website": "https://sacredheartpioneers.com",
+    "league": "NIRA"
+  },
+  {
+    "school": "University of New England",
+    "gender": "womens",
+    "website": "https://athletics.une.edu/",
+    "league": "NIRA"
+  },
+  {
+    "school": "Warren Wilson College",
+    "gender": "womens",
+    "website": "https://warrenwilsonowls.com/sports/womens-rugby",
+    "league": "NIRA"
+  },
+  {
+    "school": "West Chester University",
+    "gender": "womens",
+    "website": "https://wcupagoldenrams.com",
+    "league": "NIRA"
+  },
+  {
+    "school": "Teams /",
+    "gender": "mens",
+    "conference": "SRC"
+  },
+  {
+    "school": "here",
+    "gender": "mens",
+    "conference": "SRC"
+  },
+  {
+    "school": "Our Teams",
+    "gender": "mens",
+    "conference": "RNE"
+  },
+  {
+    "school": "Team Compliance & Registration",
+    "gender": "mens",
+    "conference": "RNE"
+  },
+  {
+    "school": "Team Contacts",
+    "gender": "mens",
+    "conference": "RNE"
+  },
+  {
+    "school": "Explore",
+    "gender": "mens",
+    "conference": "RNE"
+  },
+  {
+    "school": "See contacts",
+    "gender": "mens",
+    "conference": "RNE"
+  },
+  {
+    "school": "2024 Great Midwest 7s Qualifier",
+    "gender": "mens",
+    "conference": "GMW"
+  },
+  {
+    "school": "Chicago Hounds form U19 Academy",
+    "gender": "mens",
+    "conference": "GMW"
+  },
+  {
+    "school": "Northern Iowa celebrates two NCR All Americans",
+    "gender": "mens",
+    "conference": "GMW"
+  },
+  {
+    "school": "Great Midwest players join Midwest Barbarians at NCR All-Star Shield Challenge",
+    "gender": "mens",
+    "conference": "GMW"
+  },
+  {
+    "school": "UW-Whitewater alum Ben Landry earns Eagle RWC spot",
+    "gender": "mens",
+    "conference": "GMW"
+  }
+]

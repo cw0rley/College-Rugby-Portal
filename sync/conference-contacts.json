@@ -1,0 +1,127 @@
+[
+  {
+    "conference": "RE",
+    "type": "conference",
+    "emails": [
+      "Scott.Zavrel@gmail.com",
+      "matthew.sherman@westpoint.edu",
+      "francis.bradford@life.edu",
+      "bmateialona@life.edu",
+      "cmedlej@mail.umw.edu",
+      "myles@msmary.edu",
+      "hickie@usna.edu",
+      "zvm5239@psu.edu",
+      "david.smyth@svu.edu",
+      "aidyn.ferris@svu.edu",
+      "RugbyEastConference@gmail.com"
+    ],
+    "phones": [
+      "703-868-4521",
+      "415-828-8073",
+      "517-899-6930",
+      "404-304-3234",
+      "703-342-2828",
+      "240-367-7431",
+      "410-293-9710",
+      "817-480-2667",
+      "801-376-7199",
+      "435-232-7109"
+    ],
+    "source": "rugbyeast.org/contacts.html"
+  },
+  {
+    "conference": "MARC",
+    "type": "google-sheet",
+    "sheetUrl": "https://docs.google.com/spreadsheets/d/1kNO7UO7X5RfcT-Max582JOy6MrDZCWmo/edit?usp=drive_link&ouid=104180105633931050196&rtpof=true&sd=true",
+    "note": "MARC Team Contacts spreadsheet (Men + Women tabs) with coach name, email, phone, role",
+    "source": "marc-rugby.org/contacts"
+  },
+  {
+    "conference": "MARC",
+    "type": "conference",
+    "emails": [
+      "marcrugbydirector@gmail.comGoogle"
+    ],
+    "source": "marc-rugby.org"
+  },
+  {
+    "conference": "SRC",
+    "type": "conference",
+    "emails": [
+      "rspack@1.6.6",
+      "605a7baede844d278b89dc95ae0a9123@sentry-next.wixpress.com",
+      "8eb368c655b84e029ed79ad7a5c1718e@sentry.wixpress.com",
+      "2062d0a4929b45348643784b5cb39c36@sentry.wixpress.com"
+    ],
+    "source": "southernrugbyconference.com"
+  },
+  {
+    "conference": "B1G",
+    "type": "conference",
+    "emails": [
+      "BTURugby@gmail.combottom",
+      "rspack@1.6.6",
+      "605a7baede844d278b89dc95ae0a9123@sentry-next.wixpress.com",
+      "88170cb0c9d64f94b5821ca7fd2d55a4@sentry-next.wixpress.com",
+      "8c4075d5481d476e945486754f783364@sentry.io",
+      "dd0a55ccb8124b9c9d938e3acf41f8aa@sentry.wixpress.com",
+      "c183baa23371454f99f417f6616b724d@sentry.wixpress.com",
+      "1eeb89147c984dc6bc3ffafd9e6cd089@sentry.wixpress.com",
+      "2062d0a4929b45348643784b5cb39c36@sentry.wixpress.com",
+      "8eb368c655b84e029ed79ad7a5c1718e@sentry.wixpress.com"
+    ],
+    "source": "bigtenrugby.com"
+  },
+  {
+    "conference": "TRU",
+    "type": "conference",
+    "emails": [
+      "president@texasrugbyunion.com",
+      "ryan.little@texasrugbyunion.com",
+      "joe.wood@texasrugbyunion.com",
+      "zach.hiller@texasrugbyunion.com",
+      "louis.gaitan@texasrugbyunion.com",
+      "april.armstrong@texasrugbyunion.com",
+      "ross.davies@texasrugbyunion.com",
+      "dc@texasrugbyunion.com",
+      "dpfleger@texasrugbyunion.com",
+      "hansel@texasrugbyunion.com",
+      "traci@texasrugbyunion.com",
+      "max.wilson@texasrugbyunion.com",
+      "heather.hines@texasrugbyunion.com",
+      "dmcphail@texasrugbyunion.com",
+      "michael.norton@texasrugbyunion.com",
+      "john.dale@texasrugbyunion.com",
+      "kiana.curl@texasrugbyunion.com",
+      "haley.hunter@texasrugbyunio.com",
+      "rob.walker@texasrugbyunion.com",
+      "carlos.batrez@texasrugbyunion.com",
+      "travis.hughes@texasrugbyunion.com",
+      "jeff.wegman@texasrugbyunion.com",
+      "caitlin.robinson@texasrugbyunion.com",
+      "john.kurylas@texasrugbyunion.comethan.mccowan",
+      "7s@texasrugbyunion.com",
+      "312-9292dc@texasrugbyunion.comJudiciary",
+      "dc@texasrugbyunion.comCommittee",
+      "admin@texasrugbyunion.com."
+    ],
+    "phones": [],
+    "source": "texasrugbyunion.com/contacts"
+  },
+  {
+    "conference": "NCR",
+    "type": "umbrella",
+    "emails": [
+      "sldavis20@gmail.com"
+    ],
+    "source": "https://rugby.org/"
+  },
+  {
+    "conference": "USA Club",
+    "type": "umbrella",
+    "emails": [
+      "johnoetinger@outlook.com"
+    ],
+    "source": "https://usaclub.rugby/"
+  }
+]

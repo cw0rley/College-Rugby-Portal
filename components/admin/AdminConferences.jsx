@@ -1,0 +1,125 @@
+import React, { useState } from "react";
+import { collection, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../firebase.js";
+import { logChange } from "../../utils/changelog.js";
+
+export default function AdminConferences({ conferences, onRefresh, userEmail }) {
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({});
+  const [newForm, setNewForm] = useState({ conference:"", fullName:"", notes:"" });
+  const [saving, setSaving] = useState(false);
+  const inp = { padding:"7px 10px", borderRadius:6, border:"1px solid #E5E7EB", fontSize:13, width:"100%", boxSizing:"border-box" };
+  const lblStyle = { fontSize:11, fontWeight:700, color:"#64748b", display:"block", marginBottom:4 };
+
+  async function handleAdd() {
+    if (!newForm.conference.trim()) return;
+    setSaving(true);
+    const ref = await addDoc(collection(db, "conferences"), { ...newForm });
+    await logChange("add", "conferences", ref.id, { ...newForm }, userEmail);
+    localStorage.removeItem("crp_cache_v2");
+    setNewForm({ conference:"", fullName:"", notes:"" });
+    setSaving(false); onRefresh();
+  }
+  async function handleUpdate(id) {
+    await updateDoc(doc(db, "conferences", id), editForm);
+    await logChange("update", "conferences", id, editForm, userEmail);
+    localStorage.removeItem("crp_cache_v2");
+    setEditingId(null); onRefresh();
+  }
+  async function handleDeleteConf(id) {
+    const deleted = conferences.find(c => c.id === id);
+    await deleteDoc(doc(db, "conferences", id));
+    await logChange("delete", "conferences", id, deleted || {}, userEmail);
+    localStorage.removeItem("crp_cache_v2");
+    onRefresh();
+  }
+
+  return (
+    <div>
+      <div style={{ background:"#fff", borderRadius:12, padding:20, marginBottom:16, border:"1px solid #E5E7EB" }}>
+        <div style={{ fontWeight:700, fontSize:13, color:"#0A1F44", marginBottom:12 }}>Add Conference</div>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 2fr 2fr", gap:10, marginBottom:10 }}>
+          <div>
+            <label style={lblStyle}>ABBR *</label>
+            <input value={newForm.conference} onChange={e => setNewForm(f => ({...f, conference:e.target.value}))} style={inp} />
+          </div>
+          <div>
+            <label style={lblStyle}>FULL NAME</label>
+            <input value={newForm.fullName} onChange={e => setNewForm(f => ({...f, fullName:e.target.value}))} style={inp} />
+          </div>
+          <div>
+            <label style={lblStyle}>NOTES</label>
+            <input value={newForm.notes} onChange={e => setNewForm(f => ({...f, notes:e.target.value}))} style={inp} placeholder="Optional notes..." />
+          </div>
+        </div>
+        <button onClick={handleAdd} disabled={saving || !newForm.conference.trim()} style={{
+          padding:"8px 18px", borderRadius:8, border:"none", background:"#0A1F44",
+          color:"#fff", fontWeight:700, fontSize:13, cursor:"pointer" }}>
+          + Add Conference
+        </button>
+      </div>
+
+      <div style={{ background:"#fff", borderRadius:12, border:"1px solid #E5E7EB", overflow:"auto" }}>
+        <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
+          <thead>
+            <tr style={{ background:"#f8fafc", borderBottom:"2px solid #E5E7EB" }}>
+              {["Abbr","Full Name","Notes","Actions"].map(h => (
+                <th key={h} style={{ padding:"10px 14px", textAlign:"left", fontSize:11,
+                  fontWeight:700, color:"#64748b", textTransform:"uppercase", letterSpacing:"0.05em" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {conferences.map(c => {
+              const isEditing = editingId === c.id;
+              return (
+                <React.Fragment key={c.id}>
+                  <tr style={{ borderBottom: isEditing ? "none" : "1px solid #f1f5f9", background: isEditing ? "#f0fde8" : "" }}>
+                    <td style={{ padding:"10px 14px", fontWeight:600, color:"#0A1F44" }}>{c.conference}</td>
+                    <td style={{ padding:"10px 14px", color:"#475569" }}>{c.fullName || "—"}</td>
+                    <td style={{ padding:"10px 14px", color:"#64748b", fontSize:12 }}>{c.notes || "—"}</td>
+                    <td style={{ padding:"10px 14px" }}>
+                      <div style={{ display:"flex", gap:8 }}>
+                        <button onClick={() => { setEditingId(isEditing ? null : c.id); setEditForm({...c}); }} style={{
+                          padding:"5px 12px", borderRadius:6, border:"1px solid #E5E7EB",
+                          background: isEditing ? "#f0fde8" : "#fff", color:"#0A1F44", fontWeight:600, fontSize:12, cursor:"pointer" }}>
+                          {isEditing ? "Cancel" : "Edit"}
+                        </button>
+                        <button onClick={() => handleDeleteConf(c.id)} style={{
+                          padding:"5px 12px", borderRadius:6, border:"none",
+                          background:"#fee2e2", color:"#dc2626", fontWeight:600, fontSize:12, cursor:"pointer" }}>Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+                  {isEditing && (
+                    <tr>
+                      <td colSpan={4} style={{ padding:"0 0 2px", background:"#f0fde8", borderBottom:"2px solid #0A1F44" }}>
+                        <div style={{ padding:"16px 20px", display:"grid", gridTemplateColumns:"1fr 2fr 2fr auto", gap:10, alignItems:"end" }}>
+                          <div>
+                            <label style={lblStyle}>ABBR</label>
+                            <input value={editForm.conference ?? ""} onChange={e => setEditForm(f => ({...f, conference:e.target.value}))} style={inp} />
+                          </div>
+                          <div>
+                            <label style={lblStyle}>FULL NAME</label>
+                            <input value={editForm.fullName ?? ""} onChange={e => setEditForm(f => ({...f, fullName:e.target.value}))} style={inp} />
+                          </div>
+                          <div>
+                            <label style={lblStyle}>NOTES</label>
+                            <input value={editForm.notes ?? ""} onChange={e => setEditForm(f => ({...f, notes:e.target.value}))} style={inp} />
+                          </div>
+                          <button onClick={() => handleUpdate(c.id)} style={{
+                            padding:"8px 16px", borderRadius:8, border:"none", background:"#0A1F44",
+                            color:"#fff", fontWeight:700, fontSize:13, cursor:"pointer", alignSelf:"end" }}>Save</button>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}

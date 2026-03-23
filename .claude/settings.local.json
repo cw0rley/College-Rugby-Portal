@@ -21,7 +21,10 @@
       "Bash(cp /tmp/crp_seahawks/crp_seahawks_true_header_dark.svg \"/c/Users/pat/Code/Python/College Rugby Portal/public/logo-header.svg\")",
       "Bash(cp /tmp/crp_seahawks/crp_seahawks_true_icon_transparent.svg \"/c/Users/pat/Code/Python/College Rugby Portal/public/favicon.svg\")",
       "WebFetch(domain:nextphaserugby.com)",
-      "Bash(node sync/fix-conferences.js --commit)"
+      "Bash(node sync/fix-conferences.js --commit)",
+      "Bash(cd:*)",
+      "Bash(git -C 'C:/Users/pat/Code/Python/College Rugby Portal' show HEAD:App.jsx)",
+      "Bash(npm uninstall:*)"
     ]
   }
 }

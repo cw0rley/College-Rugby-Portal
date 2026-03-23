@@ -1,0 +1,16 @@
+{
+  "name": "college-rugby-sync",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Scrape and sync college rugby program data into Firestore",
+  "scripts": {
+    "sync": "node sync.js",
+    "sync:dry": "node sync.js --dry-run",
+    "sync:scrape-only": "node sync.js --scrape-only",
+    "test:connection": "node test-connection.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "firebase-admin": "^12.0.0"
+  }
+}

@@ -1,9 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <rect width="64" height="64" rx="14" fill="#0f172a"/>
-  <ellipse cx="32" cy="32" rx="22" ry="14" transform="rotate(-35 32 32)" fill="#b45309" stroke="#92400e" stroke-width="1.5"/>
-  <ellipse cx="32" cy="32" rx="16" ry="9" transform="rotate(-35 32 32)" fill="none" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3 2"/>
-  <line x1="29" y1="25" x2="35" y2="39" stroke="white" stroke-width="2" stroke-linecap="round"/>
-  <line x1="26" y1="29" x2="38" y2="35" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-  <line x1="27" y1="26" x2="37" y2="38" stroke="white" stroke-width="1" stroke-linecap="round" stroke-dasharray="2 2"/>
-  <ellipse cx="32" cy="32" rx="22" ry="14" transform="rotate(-35 32 32)" fill="none" stroke="#92400e" stroke-width="1.5"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+
+    <g>
+      <!-- Outer portal arrows -->
+      <path d="M 409.50 557.54 A 205.00 205.00 0 1 1 716.22 362.13" fill="none" stroke="#69BE28" stroke-width="44.0" stroke-linecap="butt"/>
+      <polygon points="383.52,542.54 407.59,581.84 429.59,543.73" fill="#69BE28"/>
+      <path d="M 716.22 397.87 A 205.00 205.00 0 1 1 476.40 178.11" fill="none" stroke="#69BE28" stroke-width="44.0" stroke-linecap="butt"/>
+      <polygon points="505.95,172.90 462.24,158.27 469.88,201.60" fill="#69BE28"/>
+
+      <!-- Inner disc -->
+      <circle cx="512" cy="380" r="158.0" fill="#0F214A"/>
+
+      <!-- Inner motion arcs -->
+      <path d="M 409.47 277.47 A 145.00 145.00 0 0 1 605.20 268.92" fill="none" stroke="#244B86" stroke-width="40.0" stroke-linecap="butt"/>
+      <polygon points="622.06,283.06 608.30,253.25 590.31,274.70" fill="#244B86"/>
+      <path d="M 623.08 473.20 A 145.00 145.00 0 0 1 400.92 473.20" fill="none" stroke="#1B3767" stroke-width="40.0" stroke-linecap="butt"/>
+      <polygon points="386.78,456.35 395.15,488.10 416.60,470.10" fill="#1B3767"/>
+      <path d="M 386.43 452.50 A 145.00 145.00 0 0 1 400.92 286.80" fill="none" stroke="#244B86" stroke-width="34.0" stroke-linecap="butt"/>
+
+      <!-- Rugby ball -->
+      <g transform="translate(512 380) rotate(-38)">
+        <ellipse cx="0" cy="0" rx="105.0" ry="60.0" fill="#F4F4F4"/>
+        <ellipse cx="15" cy="15" rx="81.9" ry="39.6" fill="#D9DDE4" opacity="0.9"/>
+        <path d="M -63.00 -12.00 Q 0 -49.20 68.25 -12.00" fill="none" stroke="#002244" stroke-width="9.0" stroke-linecap="round"/>
+        <path d="M -58.80 6.00 Q 0 49.20 63.00 6.00" fill="none" stroke="#002244" stroke-width="8.0" stroke-linecap="round"/>
+        <line x1="-18" y1="-3" x2="18" y2="-3" stroke="#69BE28" stroke-width="8.0" stroke-linecap="round"/>
+        <line x1="-10" y1="-14" x2="-10" y2="8" stroke="#69BE28" stroke-width="6.0" stroke-linecap="round"/>
+        <line x1="0" y1="-14" x2="0" y2="8" stroke="#69BE28" stroke-width="6.0" stroke-linecap="round"/>
+        <line x1="10" y1="-14" x2="10" y2="8" stroke="#69BE28" stroke-width="6.0" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    </svg>

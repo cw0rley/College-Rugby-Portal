@@ -1,5 +1,7 @@
 import React from "react";
-export default function Footer({ onNavigate }) {
+import { Link } from "react-router-dom";
+
+export default function Footer() {
   const linkStyle = {
     color: "#00FF00", textDecoration: "none", fontSize: 13,
     cursor: "pointer", background: "none", border: "none", padding: 0,
@@ -27,9 +29,9 @@ export default function Footer({ onNavigate }) {
             <div style={{ fontWeight: 700, fontSize: 12, color: "#475569",
               textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 14 }}>Navigate</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {[["programs","Programs"],["conferences","Conferences"],
-                ["structure","Leagues"],["rankings","Rankings"],["contact","Submit Program Info"],["player","Player Profile"],["about","About"]].map(([key, label]) => (
-                <button key={key} onClick={() => onNavigate(key)} style={linkStyle}>{label}</button>
+              {[["/","Programs"],["/conferences","Conferences"],
+                ["/leagues","Leagues"],["/rankings","Rankings"],["/directory","Player Directory"],["/submit","Submit Program Info"],["/player-profile","Player Profile"],["/about","About"]].map(([to, label]) => (
+                <Link key={to} to={to} style={linkStyle}>{label}</Link>
               ))}
             </div>
           </div>
@@ -52,7 +54,7 @@ export default function Footer({ onNavigate }) {
         <div style={{ borderTop: "1px solid #1B3767", paddingTop: 20,
           display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
           <span style={{ fontSize: 12, color: "#475569" }}>
-            © {new Date().getFullYear()} College Rugby Portal. All rights reserved.
+            &copy; {new Date().getFullYear()} College Rugby Portal. All rights reserved.
           </span>
           <span style={{ fontSize: 12, color: "#475569" }}>
             Not affiliated with USA Rugby or World Rugby.

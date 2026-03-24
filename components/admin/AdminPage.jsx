@@ -11,6 +11,8 @@ import AdminConferences from "./AdminConferences.jsx";
 import AdminConferenceContacts from "./AdminConferenceContacts.jsx";
 import AdminProgramContacts from "./AdminProgramContacts.jsx";
 import AdminChangelog from "./AdminChangelog.jsx";
+import AdminSubmissions from "./AdminSubmissions.jsx";
+import AdminUsers from "./AdminUsers.jsx";
 
 export default function AdminPage() {
   const [user, setUser] = useState(null);
@@ -31,6 +33,7 @@ export default function AdminPage() {
   const [conferencesList, setConferencesList] = useState([]);
   const [confContactsList, setConfContactsList] = useState([]);
   const [progContactsList, setProgContactsList] = useState([]);
+  const [pendingSubmissionsCount, setPendingSubmissionsCount] = useState(0);
 
   useEffect(() => {
     getRedirectResult(auth).catch(() => {});
@@ -70,8 +73,15 @@ export default function AdminPage() {
     );
   }
 
+  function loadPendingSubmissionsCount() {
+    getDocs(collection(db, "submissions")).then(snap => {
+      const pending = snap.docs.filter(d => !d.data().status || d.data().status === "pending").length;
+      setPendingSubmissionsCount(pending);
+    }).catch(() => {});
+  }
+
   useEffect(() => {
-    if (user) { loadPrograms(); loadLeagues(); loadConferences(); loadConfContacts(); loadProgContacts(); }
+    if (user) { loadPrograms(); loadLeagues(); loadConferences(); loadConfContacts(); loadProgContacts(); loadPendingSubmissionsCount(); }
   }, [user]);
 
   async function handleSave(data) {
@@ -261,7 +271,7 @@ export default function AdminPage() {
           <div style={{ fontSize:13, color:"#64748b" }}>
             Signed in as <strong>{user.email}</strong>
           </div>
-          {adminTab !== "changelog" && <><button onClick={() => {
+          {adminTab !== "changelog" && adminTab !== "submissions" && adminTab !== "users" && <><button onClick={() => {
             if (adminTab === "programs") exportCSV(programs, "programs-backup.csv");
             else if (adminTab === "conferences") exportGenericCSV(CONF_COLS, conferencesList, "conferences-backup.csv");
             else if (adminTab === "confContacts") exportGenericCSV(CONF_CONTACT_COLS, confContactsList, "conference-contacts-backup.csv");
@@ -301,14 +311,23 @@ export default function AdminPage() {
 
       {/* Admin tabs */}
       <div style={{ display:"flex", gap:8, marginBottom:20 }}>
-        {[["programs","Programs"],["progContacts","Prog. Contacts"],["confContacts","Conf. Contacts"],["conferences","Conferences"],["leagues","Leagues"],["changelog","Changelog"]].map(([key, label]) => (
+        {[["programs","Programs"],["submissions","Submissions"],["users","Users"],["progContacts","Prog. Contacts"],["confContacts","Conf. Contacts"],["conferences","Conferences"],["leagues","Leagues"],["changelog","Changelog"]].map(([key, label]) => (
           <button key={key} onClick={() => setAdminTab(key)} style={{
             padding:"9px 20px", borderRadius:10, border:"none", cursor:"pointer",
-            fontWeight:600, fontSize:14,
+            fontWeight:600, fontSize:14, position:"relative",
             background: adminTab === key ? "#0A1F44" : "#fff",
             color: adminTab === key ? "#fff" : "#475569",
             boxShadow: adminTab === key ? "0 4px 12px rgba(26,86,219,0.3)" : "0 1px 3px rgba(0,0,0,0.08)",
-          }}>{label}</button>
+          }}>
+            {label}
+            {key === "submissions" && pendingSubmissionsCount > 0 && (
+              <span style={{
+                position:"absolute", top:-6, right:-6, background:"#f59e0b", color:"#fff",
+                borderRadius:10, padding:"1px 6px", fontSize:10, fontWeight:700,
+                minWidth:16, textAlign:"center", lineHeight:"16px",
+              }}>{pendingSubmissionsCount}</span>
+            )}
+          </button>
         ))}
       </div>
 
@@ -415,6 +434,12 @@ export default function AdminPage() {
       {adminTab === "conferences" && (
         <AdminConferences conferences={conferencesList} onRefresh={loadConferences} userEmail={user.email} />
       )}
+
+      {adminTab === "submissions" && (
+        <AdminSubmissions userEmail={user.email} programs={programs} onRefresh={loadPrograms} />
+      )}
+
+      {adminTab === "users" && <AdminUsers programs={programs} />}
 
       {adminTab === "changelog" && <AdminChangelog />}
 

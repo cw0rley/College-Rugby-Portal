@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../firebase.js";
 
 export default function ProgramForm({ initial, onSave, onCancel, leagues = [], conferences = [], schoolTypes = [] }) {
   const [form, setForm] = useState(initial);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef(null);
 
   function set(k, v) { setForm(f => ({ ...f, [k]: v })); }
 
@@ -41,6 +45,15 @@ export default function ProgramForm({ initial, onSave, onCancel, leagues = [], c
 
   return (
     <form onSubmit={handleSubmit}>
+      <div style={{ marginBottom:16 }}>
+        <label style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer", fontSize:13 }}>
+          <input type="checkbox" checked={!!form.featured}
+            onChange={e => set("featured", e.target.checked)} style={{ width:16, height:16 }} />
+          <span style={{ fontWeight:700, color:"#0A1F44" }}>Featured Program</span>
+          <span style={{ fontSize:11, color:"#94a3b8" }}>— appears first in listings</span>
+        </label>
+      </div>
+
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:12 }}>
         <div style={{ gridColumn:"1/-1" }}>
           <label style={lbl}>School Name *</label>
@@ -110,6 +123,58 @@ export default function ProgramForm({ initial, onSave, onCancel, leagues = [], c
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:12 }}>
         {group("School Website","website","url")}
         {group("Rugby Website","rugbyWebsite","url")}
+      </div>
+      <div style={{ fontWeight:700, fontSize:12, color:"#94a3b8", textTransform:"uppercase",
+        letterSpacing:"0.06em", margin:"16px 0 10px" }}>🖼 Logo</div>
+      <div style={{ display:"flex", gap:16, alignItems:"flex-start", marginBottom:12 }}>
+        {form.logoUrl && (
+          <img src={form.logoUrl} alt="Logo preview" style={{
+            width: 64, height: 64, borderRadius: 8, objectFit: "contain",
+            background: "#f8fafc", border: "1px solid #E5E7EB", flexShrink: 0,
+          }} onError={e => { e.target.style.display = "none"; }} />
+        )}
+        <div style={{ flex: 1 }}>
+          <div style={{ display:"flex", gap:8, marginBottom:8 }}>
+            <input type="file" ref={fileRef} accept="image/*" style={{ display: "none" }}
+              onChange={async e => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                setUploading(true);
+                try {
+                  const ext = file.name.split(".").pop() || "png";
+                  const path = `logos/${(form.school || "unknown").replace(/[^a-zA-Z0-9]/g, "-").toLowerCase()}-${form.gender || "unknown"}.${ext}`;
+                  const storageRef = ref(storage, path);
+                  await uploadBytes(storageRef, file);
+                  const url = await getDownloadURL(storageRef);
+                  set("logoUrl", url);
+                } catch (err) {
+                  console.error("Upload failed:", err);
+                  alert("Upload failed: " + err.message);
+                } finally {
+                  setUploading(false);
+                  e.target.value = "";
+                }
+              }}
+            />
+            <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} style={{
+              padding:"7px 16px", borderRadius:6, border:"1px solid #E5E7EB",
+              background: uploading ? "#f1f5f9" : "#fff", color:"#0A1F44",
+              fontWeight:600, fontSize:12, cursor: uploading ? "default" : "pointer",
+            }}>{uploading ? "Uploading..." : "Upload Logo"}</button>
+            {form.logoUrl && (
+              <button type="button" onClick={() => set("logoUrl", "")} style={{
+                padding:"7px 12px", borderRadius:6, border:"none",
+                background:"#fee2e2", color:"#dc2626",
+                fontWeight:600, fontSize:12, cursor:"pointer",
+              }}>Remove</button>
+            )}
+          </div>
+          <div>
+            <label style={lbl}>Or paste URL</label>
+            <input type="url" value={form.logoUrl ?? ""} onChange={e => set("logoUrl", e.target.value)}
+              placeholder="https://..." style={inp} />
+          </div>
+        </div>
       </div>
 
       <div style={{ fontWeight:700, fontSize:12, color:"#94a3b8", textTransform:"uppercase",

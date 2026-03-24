@@ -17,6 +17,7 @@ export const EMPTY_PROGRAM = {
   ncaaDivision:"", schoolType:"", gpa:"", sat:"", acceptanceRate:"",
   enrollment:"", inStateTuition:"", outStateTuition:"", rugbyRanking:"",
   rugbyScholarship:false, schoolFunded:false, website:"", rugbyWebsite:"", topPrograms:"", notes:"",
+  featured:false, logoUrl:"",
 };
 
 export const EMPTY_PROGRAM_CONTACT = {

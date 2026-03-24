@@ -51,7 +51,7 @@ export default function AboutPage() {
         </p>
         <p style={{ margin: 0, fontSize: 14, color: "#475569", lineHeight: 1.8 }}>
           Data is sourced from publicly available information and direct submissions from coaches and
-          school representatives. If you spot something out of date, use the <strong>Submit Info</strong> tab
+          school representatives. If you spot something out of date, use the <strong>Submit Program Info</strong> tab
           to send us a correction — we review all submissions promptly.
         </p>
       </div>

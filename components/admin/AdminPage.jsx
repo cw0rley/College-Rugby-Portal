@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
-import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "firebase/auth";
 import { db, auth, googleProvider } from "../../firebase.js";
 import { EMPTY_PROGRAM, CONF_COLS, CONF_CONTACT_COLS, LEAGUE_COLS, PROG_CONTACT_COLS } from "../../constants.js";
 import { exportCSV, parseCSV, exportGenericCSV, parseGenericCSV } from "../../utils/csv.js";
@@ -32,7 +32,10 @@ export default function AdminPage() {
   const [confContactsList, setConfContactsList] = useState([]);
   const [progContactsList, setProgContactsList] = useState([]);
 
-  useEffect(() => onAuthStateChanged(auth, u => { setUser(u); setAuthLoading(false); }), []);
+  useEffect(() => {
+    getRedirectResult(auth).catch(() => {});
+    return onAuthStateChanged(auth, u => { setUser(u); setAuthLoading(false); });
+  }, []);
 
   function loadPrograms() {
     setLoading(true);
@@ -79,7 +82,7 @@ export default function AdminPage() {
       await updateDoc(doc(db, "programs", editing.id), data);
       await logChange("update", "programs", editing.id, data, user.email);
     }
-    localStorage.removeItem("crp_cache_v2");
+    localStorage.removeItem("crp_cache_v4");
     setFormMode(null); setEditing(null);
     loadPrograms();
   }
@@ -94,7 +97,7 @@ export default function AdminPage() {
     }));
     await deleteDoc(doc(db, "programs", deleteTarget.id));
     await logChange("delete", "programs", deleteTarget.id, deleteTarget, user.email);
-    localStorage.removeItem("crp_cache_v2");
+    localStorage.removeItem("crp_cache_v4");
     setDeleteTarget(null); setDeleting(false);
     loadPrograms(); loadProgContacts();
   }
@@ -146,6 +149,7 @@ export default function AdminPage() {
 
     // Build a lookup of existing records — skip if collection read fails
     const existingByKey = {};
+    const existingDataById = {};
     try {
       const snap = await Promise.race([
         getDocs(collection(db, colName)),
@@ -154,12 +158,13 @@ export default function AdminPage() {
       snap.docs.forEach(d => {
         const r = { id: d.id, ...d.data() };
         existingByKey[matchKey(r)] = r.id;
+        existingDataById[r.id] = r;
       });
     } catch (err) {
       console.warn("Could not fetch existing records for upsert, all rows will be added:", err);
     }
 
-    let added = 0, updated = 0;
+    let added = 0, updated = 0, skipped = 0;
     try {
       const BATCH_SIZE = 20;
       for (let i = 0; i < importPreview.length; i += BATCH_SIZE) {
@@ -169,18 +174,29 @@ export default function AdminPage() {
           if (adminTab === "progContacts" && !row.programId) {
             const pid = progLookup[`${(row.school||"").toLowerCase()}|${(row.gender||"").toLowerCase()}`];
             if (!pid) { console.warn("Skipping contact — no matching program:", row.school, row.gender); return Promise.resolve(); }
-            row = { programId: pid, contact: row.contact, contactTitle: row.contactTitle, email: row.email };
+            row = { programId: pid, contact: row.contact || "", contactTitle: row.contactTitle || "", email: row.email || "" };
           }
-          const key = matchKey(row);
+          // Strip undefined values — Firestore rejects them
+          const clean = Object.fromEntries(Object.entries(row).filter(([, v]) => v !== undefined));
+          const key = matchKey(clean);
           const existingId = existingByKey[key];
           if (existingId) {
+            // Check if anything actually changed
+            const existing = existingDataById[existingId];
+            const hasChanges = Object.keys(clean).some(k => {
+              const oldVal = existing[k];
+              const newVal = clean[k];
+              if (oldVal === undefined && (newVal === "" || newVal === null)) return false;
+              return String(oldVal ?? "") !== String(newVal ?? "");
+            });
+            if (!hasChanges) { skipped++; return Promise.resolve(); }
             updated++;
-            return updateDoc(doc(db, colName, existingId), row).then(() =>
-              logChange("update", colName, existingId, row, user.email));
+            return updateDoc(doc(db, colName, existingId), clean).then(() =>
+              logChange("update", colName, existingId, clean, user.email));
           } else {
             added++;
-            return addDoc(collection(db, colName), row).then(ref =>
-              logChange("add", colName, ref.id, row, user.email));
+            return addDoc(collection(db, colName), clean).then(ref =>
+              logChange("add", colName, ref.id, clean, user.email));
           }
         }));
         setImportProgress(Math.min(i + BATCH_SIZE, importPreview.length));
@@ -188,7 +204,8 @@ export default function AdminPage() {
     } catch (err) {
       console.error("Import error:", err);
     }
-    localStorage.removeItem("crp_cache_v2");
+    if (skipped > 0) console.log(`Import: skipped ${skipped} unchanged rows`);
+    localStorage.removeItem("crp_cache_v4");
     setImporting(false);
     setImportPreview(null);
     setImportStats({ added, updated });
@@ -206,7 +223,7 @@ export default function AdminPage() {
       <p style={{ color:"#64748b", fontSize:14, marginBottom:24 }}>
         Sign in with your Google account to manage programs.
       </p>
-      <button onClick={() => signInWithPopup(auth, googleProvider)} style={{
+      <button onClick={() => signInWithPopup(auth, googleProvider).catch(() => signInWithRedirect(auth, googleProvider))} style={{
         display:"inline-flex", alignItems:"center", gap:10, padding:"11px 24px",
         borderRadius:8, border:"1px solid #E5E7EB", background:"#fff",
         fontWeight:700, fontSize:14, cursor:"pointer", boxShadow:"0 1px 3px rgba(0,0,0,0.08)" }}>

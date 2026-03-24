@@ -10,6 +10,7 @@ import ProgramModal from "./components/ProgramModal.jsx";
 import ProgramTable from "./components/ProgramTable.jsx";
 import ConferenceCard from "./components/ConferenceCard.jsx";
 import ContactPage from "./components/ContactPage.jsx";
+import PlayerSubmitPage from "./components/PlayerSubmitPage.jsx";
 import AboutPage from "./components/AboutPage.jsx";
 import Footer from "./components/Footer.jsx";
 import LeagueHierarchyPage from "./components/LeagueHierarchyPage.jsx";
@@ -35,6 +36,8 @@ export default function App() {
     );
   }
 
+  const isMobile = Math.min(window.innerWidth, screen.width) <= 900;
+
   const [programs, setPrograms] = useState([]);
   const [conferences, setConferences] = useState([]);
   const [confContacts, setConfContacts] = useState([]);
@@ -59,7 +62,7 @@ export default function App() {
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
-    const CACHE_KEY = "crp_cache_v3";
+    const CACHE_KEY = "crp_cache_v4";
     const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 
     async function fetchData() {
@@ -206,24 +209,22 @@ export default function App() {
   if (loading) return (
     <div style={{
       display: "flex", alignItems: "center", justifyContent: "center",
-      height: "100vh", flexDirection: "column", gap: 20, position: "relative",
-      backgroundImage: "url('/rugby.jpg')",
-      backgroundSize: "cover", backgroundPosition: "center 40%",
+      height: "100vh", flexDirection: "column", gap: 24,
+      background: "#0A1F44",
+      fontFamily: "'Inter', system-ui, sans-serif",
     }}>
-      <div style={{ position: "absolute", inset: 0,
-        background: "linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.75) 100%)" }} />
-      <img src="/logo-icon.svg" alt="" style={{ width: 120, height: 120, position: "relative" }} />
-      <div style={{ position: "relative", textAlign: "center" }}>
-        <div style={{ fontSize: 42, fontWeight: 800, color: "#F4F4F4", letterSpacing: "-0.03em",
-          fontFamily: "'Montserrat', 'Inter', system-ui, sans-serif" }}>
+      <img src="/logo-icon.svg" alt="" style={{ width: 120, height: 120 }} />
+      <div style={{ textAlign: "center" }}>
+        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, letterSpacing: "-0.03em",
+          color: "#F4F4F4", fontFamily: "'Montserrat', 'Inter', system-ui, sans-serif" }}>
           College Rugby Portal
-        </div>
-        <div style={{ fontSize: 32, fontWeight: 700, color: "#00FF00", marginTop: 8,
-          letterSpacing: "-0.02em" }}>
+        </h1>
+        <p style={{ margin: "6px 0 0", color: "#00ff00", fontSize: 16, fontWeight: 700,
+          letterSpacing: "-0.02em", fontFamily: "'Montserrat', 'Inter', system-ui, sans-serif" }}>
           Connect. Get Recruited. Play.
-        </div>
+        </p>
       </div>
-      <div style={{ position: "relative", fontSize: 13, color: "#94a3b8", marginTop: 8 }}>Loading programs...</div>
+      <div style={{ fontSize: 13, color: "#94a3b8" }}>Loading programs...</div>
     </div>
   );
 
@@ -236,23 +237,23 @@ export default function App() {
   );
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f1f5f9", fontFamily: "'Inter', system-ui, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "#f1f5f9", fontFamily: "'Inter', system-ui, sans-serif", overflowX: "hidden", maxWidth: "100vw" }}>
 
       {/* Header */}
       <div style={{
         background: "#0A1F44",
-        padding: "28px 24px 36px", color: "#fff",
+        padding: isMobile ? "16px 8px 24px" : "28px 24px 36px", color: "#fff",
       }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 24 }}>
-            <img src="/logo-icon.svg" alt="" style={{ width: 80, height: 80, flexShrink: 0 }} />
+          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 12 : 20, marginBottom: isMobile ? 16 : 24 }}>
+            <img src="/logo-icon.svg" alt="" style={{ width: isMobile ? 48 : 80, height: isMobile ? 48 : 80, flexShrink: 0 }} />
             <div>
-              <h1 style={{ margin: 0, fontSize: 32, fontWeight: 800, letterSpacing: "-0.03em",
+              <h1 style={{ margin: 0, fontSize: isMobile ? 20 : 32, fontWeight: 800, letterSpacing: "-0.03em",
                 color: "#F4F4F4", fontFamily: "'Montserrat', 'Inter', system-ui, sans-serif" }}>
                 College Rugby Portal
               </h1>
-              <p style={{ margin: "6px 0 0", color: "#69BE28", fontSize: 22, fontWeight: 700,
+              <p style={{ margin: "6px 0 0", color: "#00ff00", fontSize: isMobile ? 13 : 22, fontWeight: 700,
                 letterSpacing: "-0.02em" }}>
                 Connect. Get Recruited. Play.
               </p>
@@ -260,7 +261,7 @@ export default function App() {
           </div>
 
           {/* Search bar */}
-          <div style={{ position: "relative", maxWidth: 600 }}>
+          <div style={{ position: "relative", maxWidth: 600, width: "100%" }}>
             <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)",
               fontSize: 16, color: "#94a3b8" }}>🔍</span>
             <input
@@ -278,21 +279,25 @@ export default function App() {
       </div>
 
       {/* Main content */}
-      <div style={{ maxWidth: 1100, margin: "24px auto 40px", padding: "0 24px" }}>
+      <div onClick={() => { if (!disclaimerDismissed) setDisclaimerDismissed(true); }} style={{ maxWidth: 1100, margin: "24px auto 40px", padding: isMobile ? "0 8px" : "0 24px" }}>
 
         {/* Tabs */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+        <div style={isMobile
+          ? { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 20 }
+          : { display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }
+        }>
           {[
             { key: "programs", label: `Programs (${sorted.length})` },
             { key: "conferences", label: `Conferences (${conferences.length})` },
             { key: "structure", label: "Leagues" },
             { key: "rankings", label: "Rankings" },
-            { key: "contact", label: "📬 Submit Info" },
+            { key: "contact", label: "Submit Program Info" },
+            { key: "player", label: "Player Profile" },
             { key: "about", label: "About" },
           ].map(tab => (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
-              padding: "10px 20px", borderRadius: 10, border: "none", cursor: "pointer",
-              fontWeight: 600, fontSize: 14, transition: "all 0.15s",
+              padding: isMobile ? "10px 8px" : "10px 20px", borderRadius: 10, border: "none", cursor: "pointer",
+              fontWeight: 600, fontSize: isMobile ? 13 : 14, transition: "all 0.15s", textAlign: "center",
               background: activeTab === tab.key ? "#1a56db" : "#fff",
               color: activeTab === tab.key ? "#fff" : "#475569",
               boxShadow: activeTab === tab.key ? "0 4px 12px rgba(26,86,219,0.3)" : "0 1px 3px rgba(0,0,0,0.08)",
@@ -331,48 +336,82 @@ export default function App() {
         {activeTab === "programs" && (
           <>
             {/* Filter bar */}
-            <div style={{ background: "#fff", borderRadius: 12, padding: 16, marginBottom: 20,
-              boxShadow: "0 1px 3px rgba(0,0,0,0.06)", display: "flex", gap: 10, flexWrap: "wrap",
-              alignItems: "center" }}>
+            <div style={{ background: "#fff", borderRadius: 12, padding: isMobile ? 12 : 16, marginBottom: 20,
+              boxShadow: "0 1px 3px rgba(0,0,0,0.06)", display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              gap: isMobile ? 8 : 10, flexWrap: "wrap",
+              alignItems: isMobile ? "stretch" : "center",
+              width: "100%", boxSizing: "border-box" }}>
 
               {/* Gender */}
-              <div style={{ display: "flex", borderRadius: 8, overflow: "hidden", border: "1px solid #e2e8f0" }}>
+              <div style={{ display: "flex", borderRadius: 8, overflow: "hidden", border: "1px solid #e2e8f0",
+                width: isMobile ? "100%" : "auto" }}>
                 {[["all","All"],["mens","Men's"],["womens","Women's"]].map(([val, label]) => (
                   <button key={val} onClick={() => setGenderFilter(val)} style={{
                     padding: "7px 14px", border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600,
+                    flex: isMobile ? 1 : "none",
                     background: genderFilter === val ? "#1a56db" : "#fff",
                     color: genderFilter === val ? "#fff" : "#64748b",
                   }}>{label}</button>
                 ))}
               </div>
 
-              <select value={stateFilter} onChange={e => setStateFilter(e.target.value)}
-                style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
-                  fontSize: 13, color: "#475569", background: "#fff", cursor: "pointer" }}>
-                <option value="">All States</option>
-                {Object.entries(US_STATES).sort((a,b) => a[1].localeCompare(b[1])).map(([abbr, name]) => (
-                  <option key={abbr} value={abbr}>{name}</option>
-                ))}
-              </select>
-
-              <select value={leagueFilter} onChange={e => { setLeagueFilter(e.target.value); setConferenceFilter(""); }}
-                style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
-                  fontSize: 13, color: "#475569", background: "#fff", cursor: "pointer", maxWidth: 180 }}>
-                <option value="">All Leagues</option>
-                {uniqueLeagues.map(l => <option key={l} value={l}>{l}</option>)}
-              </select>
-
-              <select value={conferenceFilter} onChange={e => setConferenceFilter(e.target.value)}
-                style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
-                  fontSize: 13, color: "#475569", background: "#fff", cursor: "pointer", maxWidth: 200 }}>
-                <option value="">All Conferences</option>
-                {uniqueConferences.map(c => <option key={c} value={c}>{confNameMap[c] || c}</option>)}
-              </select>
+              {isMobile ? (
+                <>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <select value={stateFilter} onChange={e => setStateFilter(e.target.value)}
+                      style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
+                        fontSize: 14, color: "#475569", background: "#fff", cursor: "pointer", flex: 1 }}>
+                      <option value="">All States</option>
+                      {Object.entries(US_STATES).sort((a,b) => a[1].localeCompare(b[1])).map(([abbr, name]) => (
+                        <option key={abbr} value={abbr}>{name}</option>
+                      ))}
+                    </select>
+                    <select value={leagueFilter} onChange={e => { setLeagueFilter(e.target.value); setConferenceFilter(""); }}
+                      style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
+                        fontSize: 14, color: "#475569", background: "#fff", cursor: "pointer", flex: 1 }}>
+                      <option value="">All Leagues</option>
+                      {uniqueLeagues.map(l => <option key={l} value={l}>{l}</option>)}
+                    </select>
+                  </div>
+                  <select value={conferenceFilter} onChange={e => setConferenceFilter(e.target.value)}
+                    style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
+                      fontSize: 14, color: "#475569", background: "#fff", cursor: "pointer", width: "100%" }}>
+                    <option value="">All Conferences</option>
+                    {uniqueConferences.map(c => <option key={c} value={c}>{confNameMap[c] || c}</option>)}
+                  </select>
+                </>
+              ) : (
+                <>
+                  <select value={stateFilter} onChange={e => setStateFilter(e.target.value)}
+                    style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
+                      fontSize: 13, color: "#475569", background: "#fff", cursor: "pointer" }}>
+                    <option value="">All States</option>
+                    {Object.entries(US_STATES).sort((a,b) => a[1].localeCompare(b[1])).map(([abbr, name]) => (
+                      <option key={abbr} value={abbr}>{name}</option>
+                    ))}
+                  </select>
+                  <select value={leagueFilter} onChange={e => { setLeagueFilter(e.target.value); setConferenceFilter(""); }}
+                    style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
+                      fontSize: 13, color: "#475569", background: "#fff", cursor: "pointer", maxWidth: 180 }}>
+                    <option value="">All Leagues</option>
+                    {uniqueLeagues.map(l => <option key={l} value={l}>{l}</option>)}
+                  </select>
+                  <select value={conferenceFilter} onChange={e => setConferenceFilter(e.target.value)}
+                    style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
+                      fontSize: 13, color: "#475569", background: "#fff", cursor: "pointer", maxWidth: 200 }}>
+                    <option value="">All Conferences</option>
+                    {uniqueConferences.map(c => <option key={c} value={c}>{confNameMap[c] || c}</option>)}
+                  </select>
+                </>
+              )}
 
               <button onClick={() => setShowFilters(!showFilters)} style={{
                 padding: "8px 14px", borderRadius: 8, border: "1px solid #e2e8f0",
                 background: showFilters ? "#f0f7ff" : "#fff", color: "#475569",
-                cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6,
+                cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center",
+                justifyContent: isMobile ? "center" : "flex-start", gap: 6,
+                width: isMobile ? "100%" : "auto",
               }}>
                 ⚙ More Filters {activeFiltersCount > 0 && (
                   <span style={{ background: "#1a56db", color: "#fff", borderRadius: "50%",
@@ -386,7 +425,7 @@ export default function App() {
                   setMinGPA(""); setMaxTuition(""); setScholarshipOnly(false); setSchoolFundedOnly(false); }}
                   style={{ padding: "8px 12px", borderRadius: 8, border: "none",
                     background: "#fee2e2", color: "#dc2626", cursor: "pointer",
-                    fontSize: 13, fontWeight: 600 }}>✕ Clear</button>
+                    fontSize: 13, fontWeight: 600, width: isMobile ? "100%" : "auto", textAlign: "center" }}>✕ Clear</button>
               )}
             </div>
 
@@ -429,15 +468,17 @@ export default function App() {
             )}
 
             {/* Results count + sort + view toggle + export */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
-              <div style={{ fontSize: 13, color: "#64748b", flex: 1 }}>
+            <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row",
+              alignItems: isMobile ? "stretch" : "center", gap: isMobile ? 8 : 10, marginBottom: 16, flexWrap: "wrap" }}>
+              <div style={{ fontSize: 13, color: "#64748b", flex: isMobile ? "none" : 1 }}>
                 Showing <strong>{sorted.length}</strong> of {programs.length} programs
               </div>
 
               {/* Sort */}
               <select value={sortBy} onChange={e => setSortBy(e.target.value)}
                 style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
-                  fontSize: 13, color: "#475569", background: "#fff", cursor: "pointer" }}>
+                  fontSize: isMobile ? 14 : 13, color: "#475569", background: "#fff", cursor: "pointer",
+                  width: isMobile ? "100%" : "auto" }}>
                 <option value="school">Sort: School Name</option>
                 <option value="rank">Sort: Ranking</option>
                 <option value="cost">Sort: Cost (Low → High)</option>
@@ -445,23 +486,26 @@ export default function App() {
                 <option value="sizeAsc">Sort: Size (Small → Large)</option>
               </select>
 
-              {/* View toggle */}
-              <div style={{ display: "flex", borderRadius: 8, overflow: "hidden", border: "1px solid #e2e8f0" }}>
-                {[["cards","⊞ Cards"],["table","≡ Table"]].map(([mode, label]) => (
-                  <button key={mode} onClick={() => setViewMode(mode)} style={{
-                    padding: "7px 14px", border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600,
-                    background: viewMode === mode ? "#1a56db" : "#fff",
-                    color: viewMode === mode ? "#fff" : "#64748b",
-                  }}>{label}</button>
-                ))}
+              {/* View toggle + Export */}
+              <div style={{ display: "flex", gap: 8 }}>
+                <div style={{ display: "flex", borderRadius: 8, overflow: "hidden", border: "1px solid #e2e8f0",
+                  flex: isMobile ? 1 : "none" }}>
+                  {[["cards","⊞ Cards"],["table","≡ Table"]].map(([mode, label]) => (
+                    <button key={mode} onClick={() => setViewMode(mode)} style={{
+                      padding: "7px 14px", border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600,
+                      flex: isMobile ? 1 : "none",
+                      background: viewMode === mode ? "#1a56db" : "#fff",
+                      color: viewMode === mode ? "#fff" : "#64748b",
+                    }}>{label}</button>
+                  ))}
+                </div>
+                <button onClick={() => exportCSV(filtered)} style={{
+                  padding: "7px 16px", borderRadius: 8, border: "1px solid #e2e8f0",
+                  background: "#fff", color: "#475569", cursor: "pointer",
+                  fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center",
+                  gap: 6, flex: isMobile ? 1 : "none",
+                }}>⬇ Export Report ({filtered.length})</button>
               </div>
-
-              {/* Export CSV */}
-              <button onClick={() => exportCSV(filtered)} style={{
-                padding: "7px 16px", borderRadius: 8, border: "1px solid #e2e8f0",
-                background: "#fff", color: "#475569", cursor: "pointer",
-                fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6,
-              }}>⬇ Export Report ({filtered.length})</button>
             </div>
 
             {/* Program grid or table */}
@@ -473,7 +517,8 @@ export default function App() {
               </div>
             ) : viewMode === "cards" ? (
               <div style={{ display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
+                gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(300px, 1fr))", gap: isMobile ? 12 : 16,
+                maxWidth: "100%", overflow: "hidden" }}>
                 {sorted.map((p, i) => (
                   <ProgramCard key={p.id || i} program={p} confNameMap={confNameMap} onClick={setSelectedProgram} />
                 ))}
@@ -485,6 +530,7 @@ export default function App() {
         )}
 
         {activeTab === "contact" && <ContactPage programs={programs} />}
+        {activeTab === "player" && <PlayerSubmitPage />}
         {activeTab === "about" && <AboutPage />}
         {activeTab === "structure" && (
           <LeagueHierarchyPage
@@ -529,8 +575,8 @@ export default function App() {
                       View all programs →
                     </button>
                   </div>
-                  <div style={{ display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 10 }}>
+                  <div className="crp-card-grid" style={{ display: "grid",
+                    gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(300px, 1fr))", gap: isMobile ? 12 : 10 }}>
                     {confByLeague[league].map((c, i) => {
                       const count = programs.filter(p => p.conference === c.conference).length;
                       return (

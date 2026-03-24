@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import Avatar from "./ui/Avatar.jsx";
+import SchoolLogo from "./ui/SchoolLogo.jsx";
 import Badge from "./ui/Badge.jsx";
 
 function dedupCount(progs) {
@@ -75,7 +75,7 @@ export default function RankingsPage({ programs, confNameMap = {}, onSelectProgr
             <span style={{ fontSize: 24 }}>🏆</span>
             <div>
               <div style={{ fontSize: 22, fontWeight: 800 }}>{ranked.total}</div>
-              <div style={{ fontSize: 11, color: "#69BE28", textTransform: "uppercase",
+              <div style={{ fontSize: 11, color: "#00FF00", textTransform: "uppercase",
                 letterSpacing: "0.06em" }}>Ranked Programs</div>
             </div>
           </div>
@@ -83,7 +83,7 @@ export default function RankingsPage({ programs, confNameMap = {}, onSelectProgr
             <span style={{ fontSize: 24 }}>📊</span>
             <div>
               <div style={{ fontSize: 22, fontWeight: 800 }}>{ranked.leagueOrder.length}</div>
-              <div style={{ fontSize: 11, color: "#69BE28", textTransform: "uppercase",
+              <div style={{ fontSize: 11, color: "#00FF00", textTransform: "uppercase",
                 letterSpacing: "0.06em" }}>Leagues</div>
             </div>
           </div>
@@ -92,7 +92,7 @@ export default function RankingsPage({ programs, confNameMap = {}, onSelectProgr
               <span style={{ fontSize: 24 }}>➖</span>
               <div>
                 <div style={{ fontSize: 22, fontWeight: 800 }}>{unranked}</div>
-                <div style={{ fontSize: 11, color: "#69BE28", textTransform: "uppercase",
+                <div style={{ fontSize: 11, color: "#00FF00", textTransform: "uppercase",
                   letterSpacing: "0.06em" }}>Unranked</div>
               </div>
             </div>
@@ -153,7 +153,7 @@ export default function RankingsPage({ programs, confNameMap = {}, onSelectProgr
                         </div>
 
                         {/* School */}
-                        <Avatar name={p.school} size={34} />
+                        <SchoolLogo program={p} size={34} />
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{
                             fontWeight: 700, fontSize: 14, color: "#0A1F44",

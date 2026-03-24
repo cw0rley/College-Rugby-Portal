@@ -67,3 +67,8 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+.claude/settings.local.json 
+.claude/settings.local.json 
+nul 
+sync/service-account.json 
+sync/service-account..json 

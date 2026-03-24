@@ -1,5 +1,5 @@
 import React from "react";
-import Avatar from "./ui/Avatar.jsx";
+import SchoolLogo from "./ui/SchoolLogo.jsx";
 import Badge from "./ui/Badge.jsx";
 import StatPill from "./ui/StatPill.jsx";
 
@@ -11,14 +11,15 @@ export default function ProgramCard({ program, onClick }) {
   return (
     <div onClick={() => onClick(program)} style={{
       background: "#fff", border: "1px solid #E5E7EB", borderRadius: 12,
-      padding: 20, cursor: "pointer", transition: "all 0.18s",
+      padding: 16, cursor: "pointer", transition: "all 0.18s",
       boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+      maxWidth: "100%", overflow: "hidden", boxSizing: "border-box",
     }}
     onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 6px 24px rgba(0,0,0,0.12)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
     onMouseLeave={e => { e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,0,0,0.06)"; e.currentTarget.style.transform = ""; }}
     >
       <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 12 }}>
-        <Avatar name={program.school} size={44} />
+        <SchoolLogo program={program} size={44} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontWeight: 700, fontSize: 15, color: "#0A1F44", lineHeight: 1.3,
             overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
@@ -32,7 +33,7 @@ export default function ProgramCard({ program, onClick }) {
 
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
         <Badge label={genderLabel} color={genderColor} />
-        {program.league && <Badge label={program.league} color="#69BE28" />}
+        {program.league && <Badge label={program.league} color="#00CC00" />}
         {program.rugbyScholarship && <Badge label="🏉 Scholarship" color="#7e3af2" />}
         {program.schoolFunded && <Badge label="School Funded" color="#ff5a1f" />}
       </div>

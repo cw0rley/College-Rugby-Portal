@@ -16,21 +16,21 @@ export default function AdminConferences({ conferences, onRefresh, userEmail }) 
     setSaving(true);
     const ref = await addDoc(collection(db, "conferences"), { ...newForm });
     await logChange("add", "conferences", ref.id, { ...newForm }, userEmail);
-    localStorage.removeItem("crp_cache_v2");
+    localStorage.removeItem("crp_cache_v4");
     setNewForm({ conference:"", fullName:"", notes:"" });
     setSaving(false); onRefresh();
   }
   async function handleUpdate(id) {
     await updateDoc(doc(db, "conferences", id), editForm);
     await logChange("update", "conferences", id, editForm, userEmail);
-    localStorage.removeItem("crp_cache_v2");
+    localStorage.removeItem("crp_cache_v4");
     setEditingId(null); onRefresh();
   }
   async function handleDeleteConf(id) {
     const deleted = conferences.find(c => c.id === id);
     await deleteDoc(doc(db, "conferences", id));
     await logChange("delete", "conferences", id, deleted || {}, userEmail);
-    localStorage.removeItem("crp_cache_v2");
+    localStorage.removeItem("crp_cache_v4");
     onRefresh();
   }
 

@@ -20,21 +20,21 @@ export default function AdminConferenceContacts({ contacts, conferences, leagues
     setSaving(true);
     const ref = await addDoc(collection(db, "conferenceContacts"), { ...newForm });
     await logChange("add", "conferenceContacts", ref.id, { ...newForm }, userEmail);
-    localStorage.removeItem("crp_cache_v2");
+    localStorage.removeItem("crp_cache_v4");
     setNewForm({ conference:"", league:"", gender:"mens", contactName:"", contactTitle:"", email:"", phone:"" });
     setSaving(false); onRefresh();
   }
   async function handleUpdate(id) {
     await updateDoc(doc(db, "conferenceContacts", id), editForm);
     await logChange("update", "conferenceContacts", id, editForm, userEmail);
-    localStorage.removeItem("crp_cache_v2");
+    localStorage.removeItem("crp_cache_v4");
     setEditingId(null); onRefresh();
   }
   async function handleDelete(id) {
     const deleted = contacts.find(c => c.id === id);
     await deleteDoc(doc(db, "conferenceContacts", id));
     await logChange("delete", "conferenceContacts", id, deleted || {}, userEmail);
-    localStorage.removeItem("crp_cache_v2");
+    localStorage.removeItem("crp_cache_v4");
     onRefresh();
   }
 
@@ -107,7 +107,7 @@ export default function AdminConferenceContacts({ contacts, conferences, leagues
                 <React.Fragment key={ct.id}>
                   <tr style={{ borderBottom: isEditing ? "none" : "1px solid #f1f5f9", background: isEditing ? "#f0fde8" : "" }}>
                     <td style={{ padding:"10px 14px", fontWeight:600, color:"#0A1F44" }}>{ct.conference}</td>
-                    <td style={{ padding:"10px 14px" }}>{ct.league ? <Badge label={ct.league} color="#69BE28" /> : "—"}</td>
+                    <td style={{ padding:"10px 14px" }}>{ct.league ? <Badge label={ct.league} color="#00FF00" /> : "—"}</td>
                     <td style={{ padding:"10px 14px" }}><Badge label={genderLabel} color={genderColor} /></td>
                     <td style={{ padding:"10px 14px", color:"#475569" }}>{ct.contactName || "—"}</td>
                     <td style={{ padding:"10px 14px", color:"#475569" }}>{ct.contactTitle || "—"}</td>

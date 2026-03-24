@@ -19,26 +19,28 @@ export default function AdminProgramContacts({ contacts, programs, onRefresh, us
   // Lookup: programId -> school label
   const programLabelMap = Object.fromEntries(programOptions.map(p => [p.id, p.label]));
 
+
+
   async function handleAdd() {
     if (!newForm.programId) return;
     setSaving(true);
     const ref = await addDoc(collection(db, "programContacts"), { ...newForm });
     await logChange("add", "programContacts", ref.id, { ...newForm }, userEmail);
-    localStorage.removeItem("crp_cache_v2");
+    localStorage.removeItem("crp_cache_v4");
     setNewForm({ programId:"", contact:"", contactTitle:"", email:"" });
     setSaving(false); onRefresh();
   }
   async function handleUpdate(id) {
     await updateDoc(doc(db, "programContacts", id), editForm);
     await logChange("update", "programContacts", id, editForm, userEmail);
-    localStorage.removeItem("crp_cache_v2");
+    localStorage.removeItem("crp_cache_v4");
     setEditingId(null); onRefresh();
   }
   async function handleDelete(id) {
     const deleted = contacts.find(c => c.id === id);
     await deleteDoc(doc(db, "programContacts", id));
     await logChange("delete", "programContacts", id, deleted || {}, userEmail);
-    localStorage.removeItem("crp_cache_v2");
+    localStorage.removeItem("crp_cache_v4");
     onRefresh();
   }
 

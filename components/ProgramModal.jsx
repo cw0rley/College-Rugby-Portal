@@ -1,5 +1,5 @@
 import React from "react";
-import Avatar from "./ui/Avatar.jsx";
+import SchoolLogo from "./ui/SchoolLogo.jsx";
 import Badge from "./ui/Badge.jsx";
 
 function StatRow({ label, value }) {
@@ -32,36 +32,73 @@ export default function ProgramModal({ program, confNameMap = {}, onClose }) {
     ? (confNameMap[program.conference] || program.conference)
     : null;
 
+  const isMobile = window.innerWidth <= 900;
+
   return (
     <div style={{
       position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 1000,
-      display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
+      display: "flex", alignItems: isMobile ? "flex-end" : "center", justifyContent: "center",
+      padding: isMobile ? 0 : 20,
     }} onClick={onClose}>
       <div style={{
-        background: "#fff", borderRadius: 16, maxWidth: 900, width: "100%",
-        maxHeight: "90vh", overflowY: "auto", boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
-        display: "flex", flexDirection: "row",
+        background: "#fff",
+        borderRadius: isMobile ? "16px 16px 0 0" : 16,
+        maxWidth: isMobile ? "100%" : 900,
+        width: "100%",
+        maxHeight: isMobile ? "92vh" : "90vh",
+        overflowY: "auto",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        position: "relative",
       }} onClick={e => e.stopPropagation()}>
 
-        {/* Left sidebar */}
+        {/* Sticky close button for mobile */}
+        {isMobile && (
+          <div style={{ position: "sticky", top: 0, zIndex: 10, display: "flex", justifyContent: "flex-end",
+            padding: "8px 8px 0", background: "linear-gradient(to bottom, #F4F4F4 60%, transparent)" }}>
+            <button onClick={onClose} style={{
+              background: "rgba(0,0,0,0.12)", border: "none", borderRadius: "50%",
+              width: 36, height: 36, fontSize: 20, cursor: "pointer", color: "#0A1F44",
+              display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700,
+            }}>×</button>
+          </div>
+        )}
+
+        {/* Close button — desktop: top right of modal */}
+        {!isMobile && (
+          <button onClick={onClose} style={{
+            position: "absolute", top: 12, right: 12, zIndex: 10,
+            background: "rgba(0,0,0,0.08)", border: "none", borderRadius: "50%",
+            width: 32, height: 32, fontSize: 18, cursor: "pointer", color: "#64748b",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>×</button>
+        )}
+
+        {/* Sidebar / Top section */}
         <div style={{
-          width: 260, flexShrink: 0, padding: "32px 24px",
-          background: "#F4F4F4", borderRadius: "16px 0 0 16px",
-          borderRight: "1px solid #E5E7EB",
+          width: isMobile ? "100%" : 260,
+          flexShrink: 0,
+          padding: isMobile ? "24px 20px" : "32px 24px",
+          background: "#F4F4F4",
+          borderRadius: isMobile ? "16px 16px 0 0" : "16px 0 0 16px",
+          borderRight: isMobile ? "none" : "1px solid #E5E7EB",
+          borderBottom: isMobile ? "1px solid #E5E7EB" : "none",
           display: "flex", flexDirection: "column", gap: 16,
         }}>
+
           <div style={{ textAlign: "center" }}>
-            <Avatar name={program.school} size={72} />
-            <h2 style={{ margin: "12px 0 4px", fontSize: 18, fontWeight: 800, color: "#0A1F44",
+            <SchoolLogo program={program} size={isMobile ? 56 : 72} />
+            <h2 style={{ margin: "12px 0 4px", fontSize: isMobile ? 16 : 18, fontWeight: 800, color: "#0A1F44",
               lineHeight: 1.2 }}>{program.school}</h2>
             <div style={{ display: "flex", gap: 6, justifyContent: "center", flexWrap: "wrap", marginTop: 8 }}>
               <Badge label={program.gender === "mens" ? "Men's" : "Women's"} color={genderColor} />
-              {program.league && <Badge label={program.league} color="#69BE28" />}
+              {program.league && <Badge label={program.league} color="#00CC00" />}
             </div>
           </div>
 
           {/* Address */}
-          <div style={{ fontSize: 13, color: "#475569", lineHeight: 1.6 }}>
+          <div style={{ fontSize: 13, color: "#475569", lineHeight: 1.6, textAlign: "center" }}>
             {program.city && <div>{program.city}{program.state ? `, ${program.state}` : ""}</div>}
             {!program.city && program.state && <div>{program.state}</div>}
           </div>
@@ -69,13 +106,13 @@ export default function ProgramModal({ program, confNameMap = {}, onClose }) {
           {/* Links */}
           {program.website && (
             <a href={program.website} target="_blank" rel="noreferrer" style={{
-              fontSize: 13, color: "#69BE28", fontWeight: 600, textDecoration: "none",
+              fontSize: 13, color: "#00CC00", fontWeight: 600, textDecoration: "none",
               wordBreak: "break-all",
             }}>{program.website.replace(/^https?:\/\/(www\.)?/, "")}</a>
           )}
           {program.rugbyWebsite && (
             <a href={program.rugbyWebsite} target="_blank" rel="noreferrer" style={{
-              fontSize: 13, color: "#69BE28", fontWeight: 600, textDecoration: "none",
+              fontSize: 13, color: "#00CC00", fontWeight: 600, textDecoration: "none",
               wordBreak: "break-all",
             }}>Rugby: {program.rugbyWebsite.replace(/^https?:\/\/(www\.)?/, "")}</a>
           )}
@@ -94,7 +131,7 @@ export default function ProgramModal({ program, confNameMap = {}, onClose }) {
                   {ct.name && <div style={{ fontSize: 14, fontWeight: 600, color: "#0A1F44" }}>{ct.name}</div>}
                   {ct.email && (
                     <a href={`mailto:${ct.email}`} onClick={e => e.stopPropagation()} style={{
-                      display: "block", fontSize: 12, color: "#69BE28", textDecoration: "none",
+                      display: "block", fontSize: 12, color: "#00CC00", textDecoration: "none",
                       marginTop: 2, wordBreak: "break-all",
                     }}>{ct.email}</a>
                   )}
@@ -104,27 +141,20 @@ export default function ProgramModal({ program, confNameMap = {}, onClose }) {
           )}
         </div>
 
-        {/* Right content */}
-        <div style={{ flex: 1, padding: "28px 32px", minWidth: 0 }}>
-          {/* Close button */}
-          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 8 }}>
-            <button onClick={onClose} style={{
-              background: "none", border: "none", fontSize: 22, cursor: "pointer",
-              color: "#94a3b8", padding: "0 4px", lineHeight: 1,
-            }}>×</button>
-          </div>
+        {/* Content section */}
+        <div style={{ flex: 1, padding: isMobile ? "20px" : "28px 32px", minWidth: 0 }}>
 
           {/* Badges row */}
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
             {program.ncaaDivision && <Badge label={program.ncaaDivision} color="#0694a2" />}
             {program.schoolType && <Badge label={program.schoolType} color="#64748b" />}
-            {program.rugbyScholarship && <Badge label="Rugby Scholarship" color="#69BE28" />}
+            {program.rugbyScholarship && <Badge label="Rugby Scholarship" color="#00CC00" />}
             {program.schoolFunded && <Badge label="School Funded" color="#ff5a1f" />}
           </div>
 
           {/* Academics */}
           <SectionHeader>Academics</SectionHeader>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 24px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "0 24px" }}>
             <StatRow label="Avg GPA" value={program.gpa ? program.gpa.toFixed(2) : null} />
             <StatRow label="Avg SAT" value={program.sat ? program.sat.toFixed(0) : null} />
             <StatRow label="Acceptance Rate" value={program.acceptanceRate ? `${program.acceptanceRate}%` : null} />
@@ -139,14 +169,14 @@ export default function ProgramModal({ program, confNameMap = {}, onClose }) {
 
           {/* Tuition */}
           <SectionHeader>Tuition</SectionHeader>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 24px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "0 24px" }}>
             <StatRow label="In-State Tuition" value={program.inStateTuition ? `$${program.inStateTuition.toLocaleString()}` : null} />
             <StatRow label="Out-of-State Tuition" value={program.outStateTuition ? `$${program.outStateTuition.toLocaleString()}` : null} />
           </div>
 
           {/* Rugby */}
           <SectionHeader>Rugby</SectionHeader>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 24px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "0 24px" }}>
             <StatRow label="Gender" value={program.gender === "mens" ? "Men's Team" : "Women's Team"} />
             <StatRow label="National Ranking" value={program.rugbyRanking ? `#${program.rugbyRanking}` : null} />
             <StatRow label="Conference" value={confDisplay} />

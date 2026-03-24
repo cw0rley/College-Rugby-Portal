@@ -1,17 +1,17 @@
 import React from "react";
 export default function Footer({ onNavigate }) {
   const linkStyle = {
-    color: "#69BE28", textDecoration: "none", fontSize: 13,
+    color: "#00FF00", textDecoration: "none", fontSize: 13,
     cursor: "pointer", background: "none", border: "none", padding: 0,
   };
   return (
     <footer style={{
       background: "#0A1F44", color: "#94a3b8", marginTop: 60,
-      padding: "48px 24px 28px",
+      padding: "48px 16px 28px", overflowX: "hidden",
     }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: 36, marginBottom: 40 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gap: 24, marginBottom: 40 }}>
 
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
@@ -28,7 +28,7 @@ export default function Footer({ onNavigate }) {
               textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 14 }}>Navigate</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[["programs","Programs"],["conferences","Conferences"],
-                ["structure","Leagues"],["rankings","Rankings"],["contact","Submit Info"],["about","About"]].map(([key, label]) => (
+                ["structure","Leagues"],["rankings","Rankings"],["contact","Submit Program Info"],["player","Player Profile"],["about","About"]].map(([key, label]) => (
                 <button key={key} onClick={() => onNavigate(key)} style={linkStyle}>{label}</button>
               ))}
             </div>

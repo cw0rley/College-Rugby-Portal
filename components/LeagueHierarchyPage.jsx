@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Avatar from "./ui/Avatar.jsx";
+import SchoolLogo from "./ui/SchoolLogo.jsx";
 import Badge from "./ui/Badge.jsx";
 
 function dedupCount(progs) {
@@ -109,7 +110,7 @@ export default function LeagueHierarchyPage({ programs, conferences, onSelectPro
               <span style={{ fontSize: 24 }}>{icon}</span>
               <div>
                 <div style={{ fontSize: 22, fontWeight: 800 }}>{count}</div>
-                <div style={{ fontSize: 11, color: "#69BE28", textTransform: "uppercase",
+                <div style={{ fontSize: 11, color: "#00FF00", textTransform: "uppercase",
                   letterSpacing: "0.06em" }}>{label}</div>
               </div>
             </div>
@@ -127,7 +128,7 @@ export default function LeagueHierarchyPage({ programs, conferences, onSelectPro
         </span>
         <span style={{ color: "#cbd5e1" }}>→</span>
         <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ width: 12, height: 12, borderRadius: 3, background: "#69BE28", display: "inline-block" }} />
+          <span style={{ width: 12, height: 12, borderRadius: 3, background: "#00FF00", display: "inline-block" }} />
           Conference
         </span>
         <span style={{ color: "#cbd5e1" }}>→</span>
@@ -164,7 +165,7 @@ export default function LeagueHierarchyPage({ programs, conferences, onSelectPro
                 <span style={{
                   fontSize: 18, transition: "transform 0.2s", display: "inline-block",
                   transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)",
-                  color: isExpanded ? "#69BE28" : "#94a3b8",
+                  color: isExpanded ? "#00FF00" : "#94a3b8",
                 }}>▶</span>
                 <div style={{ flex: 1 }}>
                   <div style={{
@@ -173,12 +174,12 @@ export default function LeagueHierarchyPage({ programs, conferences, onSelectPro
                   }}>{league}</div>
                   <div style={{
                     fontSize: 12, marginTop: 3,
-                    color: isExpanded ? "#69BE28" : "#94a3b8",
+                    color: isExpanded ? "#00FF00" : "#94a3b8",
                   }}>
                     {confs.length} conference{confs.length !== 1 ? "s" : ""} · {dedupCount(leaguePrograms)} program{dedupCount(leaguePrograms) !== 1 ? "s" : ""}
                   </div>
                 </div>
-                <Badge label={`${dedupCount(leaguePrograms)} teams`} color={isExpanded ? "#69BE28" : "#0A1F44"} />
+                <Badge label={`${dedupCount(leaguePrograms)} teams`} color={isExpanded ? "#00FF00" : "#0A1F44"} />
               </div>
 
               {/* Conferences under this league */}
@@ -212,7 +213,7 @@ export default function LeagueHierarchyPage({ programs, conferences, onSelectPro
                           <span style={{
                             fontSize: 14, transition: "transform 0.2s", display: "inline-block",
                             transform: isConfExpanded ? "rotate(90deg)" : "rotate(0deg)",
-                            color: isConfExpanded ? "#69BE28" : "#cbd5e1",
+                            color: isConfExpanded ? "#00FF00" : "#cbd5e1",
                           }}>▶</span>
                           <Avatar name={conf.fullName || conf.conference} size={34} />
                           <div style={{ flex: 1, minWidth: 0 }}>
@@ -229,7 +230,7 @@ export default function LeagueHierarchyPage({ programs, conferences, onSelectPro
                             )}
                           </div>
                           <span style={{
-                            fontSize: 12, fontWeight: 700, color: "#69BE28",
+                            fontSize: 12, fontWeight: 700, color: "#00FF00",
                             background: "#ecfdf5", borderRadius: 20, padding: "3px 10px",
                             border: "1px solid #bbf7d0",
                           }}>
@@ -256,7 +257,7 @@ export default function LeagueHierarchyPage({ programs, conferences, onSelectPro
                                 onMouseEnter={e => e.currentTarget.style.background = "#f8fafc"}
                                 onMouseLeave={e => e.currentTarget.style.background = ""}
                               >
-                                <Avatar name={team.school} size={28} />
+                                <SchoolLogo program={team} size={28} />
                                 <div style={{ flex: 1, minWidth: 0 }}>
                                   <div style={{
                                     fontWeight: 600, fontSize: 13, color: "#0A1F44",
@@ -304,14 +305,14 @@ export default function LeagueHierarchyPage({ programs, conferences, onSelectPro
                             <span style={{
                               fontSize: 14, transition: "transform 0.2s", display: "inline-block",
                               transform: isConfExpanded ? "rotate(90deg)" : "rotate(0deg)",
-                              color: isConfExpanded ? "#69BE28" : "#cbd5e1",
+                              color: isConfExpanded ? "#00FF00" : "#cbd5e1",
                             }}>▶</span>
                             <Avatar name={confName} size={34} />
                             <div style={{ flex: 1 }}>
                               <div style={{ fontWeight: 700, fontSize: 14, color: "#0A1F44" }}>{confName}</div>
                             </div>
                             <span style={{
-                              fontSize: 12, fontWeight: 700, color: "#69BE28",
+                              fontSize: 12, fontWeight: 700, color: "#00FF00",
                               background: "#ecfdf5", borderRadius: 20, padding: "3px 10px",
                               border: "1px solid #bbf7d0",
                             }}>
@@ -331,7 +332,7 @@ export default function LeagueHierarchyPage({ programs, conferences, onSelectPro
                                   onMouseEnter={e => e.currentTarget.style.background = "#f8fafc"}
                                   onMouseLeave={e => e.currentTarget.style.background = ""}
                                 >
-                                  <Avatar name={team.school} size={28} />
+                                  <SchoolLogo program={team} size={28} />
                                   <div style={{ flex: 1, minWidth: 0 }}>
                                     <div style={{
                                       fontWeight: 600, fontSize: 13, color: "#0A1F44",
@@ -399,7 +400,7 @@ export default function LeagueHierarchyPage({ programs, conferences, onSelectPro
                     onMouseEnter={e => e.currentTarget.style.background = "#f8fafc"}
                     onMouseLeave={e => e.currentTarget.style.background = ""}
                   >
-                    <Avatar name={team.school} size={28} />
+                    <SchoolLogo program={team} size={28} />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{
                         fontWeight: 600, fontSize: 13, color: "#0A1F44",

@@ -1,34 +1,31 @@
 import React, { useState, useEffect, useRef } from "react";
 import { subscribeToMessages, sendMessage, markAsRead } from "../utils/messaging.js";
 
-export default function ConversationView({ conversationId, conversation, user, onBack }) {
+export default function ConversationView({ conversationId, conversation, user, onBack, containerHeight }) {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
-  const bottomRef = useRef(null);
-  const isMobile = Math.min(window.innerWidth, screen.width) <= 900;
+  const messagesRef = useRef(null);
 
-  // Determine the other participant
   const otherUid = conversation?.participants?.find(uid => uid !== user.uid);
   const otherInfo = conversation?.participantInfo?.[otherUid] || {};
   const otherName = otherInfo.name || "Unknown";
 
-  // Subscribe to messages
   useEffect(() => {
     if (!conversationId) return;
     const unsub = subscribeToMessages(conversationId, setMessages);
     return unsub;
   }, [conversationId]);
 
-  // Mark as read on mount and when new messages arrive
   useEffect(() => {
     if (!conversationId || !user) return;
     markAsRead(conversationId, user.uid).catch(() => {});
   }, [conversationId, user, messages.length]);
 
-  // Auto-scroll to bottom
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesRef.current) {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }
   }, [messages]);
 
   async function handleSend() {
@@ -54,8 +51,7 @@ export default function ConversationView({ conversationId, conversation, user, o
   function formatTime(ts) {
     if (!ts) return "";
     const date = ts.toDate ? ts.toDate() : new Date(ts.seconds * 1000);
-    const now = new Date();
-    const diff = now - date;
+    const diff = Date.now() - date;
     if (diff < 60000) return "Just now";
     if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
     if (diff < 86400000) return date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
@@ -63,15 +59,15 @@ export default function ConversationView({ conversationId, conversation, user, o
       date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
   }
 
+  // Messages area fills remaining space via flex
+
   return (
-    <div style={{
-      display: "flex", flexDirection: "column", height: "100%", minHeight: 0,
-    }}>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       {/* Header */}
       <div style={{
         padding: "12px 16px", borderBottom: "1px solid #E5E7EB",
-        display: "flex", alignItems: "center", gap: 12, flexShrink: 0,
-        background: "#fff",
+        display: "flex", alignItems: "center", gap: 12,
+        background: "#fff", height: 50, boxSizing: "border-box",
       }}>
         {onBack && (
           <button onClick={onBack} style={{
@@ -98,10 +94,10 @@ export default function ConversationView({ conversationId, conversation, user, o
         </div>
       </div>
 
-      {/* Messages area */}
-      <div style={{
-        flex: 1, overflowY: "auto", padding: 16, display: "flex",
-        flexDirection: "column", gap: 8, background: "#f8fafc",
+      {/* Messages area — fixed height */}
+      <div ref={messagesRef} style={{
+        flex: "1 1 0", minHeight: 0, overflowY: "auto", padding: 16,
+        display: "flex", flexDirection: "column", gap: 8, background: "#f8fafc",
       }}>
         {messages.length === 0 && (
           <div style={{ textAlign: "center", padding: "40px 20px", color: "#94a3b8", fontSize: 14 }}>
@@ -134,40 +130,33 @@ export default function ConversationView({ conversationId, conversation, user, o
             </div>
           );
         })}
-        <div ref={bottomRef} />
       </div>
 
-      {/* Input area */}
+      {/* Input area — fixed height */}
       <div style={{
         padding: 12, borderTop: "1px solid #E5E7EB", background: "#fff",
-        display: "flex", gap: 8, alignItems: "flex-end", flexShrink: 0,
+        display: "flex", gap: 8, alignItems: "center", height: 50, boxSizing: "border-box",
       }}>
-        <textarea
+        <input
           value={text}
           onChange={e => setText(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Type a message..."
-          rows={1}
           style={{
-            flex: 1, padding: "10px 14px", borderRadius: 10,
-            border: "1px solid #E5E7EB", fontSize: 14, resize: "none",
+            flex: 1, padding: "8px 14px", borderRadius: 10,
+            border: "1px solid #E5E7EB", fontSize: 14,
             outline: "none", color: "#0A1F44", fontFamily: "inherit",
-            maxHeight: 120, overflow: "auto", lineHeight: 1.4,
-          }}
-          onInput={e => {
-            e.target.style.height = "auto";
-            e.target.style.height = Math.min(e.target.scrollHeight, 120) + "px";
           }}
         />
         <button
           onClick={handleSend}
           disabled={!text.trim() || sending}
           style={{
-            padding: "10px 18px", borderRadius: 10, border: "none",
+            padding: "8px 18px", borderRadius: 10, border: "none",
             background: text.trim() ? "#0A1F44" : "#e2e8f0",
             color: text.trim() ? "#fff" : "#94a3b8",
             fontWeight: 700, fontSize: 14, cursor: text.trim() ? "pointer" : "default",
-            flexShrink: 0, transition: "background 0.15s",
+            flexShrink: 0,
           }}
         >
           Send

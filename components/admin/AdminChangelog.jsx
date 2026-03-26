@@ -16,6 +16,14 @@ export default function AdminChangelog() {
   const [lastDoc, setLastDoc] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [expanded, setExpanded] = useState(null);
+  const [sortCol, setSortCol] = useState("");
+  const [sortDir, setSortDir] = useState("asc");
+  const [filterText, setFilterText] = useState("");
+
+  function handleSort(col) {
+    if (sortCol === col) { setSortDir(d => d === "asc" ? "desc" : "asc"); }
+    else { setSortCol(col); setSortDir("asc"); }
+  }
 
   async function loadPage(after) {
     setLoading(true);
@@ -65,20 +73,62 @@ export default function AdminChangelog() {
         }}>Refresh</button>
       </div>
 
+      <div style={{ marginBottom:12 }}>
+        <input
+          value={filterText}
+          onChange={e => setFilterText(e.target.value)}
+          placeholder="Filter..."
+          style={{ padding:"9px 14px", borderRadius:8, border:"1px solid #E5E7EB",
+            fontSize:13, width:300, boxSizing:"border-box" }}
+        />
+      </div>
+
       <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #E5E7EB",
         boxShadow: "0 1px 3px rgba(0,0,0,0.06)", overflow: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
           <thead>
             <tr style={{ background: "#f8fafc", borderBottom: "2px solid #E5E7EB" }}>
-              {["Time", "User", "Action", "Collection", "Summary", ""].map(h => (
-                <th key={h} style={{ padding: "10px 14px", textAlign: "left", fontSize: 11,
+              {[["Time","timestamp"],["User","userEmail"],["Action","action"],["Collection","collection"],["Summary",null],["",null]].map(([h, col]) => (
+                <th key={h || "_expand"} onClick={col ? () => handleSort(col) : undefined} style={{ padding: "10px 14px", textAlign: "left", fontSize: 11,
                   fontWeight: 700, color: "#64748b", textTransform: "uppercase",
-                  letterSpacing: "0.05em", whiteSpace: "nowrap" }}>{h}</th>
+                  letterSpacing: "0.05em", whiteSpace: "nowrap",
+                  cursor: col ? "pointer" : "default", userSelect: col ? "none" : undefined,
+                }}>{h} {col && sortCol === col ? (sortDir === "asc" ? "\u25B2" : "\u25BC") : ""}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {entries.map(e => {
+            {(sortCol ? [...entries].filter(e => {
+              if (!filterText) return true;
+              const q = filterText.toLowerCase();
+              return (e.action || "").toLowerCase().includes(q) ||
+                (e.collection || "").toLowerCase().includes(q) ||
+                (e.userEmail || "").toLowerCase().includes(q) ||
+                summarizeData(e.data).toLowerCase().includes(q);
+            }).sort((a, b) => {
+              let av = a[sortCol], bv = b[sortCol];
+              if (sortCol === "timestamp") {
+                av = av?.toDate ? av.toDate() : av ? new Date(av) : null;
+                bv = bv?.toDate ? bv.toDate() : bv ? new Date(bv) : null;
+                if (av == null && bv == null) return 0;
+                if (av == null) return 1;
+                if (bv == null) return -1;
+                const cmp = av - bv;
+                return sortDir === "asc" ? cmp : -cmp;
+              }
+              if (av == null && bv == null) return 0;
+              if (av == null) return 1;
+              if (bv == null) return -1;
+              const cmp = typeof av === "number" ? av - bv : String(av).localeCompare(String(bv));
+              return sortDir === "asc" ? cmp : -cmp;
+            }) : entries.filter(e => {
+              if (!filterText) return true;
+              const q = filterText.toLowerCase();
+              return (e.action || "").toLowerCase().includes(q) ||
+                (e.collection || "").toLowerCase().includes(q) ||
+                (e.userEmail || "").toLowerCase().includes(q) ||
+                summarizeData(e.data).toLowerCase().includes(q);
+            })).map(e => {
               const style = ACTION_STYLES[e.action] || ACTION_STYLES.update;
               const isExpanded = expanded === e.id;
               return (

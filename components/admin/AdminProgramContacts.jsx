@@ -8,6 +8,14 @@ export default function AdminProgramContacts({ contacts, programs, onRefresh, us
   const [editForm, setEditForm] = useState({});
   const [newForm, setNewForm] = useState({ programId:"", contact:"", contactTitle:"", email:"" });
   const [saving, setSaving] = useState(false);
+  const [sortCol, setSortCol] = useState("");
+  const [sortDir, setSortDir] = useState("asc");
+  const [filterText, setFilterText] = useState("");
+
+  function handleSort(col) {
+    if (sortCol === col) { setSortDir(d => d === "asc" ? "desc" : "asc"); }
+    else { setSortCol(col); setSortDir("asc"); }
+  }
   const inp = { padding:"7px 10px", borderRadius:6, border:"1px solid #E5E7EB", fontSize:13, width:"100%", boxSizing:"border-box" };
   const lblStyle = { fontSize:11, fontWeight:700, color:"#64748b", display:"block", marginBottom:4 };
 
@@ -26,21 +34,21 @@ export default function AdminProgramContacts({ contacts, programs, onRefresh, us
     setSaving(true);
     const ref = await addDoc(collection(db, "programContacts"), { ...newForm });
     await logChange("add", "programContacts", ref.id, { ...newForm }, userEmail);
-    localStorage.removeItem("crp_cache_v4");
+    localStorage.removeItem("crp_cache_v5");
     setNewForm({ programId:"", contact:"", contactTitle:"", email:"" });
     setSaving(false); onRefresh();
   }
   async function handleUpdate(id) {
     await updateDoc(doc(db, "programContacts", id), editForm);
     await logChange("update", "programContacts", id, editForm, userEmail);
-    localStorage.removeItem("crp_cache_v4");
+    localStorage.removeItem("crp_cache_v5");
     setEditingId(null); onRefresh();
   }
   async function handleDelete(id) {
     const deleted = contacts.find(c => c.id === id);
     await deleteDoc(doc(db, "programContacts", id));
     await logChange("delete", "programContacts", id, deleted || {}, userEmail);
-    localStorage.removeItem("crp_cache_v4");
+    localStorage.removeItem("crp_cache_v5");
     onRefresh();
   }
 
@@ -76,18 +84,52 @@ export default function AdminProgramContacts({ contacts, programs, onRefresh, us
         </button>
       </div>
 
+      <div style={{ marginBottom:12 }}>
+        <input
+          value={filterText}
+          onChange={e => setFilterText(e.target.value)}
+          placeholder="Filter..."
+          style={{ padding:"9px 14px", borderRadius:8, border:"1px solid #E5E7EB",
+            fontSize:13, width:300, boxSizing:"border-box" }}
+        />
+      </div>
+
       <div style={{ background:"#fff", borderRadius:12, border:"1px solid #E5E7EB", overflow:"auto" }}>
         <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
           <thead>
             <tr style={{ background:"#f8fafc", borderBottom:"2px solid #E5E7EB" }}>
-              {["Program","Contact","Title","Email","Actions"].map(h => (
-                <th key={h} style={{ padding:"10px 14px", textAlign:"left", fontSize:11,
-                  fontWeight:700, color:"#64748b", textTransform:"uppercase", letterSpacing:"0.05em" }}>{h}</th>
+              {[["Program","programLabel"],["Contact","contact"],["Title","contactTitle"],["Email","email"],["Actions",null]].map(([h, col]) => (
+                <th key={h} onClick={col ? () => handleSort(col) : undefined} style={{ padding:"10px 14px", textAlign:"left", fontSize:11,
+                  fontWeight:700, color:"#64748b", textTransform:"uppercase", letterSpacing:"0.05em",
+                  cursor: col ? "pointer" : "default", userSelect: col ? "none" : undefined,
+                }}>{h} {col && sortCol === col ? (sortDir === "asc" ? "\u25B2" : "\u25BC") : ""}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {contacts.map(ct => {
+            {(sortCol ? [...contacts].filter(ct => {
+              if (!filterText) return true;
+              const q = filterText.toLowerCase();
+              return (programLabelMap[ct.programId] || "").toLowerCase().includes(q) ||
+                (ct.contact || "").toLowerCase().includes(q) ||
+                (ct.contactTitle || "").toLowerCase().includes(q) ||
+                (ct.email || "").toLowerCase().includes(q);
+            }).sort((a, b) => {
+              const av = sortCol === "programLabel" ? (programLabelMap[a.programId] || "") : a[sortCol];
+              const bv = sortCol === "programLabel" ? (programLabelMap[b.programId] || "") : b[sortCol];
+              if (av == null && bv == null) return 0;
+              if (av == null) return 1;
+              if (bv == null) return -1;
+              const cmp = typeof av === "number" ? av - bv : String(av).localeCompare(String(bv));
+              return sortDir === "asc" ? cmp : -cmp;
+            }) : contacts.filter(ct => {
+              if (!filterText) return true;
+              const q = filterText.toLowerCase();
+              return (programLabelMap[ct.programId] || "").toLowerCase().includes(q) ||
+                (ct.contact || "").toLowerCase().includes(q) ||
+                (ct.contactTitle || "").toLowerCase().includes(q) ||
+                (ct.email || "").toLowerCase().includes(q);
+            })).map(ct => {
               const isEditing = editingId === ct.id;
               return (
                 <React.Fragment key={ct.id}>

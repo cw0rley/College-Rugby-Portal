@@ -19,7 +19,10 @@ export default function MessagesPage({ user, activeConversationId, onConversatio
   const [selectedId, setSelectedId] = useState(null);
   const [showConversation, setShowConversation] = useState(false);
 
-  const isMobile = Math.min(window.innerWidth, screen.width) <= 900;
+  const isMobile = window.innerWidth <= 900;
+
+  // Scroll to top when Messages page loads
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   // Subscribe to conversations
   useEffect(() => {
@@ -49,13 +52,14 @@ export default function MessagesPage({ user, activeConversationId, onConversatio
               <div style={{
                 background: "#fff", borderRadius: 12, overflow: "hidden",
                 boxShadow: "0 1px 3px rgba(0,0,0,0.06)", border: "1px solid #E5E7EB",
-                height: "calc(100vh - 280px)", display: "flex", flexDirection: "column",
+                height: "calc(100vh - 400px)", display: "flex", flexDirection: "column",
               }}>
                 <ConversationView
                   conversationId={selectedId}
                   conversation={selectedConversation}
                   user={user}
                   onBack={() => { setShowConversation(false); setSelectedId(null); }}
+                  containerHeight={500}
                 />
               </div>
             );
@@ -134,7 +138,7 @@ export default function MessagesPage({ user, activeConversationId, onConversatio
           <div style={{
             display: "flex", gap: 0, background: "#fff", borderRadius: 12,
             overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
-            border: "1px solid #E5E7EB", height: "calc(100vh - 280px)", minHeight: 500,
+            border: "1px solid #E5E7EB", height: "calc(100vh - 400px)",
           }}>
             {/* Conversations list */}
             <div style={{
@@ -209,12 +213,13 @@ export default function MessagesPage({ user, activeConversationId, onConversatio
             </div>
 
             {/* Conversation view */}
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+            <div style={{ flex: 1, minWidth: 0, overflow: "hidden", height: "100%" }}>
               {selectedId && selectedConversation ? (
                 <ConversationView
                   conversationId={selectedId}
                   conversation={selectedConversation}
                   user={user}
+                  containerHeight={500}
                 />
               ) : (
                 <div style={{

@@ -47,9 +47,22 @@
         .crp-card-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
       }
     </style>
-    <script type="module" crossorigin src="/assets/index-BCvHfG_P.js"></script>
-  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+    <script type="module" crossorigin src="/assets/index-mkq9vIQD.js"></script>
+  </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
+    <script>
+      // Kill all service workers and clear all caches
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(regs) {
+          regs.forEach(function(r) { r.unregister(); });
+        });
+        if ('caches' in window) {
+          caches.keys().then(function(names) {
+            names.forEach(function(name) { caches.delete(name); });
+          });
+        }
+      }
+    </script>
   </body>
 </html>

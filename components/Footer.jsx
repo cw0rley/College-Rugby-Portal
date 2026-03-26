@@ -41,8 +41,8 @@ export default function Footer() {
               textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 14 }}>Contact</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
               <span>Questions or feedback?</span>
-              <a href="mailto:admin@claytonrugby.com" style={{ ...linkStyle, fontSize: 13 }}>
-                admin@claytonrugby.com
+              <a href="mailto:admin@collegerugbyportal.com" style={{ ...linkStyle, fontSize: 13 }}>
+                admin@collegerugbyportal.com
               </a>
               <span style={{ color: "#64748b" }}>
                 To update a program listing, use the Submit Info tab.

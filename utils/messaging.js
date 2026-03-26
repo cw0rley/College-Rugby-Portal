@@ -48,9 +48,19 @@ export async function markAsRead(conversationId, uid) {
 }
 
 export function subscribeToConversations(uid, callback) {
-  const q = query(collection(db, "conversations"), where("participants", "array-contains", uid), orderBy("lastMessageAt", "desc"));
+  // Try with ordering first, fall back to unordered if index doesn't exist
+  const q = query(collection(db, "conversations"), where("participants", "array-contains", uid));
   return onSnapshot(q, snap => {
-    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    const convs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    convs.sort((a, b) => {
+      const ta = a.lastMessageAt?.toDate?.() || new Date(0);
+      const tb = b.lastMessageAt?.toDate?.() || new Date(0);
+      return tb - ta;
+    });
+    callback(convs);
+  }, err => {
+    console.error("Conversations subscription error:", err);
+    callback([]);
   });
 }
 

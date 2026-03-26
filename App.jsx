@@ -130,13 +130,17 @@ export default function App() {
     if (userAccess?.assignedProgramIds) {
       userAccess.assignedProgramIds.forEach(id => ids.add(id));
     }
-    return [...ids];
+    const result = [...ids];
+    console.log("DEBUG coachProgramIds:", result, "userAccess:", userAccess?.assignedProgramIds, "emailMatch:", email);
+    return result;
   }, [user, programContacts, userAccess]);
 
   // Auto-grant coach status if user's email matches a Head Coach contact
+  // ONLY if email is verified (Google sign-in is always verified, email/password requires clicking the verification link)
   useEffect(() => {
     if (!user || !programContacts.length || !userAccess) return;
     if (userAccess.isCoach) return; // already a coach
+    if (!user.emailVerified) return; // must verify email first
     const email = user.email?.toLowerCase();
     if (!email) return;
     const isHeadCoach = programContacts.some(c =>
@@ -245,7 +249,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    const CACHE_KEY = "crp_cache_v4";
+    const CACHE_KEY = "crp_cache_v5";
     const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 
     async function fetchData() {
@@ -418,18 +422,18 @@ export default function App() {
     if (coachProgramIds.length > 0 || userAccess?.isCoach) {
       t.push({ to: "/coach", label: "My Program" });
     }
-    // Messages: coaches always, players only if they have a profile
-    if (userAccess?.isCoach || hasPlayerProfile) {
-      t.push({ to: "/messages", label: totalUnread > 0 ? `Messages (${totalUnread})` : "Messages" });
-    }
+    // Messages hidden for now
+    // if (userAccess?.isCoach || hasPlayerProfile) {
+    //   t.push({ to: "/messages", label: totalUnread > 0 ? `Messages (${totalUnread})` : "Messages" });
+    // }
     if (userAccess?.isCoach) {
       t.push({ to: "/directory", label: "Player Directory" });
     }
-    t.push(
-      { to: "/submit", label: "Submit Program Info" },
-      { to: "/player-profile", label: "Player Profile" },
-      { to: "/about", label: "About" },
-    );
+    t.push({ to: "/submit", label: "Submit Program Info" });
+    if (!userAccess?.isCoach) {
+      t.push({ to: "/player-profile", label: "Player Profile" });
+    }
+    t.push({ to: "/about", label: "About" });
     return t;
   }, [sorted.length, conferences.length, user, userAccess, hasPlayerProfile, favoriteIds.size, isFavoritesRoute, filtered, coachProgramIds.length, totalUnread]);
 
@@ -468,6 +472,35 @@ export default function App() {
 
   // Admin route — separate layout
   if (isAdminRoute) {
+    // Admin access: must be logged in AND have isAdmin flag
+    if (!user || !userAccess?.isAdmin) {
+      return (
+        <div style={{ minHeight: "100vh", background: "#f1f5f9",
+          fontFamily: "'Inter', system-ui, sans-serif", display: "flex",
+          alignItems: "center", justifyContent: "center" }}>
+          <div style={{ maxWidth: 400, textAlign: "center", background: "#fff",
+            borderRadius: 16, padding: 40, boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+            border: "1px solid #E5E7EB" }}>
+            <img src="/logo-icon.svg" alt="" style={{ width: 48, height: 48, marginBottom: 16 }} />
+            <h2 style={{ margin: "0 0 8px", color: "#0A1F44" }}>Admin Access Required</h2>
+            <p style={{ margin: "0 0 20px", color: "#64748b", fontSize: 14 }}>
+              {!user ? "Please sign in with an admin account." : "Your account does not have admin access."}
+            </p>
+            {!user ? (
+              <AuthGate user={user} title="" description="">
+                <div />
+              </AuthGate>
+            ) : (
+              <button onClick={() => navigate("/")} style={{
+                padding: "10px 24px", borderRadius: 8, border: "none",
+                background: "#0A1F44", color: "#fff", fontWeight: 600,
+                fontSize: 14, cursor: "pointer",
+              }}>Go to Home</button>
+            )}
+          </div>
+        </div>
+      );
+    }
     return (
       <div style={{ minHeight: "100vh", background: "#f1f5f9",
         fontFamily: "'Inter', system-ui, sans-serif", padding: "40px 24px" }}>
@@ -662,12 +695,7 @@ export default function App() {
                   }}>{label}</button>
                 ))}
               </div>
-              <button onClick={() => { trackExport(filtered.length); exportCSV(filtered); }} style={{
-                padding: "7px 16px", borderRadius: 8, border: "1px solid #e2e8f0",
-                background: "#fff", color: "#475569", cursor: "pointer",
-                fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center",
-                gap: 6, flex: isMobile ? 1 : "none",
-              }}>{"\u2B07"} Export Report ({filtered.length})</button>
+              {/* Export button hidden for now */}
             </div>
           </div>
 
@@ -760,8 +788,8 @@ export default function App() {
 
   // NavLink styling
   const navBaseStyle = {
-    padding: isMobile ? "10px 12px" : "10px 20px", borderRadius: 10, border: "none", cursor: "pointer",
-    fontWeight: 600, fontSize: isMobile ? 13 : 14, transition: "all 0.15s", textAlign: "center",
+    padding: isMobile ? "8px 10px" : "8px 14px", borderRadius: 8, border: "none", cursor: "pointer",
+    fontWeight: 600, fontSize: isMobile ? 12 : 13, transition: "all 0.15s", textAlign: "center",
     textDecoration: "none", display: "inline-block", whiteSpace: "nowrap", flexShrink: 0,
   };
   const navActiveStyle = {
@@ -886,8 +914,32 @@ export default function App() {
           </div>
         )}
 
+        {/* Email verification banner */}
+        {user && !user.emailVerified && user.providerData?.[0]?.providerId === "password" && (
+          <div style={{
+            display: "flex", alignItems: "center", gap: 12,
+            background: "#dbeafe", border: "1px solid #93c5fd",
+            borderRadius: 10, padding: "10px 16px", marginBottom: 16,
+            fontSize: 13, color: "#1e40af",
+          }}>
+            <span style={{ fontSize: 16 }}>📧</span>
+            <span style={{ flex: 1 }}>
+              Please check your email and click the verification link to activate your account.
+              {" "}
+              <button onClick={() => {
+                import("firebase/auth").then(({ sendEmailVerification }) => {
+                  sendEmailVerification(user).then(() => alert("Verification email sent!")).catch(() => alert("Could not send. Try again later."));
+                });
+              }} style={{
+                background: "none", border: "none", color: "#1e40af", fontWeight: 700,
+                cursor: "pointer", fontSize: 13, textDecoration: "underline", padding: 0,
+              }}>Resend verification email</button>
+            </span>
+          </div>
+        )}
+
         {/* Data disclaimer banner */}
-        {!disclaimerDismissed && (
+        {!disclaimerDismissed && !user && (
           <div style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",
             gap: 12, background: "#fffbeb", border: "1px solid #fde68a",

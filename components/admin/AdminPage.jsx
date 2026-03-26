@@ -34,6 +34,13 @@ export default function AdminPage() {
   const [confContactsList, setConfContactsList] = useState([]);
   const [progContactsList, setProgContactsList] = useState([]);
   const [pendingSubmissionsCount, setPendingSubmissionsCount] = useState(0);
+  const [sortCol, setSortCol] = useState("school");
+  const [sortDir, setSortDir] = useState("asc");
+
+  function handleSort(col) {
+    if (sortCol === col) { setSortDir(d => d === "asc" ? "desc" : "asc"); }
+    else { setSortCol(col); setSortDir("asc"); }
+  }
 
   useEffect(() => {
     getRedirectResult(auth).catch(() => {});
@@ -92,7 +99,22 @@ export default function AdminPage() {
       await updateDoc(doc(db, "programs", editing.id), data);
       await logChange("update", "programs", editing.id, data, user.email);
     }
-    localStorage.removeItem("crp_cache_v4");
+    // Sync shared fields to the matching program (same school, other gender)
+    if (data.school) {
+      const otherGender = data.gender === "mens" ? "womens" : "mens";
+      const match = programs.find(p => p.school === data.school && p.gender === otherGender);
+      if (match) {
+        const syncFields = {};
+        if (data.logoUrl && match.logoUrl !== data.logoUrl) syncFields.logoUrl = data.logoUrl;
+        if (data.usNewsRank && match.usNewsRank !== data.usNewsRank) syncFields.usNewsRank = data.usNewsRank;
+        if (data.usNewsUrl && match.usNewsUrl !== data.usNewsUrl) syncFields.usNewsUrl = data.usNewsUrl;
+        if (Object.keys(syncFields).length > 0) {
+          await updateDoc(doc(db, "programs", match.id), syncFields);
+          await logChange("update", "programs", match.id, { ...syncFields, reason: "auto-synced from " + data.gender }, user.email);
+        }
+      }
+    }
+    localStorage.removeItem("crp_cache_v5");
     setFormMode(null); setEditing(null);
     loadPrograms();
   }
@@ -107,7 +129,7 @@ export default function AdminPage() {
     }));
     await deleteDoc(doc(db, "programs", deleteTarget.id));
     await logChange("delete", "programs", deleteTarget.id, deleteTarget, user.email);
-    localStorage.removeItem("crp_cache_v4");
+    localStorage.removeItem("crp_cache_v5");
     setDeleteTarget(null); setDeleting(false);
     loadPrograms(); loadProgContacts();
   }
@@ -215,7 +237,7 @@ export default function AdminPage() {
       console.error("Import error:", err);
     }
     if (skipped > 0) console.log(`Import: skipped ${skipped} unchanged rows`);
-    localStorage.removeItem("crp_cache_v4");
+    localStorage.removeItem("crp_cache_v5");
     setImporting(false);
     setImportPreview(null);
     setImportStats({ added, updated });
@@ -248,11 +270,25 @@ export default function AdminPage() {
     </div>
   );
 
-  const filtered = programs.filter(p =>
-    !search || p.school?.toLowerCase().includes(search.toLowerCase()) ||
-    p.state?.toLowerCase().includes(search.toLowerCase()) ||
-    p.conference?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredUnsorted = programs.filter(p => {
+    if (!search) return true;
+    const q = search.toLowerCase();
+    return (p.school || "").toLowerCase().includes(q) ||
+      (p.city || "").toLowerCase().includes(q) ||
+      (p.state || "").toLowerCase().includes(q) ||
+      (p.gender || "").toLowerCase().includes(q) ||
+      (p.conference || "").toLowerCase().includes(q) ||
+      (p.league || "").toLowerCase().includes(q) ||
+      (p.ncaaDivision || "").toLowerCase().includes(q);
+  });
+  const filtered = sortCol ? [...filteredUnsorted].sort((a, b) => {
+    const av = a[sortCol], bv = b[sortCol];
+    if (av == null && bv == null) return 0;
+    if (av == null) return 1;
+    if (bv == null) return -1;
+    const cmp = typeof av === "number" ? av - bv : String(av).localeCompare(String(bv));
+    return sortDir === "asc" ? cmp : -cmp;
+  }) : filteredUnsorted;
 
   const adminLeagues = leaguesList.map(l => l.name);
   const adminConferences = conferencesList.map(c => ({ name: c.conference }));
@@ -439,7 +475,7 @@ export default function AdminPage() {
         <AdminSubmissions userEmail={user.email} programs={programs} onRefresh={loadPrograms} />
       )}
 
-      {adminTab === "users" && <AdminUsers programs={programs} />}
+      {adminTab === "users" && <AdminUsers programs={programs} programContacts={progContactsList} />}
 
       {adminTab === "changelog" && <AdminChangelog />}
 
@@ -475,10 +511,12 @@ export default function AdminPage() {
               <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
                 <thead>
                   <tr style={{ background:"#f8fafc", borderBottom:"2px solid #E5E7EB" }}>
-                    {["School","State","Gender","Conference","Scholarship","Actions"].map(h => (
-                      <th key={h} style={{ padding:"10px 14px", textAlign:"left", fontSize:11,
+                    {[["School","school"],["State","state"],["Gender","gender"],["Conference","conference"],["Scholarship","rugbyScholarship"],["Actions",null]].map(([h, col]) => (
+                      <th key={h} onClick={col ? () => handleSort(col) : undefined} style={{ padding:"10px 14px", textAlign:"left", fontSize:11,
                         fontWeight:700, color:"#64748b", textTransform:"uppercase",
-                        letterSpacing:"0.05em", whiteSpace:"nowrap" }}>{h}</th>
+                        letterSpacing:"0.05em", whiteSpace:"nowrap",
+                        cursor: col ? "pointer" : "default", userSelect: col ? "none" : undefined,
+                      }}>{h} {col && sortCol === col ? (sortDir === "asc" ? "\u25B2" : "\u25BC") : ""}</th>
                     ))}
                   </tr>
                 </thead>

@@ -1,0 +1,1 @@
+import{b as r,c as l,d as s,a as i}from"./index-mkq9vIQD.js";async function m(a,o,e,t,c){try{await r(l(s,"changelog"),{action:a,collection:o,docId:e||null,data:t||{},userEmail:c||"unknown",timestamp:i()})}catch(n){console.error("Failed to write changelog entry:",n)}}export{m as l};

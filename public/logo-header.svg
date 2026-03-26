@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="0.378125"
-     inkscape:cx="360.99174"
-     inkscape:cy="271.07438"
+     inkscape:zoom="0.75625"
+     inkscape:cx="252.56198"
+     inkscape:cy="348.42975"
      inkscape:window-width="1350"
      inkscape:window-height="864"
      inkscape:window-x="182"
@@ -59,9 +59,8 @@
      id="text6801"
      style="fill:#00ff00">Connect. Get Recruited. Play.</text>
   <g
-     id="g259"
-     transform="matrix(0.69110364,0,0,0.69110364,-108.82208,-68.270846)">
-    <!-- Outer portal arrows -->
+     id="g6493"
+     transform="matrix(0.71110373,0,0,0.71110373,-131.7122,-73.975846)">
     <path
        d="M 409.5,557.54 A 205,205 0 1 1 716.22,362.13"
        fill="none"
@@ -71,7 +70,7 @@
        id="path221"
        style="stroke:#00ff00" />
     <polygon
-       points="383.52,542.54 407.59,581.84 429.59,543.73 "
+       points="407.59,581.84 429.59,543.73 383.52,542.54 "
        fill="#69be28"
        id="polygon223" />
     <path
@@ -83,18 +82,16 @@
        id="path225"
        style="stroke:#00ff00" />
     <polygon
-       points="505.95,172.9 462.24,158.27 469.88,201.6 "
+       points="462.24,158.27 469.88,201.6 505.95,172.9 "
        fill="#69BE28"
        id="polygon227"
        style="fill:#00ff00" />
-    <!-- Inner disc -->
     <circle
        cx="512"
        cy="380"
        r="158"
        fill="#0f214a"
        id="circle229" />
-    <!-- Inner motion arcs -->
     <path
        d="M 409.47,277.47 A 145,145 0 0 1 605.2,268.92"
        fill="none"
@@ -104,7 +101,7 @@
        id="path231"
        style="stroke:#0071e2;stroke-opacity:1" />
     <polygon
-       points="622.06,283.06 608.3,253.25 590.31,274.7 "
+       points="608.3,253.25 590.31,274.7 622.06,283.06 "
        fill="#244B86"
        id="polygon233"
        style="fill:#3b79d8;fill-opacity:1" />
@@ -117,7 +114,7 @@
        id="path235"
        style="fill:none;fill-opacity:1;stroke:#2f5eb0;stroke-opacity:1" />
     <polygon
-       points="386.78,456.35 395.15,488.1 416.6,470.1 "
+       points="395.15,488.1 416.6,470.1 386.78,456.35 "
        fill="#1B3767"
        id="polygon237"
        style="fill:#2f5eb0;fill-opacity:1" />
@@ -129,81 +126,76 @@
        stroke-linecap="butt"
        id="path239"
        style="stroke:#3570c8;stroke-opacity:1" />
-    <!-- Rugby ball -->
-    <g
-       transform="rotate(-38,807.80007,-553.47798)"
-       id="g257">
-      <ellipse
-         fill="#f4f4f4"
-         id="ellipse241"
-         ry="77.318489"
-         rx="105.23429"
-         cy="0"
-         cx="0" />
-      <ellipse
-         fill="#d9dde4"
-         opacity="0.9"
-         id="ellipse243"
-         transform="matrix(0.99831685,-0.05799532,-0.05636784,0.99841007,0,0)"
-         style="stroke-width:1.21097"
-         ry="62.266708"
-         rx="94.830055"
-         cy="0.75115389"
-         cx="2.4163971" />
-      <path
-         d="m -60.192655,-12.344699 q 62.999999,-37.2 131.25,0"
-         fill="none"
-         stroke="#002244"
-         stroke-width="9"
-         stroke-linecap="round"
-         id="path245" />
-      <path
-         d="m -55.992655,5.6553015 q 58.799999,43.1999995 121.8,0"
-         fill="none"
-         stroke="#002244"
-         stroke-width="8"
-         stroke-linecap="round"
-         id="path247" />
-      <line
-         x1="-15.192656"
-         y1="-3.3446989"
-         x2="20.807344"
-         y2="-3.3446989"
-         stroke="#69be28"
-         stroke-width="8"
-         stroke-linecap="round"
-         id="line249"
-         style="fill:#00ff00;stroke:#00ff00" />
-      <line
-         x1="-7.192656"
-         y1="-14.344699"
-         x2="-7.192656"
-         y2="7.6553006"
-         stroke="#69be28"
-         stroke-width="6"
-         stroke-linecap="round"
-         id="line251"
-         style="fill:#00ff00;stroke:#00ff00" />
-      <line
-         x1="2.8073449"
-         y1="-14.344699"
-         x2="2.8073449"
-         y2="7.6553006"
-         stroke="#69be28"
-         stroke-width="6"
-         stroke-linecap="round"
-         id="line253"
-         style="fill:#00ff00;stroke:#00ff00" />
-      <line
-         x1="12.807344"
-         y1="-14.344699"
-         x2="12.807344"
-         y2="7.6553006"
-         stroke="#69be28"
-         stroke-width="6"
-         stroke-linecap="round"
-         id="line255"
-         style="fill:#00ff00;stroke:#00ff00" />
-    </g>
+    <ellipse
+       fill="#f4f4f4"
+       id="ellipse241"
+       ry="77.318489"
+       rx="105.23429"
+       cy="614.66278"
+       cx="169.51015"
+       transform="rotate(-38)" />
+    <ellipse
+       fill="#f4f4f4"
+       id="ellipse4719"
+       ry="62.083992"
+       rx="84.875053"
+       cy="613.48181"
+       cx="166.66022"
+       style="fill:#999999;stroke-width:0.804747"
+       transform="matrix(0.79344466,-0.6086424,0.62266291,0.78249019,0,0)" />
+    <path
+       d="m 478.29892,425.44895 q 72.93161,-2.15883 95.97971,-74.98757"
+       fill="none"
+       stroke="#002244"
+       stroke-width="8"
+       stroke-linecap="round"
+       id="path247" />
+    <path
+       d="m 456.36467,396.99326 q 24.44228,-62.37438 94.53183,-74.01098"
+       fill="none"
+       stroke="#002244"
+       stroke-width="8.23462"
+       stroke-linecap="round"
+       id="path245" />
+    <line
+       x1="497.96881"
+       y1="386.71786"
+       x2="526.33722"
+       y2="364.55408"
+       stroke="#69be28"
+       stroke-width="8"
+       stroke-linecap="round"
+       id="line249"
+       style="fill:#00ff00;stroke:#00ff00" />
+    <line
+       x1="497.50064"
+       y1="373.12448"
+       x2="511.04517"
+       y2="390.46069"
+       stroke="#69be28"
+       stroke-width="6"
+       stroke-linecap="round"
+       id="line251"
+       style="fill:#00ff00;stroke:#00ff00" />
+    <line
+       x1="505.38074"
+       y1="366.96786"
+       x2="518.92529"
+       y2="384.30408"
+       stroke="#69be28"
+       stroke-width="6"
+       stroke-linecap="round"
+       id="line253"
+       style="fill:#00ff00;stroke:#00ff00" />
+    <line
+       x1="513.26086"
+       y1="360.81125"
+       x2="526.80542"
+       y2="378.14746"
+       stroke="#69be28"
+       stroke-width="6"
+       stroke-linecap="round"
+       id="line255"
+       style="fill:#00ff00;stroke:#00ff00" />
   </g>
 </svg>

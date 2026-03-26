@@ -142,7 +142,11 @@ export default function ProgramModal({ program, confNameMap = {}, onClose, isFav
           {/* Contacts */}
           {contacts.length > 0 && (
             <div style={{ borderTop: "1px solid #E5E7EB", paddingTop: 14 }}>
-              {contacts.map((ct, i) => (
+              {[...contacts].sort((a, b) => {
+                const aHead = (a.title || "").toLowerCase().includes("head coach") ? 0 : 1;
+                const bHead = (b.title || "").toLowerCase().includes("head coach") ? 0 : 1;
+                return aHead - bHead;
+              }).map((ct, i) => (
                 <div key={i} style={{ marginBottom: i < contacts.length - 1 ? 16 : 0 }}>
                   {ct.title && (
                     <div style={{ fontSize: 11, fontWeight: 700, color: "#64748b",
@@ -157,27 +161,7 @@ export default function ProgramModal({ program, confNameMap = {}, onClose, isFav
                       marginTop: 2, wordBreak: "break-all",
                     }}>{ct.email}</a>
                   )}
-                  {/* Message button: show if user is logged in, has a player profile (not a coach for this program), and contact has email */}
-                  {user && ct.email && onOpenMessage && !coachProgramIds.includes(program.id) && (
-                    <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        // Use the contact name, or fallback to email
-                        const contactName = ct.name || ct.email;
-                        onOpenMessage(ct.email, contactName, "coach", program.id);
-                      }}
-                      style={{
-                        marginTop: 6, padding: "5px 12px", borderRadius: 6, border: "none",
-                        background: "#0A1F44", color: "#fff", fontWeight: 600, fontSize: 11,
-                        cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 4,
-                      }}
-                    >
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                      </svg>
-                      Message
-                    </button>
-                  )}
+                  {/* Message button - hidden for now */}
                 </div>
               ))}
             </div>
@@ -202,6 +186,13 @@ export default function ProgramModal({ program, confNameMap = {}, onClose, isFav
             <StatRow label="Avg SAT" value={program.sat ? program.sat.toFixed(0) : null} />
             <StatRow label="Acceptance Rate" value={program.acceptanceRate ? `${program.acceptanceRate}%` : null} />
             <StatRow label="Enrollment" value={program.enrollment ? program.enrollment.toLocaleString() : null} />
+            {program.usNewsRank && (
+              <StatRow label="US News Rank" value={
+                program.usNewsUrl
+                  ? <a href={program.usNewsUrl} target="_blank" rel="noreferrer" style={{ color: "#00CC00", textDecoration: "none", fontWeight: 600 }}>#{program.usNewsRank}</a>
+                  : `#${program.usNewsRank}`
+              } />
+            )}
           </div>
           {program.topPrograms && (
             <div style={{ marginTop: 8, fontSize: 13, color: "#475569", lineHeight: 1.6 }}>

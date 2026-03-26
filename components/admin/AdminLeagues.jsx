@@ -15,20 +15,20 @@ export default function AdminLeagues({ leagues, onRefresh, userEmail }) {
     setSaving(true);
     const ref = await addDoc(collection(db, "leagues"), { name: newName.trim() });
     await logChange("add", "leagues", ref.id, { name: newName.trim() }, userEmail);
-    localStorage.removeItem("crp_cache_v4");
+    localStorage.removeItem("crp_cache_v5");
     setNewName(""); setSaving(false); onRefresh();
   }
   async function handleUpdate(id) {
     await updateDoc(doc(db, "leagues", id), { name: editName.trim() });
     await logChange("update", "leagues", id, { name: editName.trim() }, userEmail);
-    localStorage.removeItem("crp_cache_v4");
+    localStorage.removeItem("crp_cache_v5");
     setEditingId(null); onRefresh();
   }
   async function handleDeleteLeague(id) {
     const deleted = leagues.find(l => l.id === id);
     await deleteDoc(doc(db, "leagues", id));
     await logChange("delete", "leagues", id, deleted || {}, userEmail);
-    localStorage.removeItem("crp_cache_v4");
+    localStorage.removeItem("crp_cache_v5");
     onRefresh();
   }
 

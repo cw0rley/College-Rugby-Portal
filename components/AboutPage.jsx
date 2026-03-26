@@ -46,8 +46,14 @@ export default function AboutPage() {
         <h3 style={{ margin: "0 0 12px", fontSize: 16, fontWeight: 700, color: "#0A1F44" }}>Who Runs This?</h3>
         <p style={{ margin: "0 0 12px", fontSize: 14, color: "#475569", lineHeight: 1.8 }}>
           College Rugby Portal is maintained by a small team of rugby enthusiasts and former players
-          passionate about growing the sport at the collegiate level. We are not affiliated with USA Rugby,
-          World Rugby, or any individual program.
+          who believe the path to a stronger USA Rugby starts with building a robust collegiate system.
+        </p>
+        <p style={{ margin: "0 0 12px", fontSize: 14, color: "#475569", lineHeight: 1.8 }}>
+          We are passionate about expanding opportunities in college rugby and advocating for
+          men's rugby to become an NCAA sport.
+        </p>
+        <p style={{ margin: "0 0 12px", fontSize: 14, color: "#475569", lineHeight: 1.8 }}>
+          We are not affiliated with USA Rugby, World Rugby, or any individual program.
         </p>
         <p style={{ margin: 0, fontSize: 14, color: "#475569", lineHeight: 1.8 }}>
           Data is sourced from publicly available information and direct submissions from coaches and

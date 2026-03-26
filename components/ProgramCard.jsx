@@ -72,7 +72,14 @@ export default function ProgramCard({ program, onClick, isComparing, onToggleCom
         {program.gpa && <StatPill label="GPA" value={program.gpa?.toFixed(2)} />}
         {program.sat && <StatPill label="SAT" value={program.sat?.toFixed(0)} />}
         {program.inStateTuition && <StatPill label="In-State" value={`$${(program.inStateTuition/1000).toFixed(0)}k`} />}
-        {program.rugbyRanking && <StatPill label="Ranking" value={`#${program.rugbyRanking}`} />}
+        {program.rugbyRanking && <StatPill label="Rugby Rank" value={`#${program.rugbyRanking}`} />}
+        {program.usNewsRank && (
+          program.usNewsUrl
+            ? <a href={program.usNewsUrl} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} style={{ textDecoration: "none" }}>
+                <StatPill label="US News" value={`#${program.usNewsRank}`} />
+              </a>
+            : <StatPill label="US News" value={`#${program.usNewsRank}`} />
+        )}
       </div>
 
       {/* Compare checkbox */}
@@ -106,7 +113,11 @@ export default function ProgramCard({ program, onClick, isComparing, onToggleCom
       {contacts.length > 0 && (
         <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #f1f5f9",
           display: "flex", gap: 14, flexWrap: "wrap" }}>
-          {contacts.map((ct, i) => (
+          {[...contacts].sort((a, b) => {
+            const aHead = (a.title || "").toLowerCase().includes("head coach") ? 0 : 1;
+            const bHead = (b.title || "").toLowerCase().includes("head coach") ? 0 : 1;
+            return aHead - bHead;
+          }).map((ct, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#64748b" }}>
               <span>👤</span>
               <span style={{ fontWeight: 600, color: "#475569" }}>{ct.name}</span>

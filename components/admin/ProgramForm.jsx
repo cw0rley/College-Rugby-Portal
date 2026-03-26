@@ -125,6 +125,12 @@ export default function ProgramForm({ initial, onSave, onCancel, leagues = [], c
         {group("Rugby Website","rugbyWebsite","url")}
       </div>
       <div style={{ fontWeight:700, fontSize:12, color:"#94a3b8", textTransform:"uppercase",
+        letterSpacing:"0.06em", margin:"16px 0 10px" }}>📊 US News</div>
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:12 }}>
+        {group("US News Rank","usNewsRank","number")}
+        {group("US News URL","usNewsUrl","url")}
+      </div>
+      <div style={{ fontWeight:700, fontSize:12, color:"#94a3b8", textTransform:"uppercase",
         letterSpacing:"0.06em", margin:"16px 0 10px" }}>🖼 Logo</div>
       <div style={{ display:"flex", gap:16, alignItems:"flex-start", marginBottom:12 }}>
         {form.logoUrl && (

@@ -2,13 +2,20 @@ import React, { useState, useEffect } from "react";
 import { collection, getDocs, doc, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase.js";
 
-export default function AdminUsers({ programs = [] }) {
+export default function AdminUsers({ programs = [], programContacts = [] }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filterRole, setFilterRole] = useState("all");
   const [expandedId, setExpandedId] = useState(null);
   const [programSearch, setProgramSearch] = useState("");
+  const [sortCol, setSortCol] = useState("");
+  const [sortDir, setSortDir] = useState("asc");
+
+  function handleSort(col) {
+    if (sortCol === col) { setSortDir(d => d === "asc" ? "desc" : "asc"); }
+    else { setSortCol(col); setSortDir("asc"); }
+  }
 
   async function loadUsers() {
     setLoading(true);
@@ -30,6 +37,11 @@ export default function AdminUsers({ programs = [] }) {
     const updates = { isCoach: !isCoach, approved: !isCoach };
     if (isCoach) updates.assignedProgramIds = []; // clear assignments when removing coach
     await setDoc(doc(db, "users", uid), updates, { merge: true });
+    loadUsers();
+  }
+
+  async function toggleAdmin(uid, isAdmin) {
+    await setDoc(doc(db, "users", uid), { isAdmin: !isAdmin }, { merge: true });
     loadUsers();
   }
 
@@ -102,9 +114,11 @@ export default function AdminUsers({ programs = [] }) {
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
           <thead>
             <tr style={{ background: "#f8fafc", borderBottom: "2px solid #E5E7EB" }}>
-              {["Email", "Display Name", "Role", "Programs", "Actions"].map(h => (
-                <th key={h} style={{ padding: "10px 14px", textAlign: "left", fontSize: 11,
-                  fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.05em" }}>{h}</th>
+              {[["Email","email"],["Display Name","displayName"],["Role","isCoach"],["Programs",null],["Actions",null]].map(([h, col]) => (
+                <th key={h} onClick={col ? () => handleSort(col) : undefined} style={{ padding: "10px 14px", textAlign: "left", fontSize: 11,
+                  fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.05em",
+                  cursor: col ? "pointer" : "default", userSelect: col ? "none" : undefined,
+                }}>{h} {col && sortCol === col ? (sortDir === "asc" ? "\u25B2" : "\u25BC") : ""}</th>
               ))}
             </tr>
           </thead>
@@ -115,7 +129,14 @@ export default function AdminUsers({ programs = [] }) {
               <tr><td colSpan={5} style={{ padding: 40, textAlign: "center", color: "#94a3b8" }}>
                 {users.length === 0 ? "No users yet. Users appear here when they sign in." : "No matching users."}
               </td></tr>
-            ) : filtered.map(u => {
+            ) : (sortCol ? [...filtered].sort((a, b) => {
+              const av = a[sortCol], bv = b[sortCol];
+              if (av == null && bv == null) return 0;
+              if (av == null) return 1;
+              if (bv == null) return -1;
+              const cmp = typeof av === "number" || typeof av === "boolean" ? Number(av) - Number(bv) : String(av).localeCompare(String(bv));
+              return sortDir === "asc" ? cmp : -cmp;
+            }) : filtered).map(u => {
               const isExpanded = expandedId === u.id;
               const assignedIds = u.assignedProgramIds || [];
               return (
@@ -132,12 +153,34 @@ export default function AdminUsers({ programs = [] }) {
                         color: u.isCoach ? "#00CC00" : "#94a3b8",
                         border: `1px solid ${u.isCoach ? "rgba(0,204,0,0.3)" : "rgba(148,163,184,0.3)"}`,
                       }}>{u.isCoach ? "Coach" : "User"}</span>
+                      {u.isAdmin && (
+                        <span style={{
+                          padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700,
+                          background: "rgba(26,86,219,0.1)", color: "#1a56db",
+                          border: "1px solid rgba(26,86,219,0.3)", marginLeft: 4,
+                        }}>Admin</span>
+                      )}
                     </td>
                     <td style={{ padding: "10px 14px", color: "#475569", fontSize: 12 }}>
-                      {u.isCoach && assignedIds.length > 0
-                        ? assignedIds.map(id => getProgramLabel(id)).join(", ")
-                        : u.isCoach ? <span style={{ color: "#f59e0b" }}>No programs assigned</span> : "—"
-                      }
+                      {(() => {
+                        // Combine admin-assigned programs + email-matched programs
+                        const emailMatchIds = u.email
+                          ? [...new Set(programContacts.filter(c => c.email?.toLowerCase() === u.email.toLowerCase()).map(c => c.programId))]
+                          : [];
+                        const allIds = [...new Set([...assignedIds, ...emailMatchIds])];
+                        if (!u.isCoach) return "—";
+                        if (allIds.length === 0) return <span style={{ color: "#f59e0b" }}>No programs</span>;
+                        return allIds.map(id => {
+                          const label = getProgramLabel(id);
+                          const isEmailMatch = emailMatchIds.includes(id) && !assignedIds.includes(id);
+                          return (
+                            <span key={id}>
+                              {label}
+                              {isEmailMatch && <span style={{ fontSize: 10, color: "#94a3b8" }}> (email match)</span>}
+                            </span>
+                          );
+                        }).reduce((prev, curr) => [prev, ", ", curr]);
+                      })()}
                     </td>
                     <td style={{ padding: "10px 14px" }} onClick={e => e.stopPropagation()}>
                       <div style={{ display: "flex", gap: 8 }}>
@@ -147,6 +190,12 @@ export default function AdminUsers({ programs = [] }) {
                           color: u.isCoach ? "#dc2626" : "#00CC00",
                           fontWeight: 600, fontSize: 12, cursor: "pointer",
                         }}>{u.isCoach ? "Remove Coach" : "Make Coach"}</button>
+                        <button onClick={() => toggleAdmin(u.id, u.isAdmin)} style={{
+                          padding: "5px 12px", borderRadius: 6, border: "1px solid #E5E7EB",
+                          background: u.isAdmin ? "#fee2e2" : "#dbeafe",
+                          color: u.isAdmin ? "#dc2626" : "#1a56db",
+                          fontWeight: 600, fontSize: 12, cursor: "pointer",
+                        }}>{u.isAdmin ? "Remove Admin" : "Make Admin"}</button>
                         <button onClick={() => removeUser(u.id)} style={{
                           padding: "5px 12px", borderRadius: 6, border: "none",
                           background: "#fee2e2", color: "#dc2626",

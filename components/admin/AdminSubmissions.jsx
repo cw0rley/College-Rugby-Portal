@@ -9,6 +9,14 @@ export default function AdminSubmissions({ userEmail, programs = [], onRefresh }
   const [filter, setFilter] = useState("pending");
   const [expandedId, setExpandedId] = useState(null);
   const [acting, setActing] = useState(null);
+  const [sortCol, setSortCol] = useState("");
+  const [sortDir, setSortDir] = useState("asc");
+  const [searchText, setSearchText] = useState("");
+
+  function handleSort(col) {
+    if (sortCol === col) { setSortDir(d => d === "asc" ? "desc" : "asc"); }
+    else { setSortCol(col); setSortDir("asc"); }
+  }
 
   function loadSubmissions() {
     setLoading(true);
@@ -104,7 +112,7 @@ export default function AdminSubmissions({ userEmail, programs = [], onRefresh }
       await logChange("update", "submissions", sub.id, { status: "approved", school: sub.school }, userEmail);
 
       // Clear cache so main site picks up changes
-      localStorage.removeItem("crp_cache_v4");
+      localStorage.removeItem("crp_cache_v5");
       loadSubmissions();
       if (onRefresh) onRefresh();
     } catch (err) {
@@ -126,7 +134,16 @@ export default function AdminSubmissions({ userEmail, programs = [], onRefresh }
     setActing(null);
   }
 
-  const displayed = filter === "all" ? submissions : submissions.filter(s => (s.status || "pending") === filter);
+  const displayed = (filter === "all" ? submissions : submissions.filter(s => (s.status || "pending") === filter))
+    .filter(s => {
+      if (!searchText) return true;
+      const q = searchText.toLowerCase();
+      return (s.name || "").toLowerCase().includes(q) ||
+        (s.school || "").toLowerCase().includes(q) ||
+        (s.email || "").toLowerCase().includes(q) ||
+        (s.details || "").toLowerCase().includes(q) ||
+        (s.requestType || "").toLowerCase().includes(q);
+    });
 
   const statusBadge = (status) => {
     const s = status || "pending";
@@ -162,6 +179,13 @@ export default function AdminSubmissions({ userEmail, programs = [], onRefresh }
             color: filter === key ? "#fff" : "#475569",
           }}>{label}</button>
         ))}
+        <input
+          value={searchText}
+          onChange={e => setSearchText(e.target.value)}
+          placeholder="Filter..."
+          style={{ padding:"9px 14px", borderRadius:8, border:"1px solid #E5E7EB",
+            fontSize:13, width:300, boxSizing:"border-box" }}
+        />
         <span style={{ fontSize: 13, color: "#64748b", alignSelf: "center", marginLeft: 8 }}>
           {displayed.length} submission{displayed.length !== 1 ? "s" : ""}
         </span>
@@ -180,17 +204,35 @@ export default function AdminSubmissions({ userEmail, programs = [], onRefresh }
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ background: "#f8fafc", borderBottom: "2px solid #E5E7EB" }}>
-                {["Date", "Submitter", "School", "Type", "Status", "Actions"].map(h => (
-                  <th key={h} style={{
+                {[["Date","submittedAt"],["Submitter","name"],["School","school"],["Type","requestType"],["Status","status"],["Actions",null]].map(([h, col]) => (
+                  <th key={h} onClick={col ? () => handleSort(col) : undefined} style={{
                     padding: "10px 14px", textAlign: "left", fontSize: 11,
                     fontWeight: 700, color: "#64748b", textTransform: "uppercase",
                     letterSpacing: "0.05em", whiteSpace: "nowrap",
-                  }}>{h}</th>
+                    cursor: col ? "pointer" : "default", userSelect: col ? "none" : undefined,
+                  }}>{h} {col && sortCol === col ? (sortDir === "asc" ? "\u25B2" : "\u25BC") : ""}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {displayed.map(sub => {
+              {(sortCol ? [...displayed].sort((a, b) => {
+                let av = a[sortCol], bv = b[sortCol];
+                if (sortCol === "submittedAt") {
+                  av = av?.toDate ? av.toDate() : av ? new Date(av) : null;
+                  bv = bv?.toDate ? bv.toDate() : bv ? new Date(bv) : null;
+                  if (av == null && bv == null) return 0;
+                  if (av == null) return 1;
+                  if (bv == null) return -1;
+                  const cmp = av - bv;
+                  return sortDir === "asc" ? cmp : -cmp;
+                }
+                if (sortCol === "status") { av = av || "pending"; bv = bv || "pending"; }
+                if (av == null && bv == null) return 0;
+                if (av == null) return 1;
+                if (bv == null) return -1;
+                const cmp = typeof av === "number" ? av - bv : String(av).localeCompare(String(bv));
+                return sortDir === "asc" ? cmp : -cmp;
+              }) : displayed).map(sub => {
                 const isExpanded = expandedId === sub.id;
                 const status = sub.status || "pending";
                 const matchedProgram = programs.find(p => p.school?.toLowerCase() === sub.school?.toLowerCase());

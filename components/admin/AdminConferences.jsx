@@ -8,6 +8,14 @@ export default function AdminConferences({ conferences, onRefresh, userEmail }) 
   const [editForm, setEditForm] = useState({});
   const [newForm, setNewForm] = useState({ conference:"", fullName:"", notes:"" });
   const [saving, setSaving] = useState(false);
+  const [sortCol, setSortCol] = useState("");
+  const [sortDir, setSortDir] = useState("asc");
+  const [filterText, setFilterText] = useState("");
+
+  function handleSort(col) {
+    if (sortCol === col) { setSortDir(d => d === "asc" ? "desc" : "asc"); }
+    else { setSortCol(col); setSortDir("asc"); }
+  }
   const inp = { padding:"7px 10px", borderRadius:6, border:"1px solid #E5E7EB", fontSize:13, width:"100%", boxSizing:"border-box" };
   const lblStyle = { fontSize:11, fontWeight:700, color:"#64748b", display:"block", marginBottom:4 };
 
@@ -16,21 +24,21 @@ export default function AdminConferences({ conferences, onRefresh, userEmail }) 
     setSaving(true);
     const ref = await addDoc(collection(db, "conferences"), { ...newForm });
     await logChange("add", "conferences", ref.id, { ...newForm }, userEmail);
-    localStorage.removeItem("crp_cache_v4");
+    localStorage.removeItem("crp_cache_v5");
     setNewForm({ conference:"", fullName:"", notes:"" });
     setSaving(false); onRefresh();
   }
   async function handleUpdate(id) {
     await updateDoc(doc(db, "conferences", id), editForm);
     await logChange("update", "conferences", id, editForm, userEmail);
-    localStorage.removeItem("crp_cache_v4");
+    localStorage.removeItem("crp_cache_v5");
     setEditingId(null); onRefresh();
   }
   async function handleDeleteConf(id) {
     const deleted = conferences.find(c => c.id === id);
     await deleteDoc(doc(db, "conferences", id));
     await logChange("delete", "conferences", id, deleted || {}, userEmail);
-    localStorage.removeItem("crp_cache_v4");
+    localStorage.removeItem("crp_cache_v5");
     onRefresh();
   }
 
@@ -59,18 +67,49 @@ export default function AdminConferences({ conferences, onRefresh, userEmail }) 
         </button>
       </div>
 
+      <div style={{ marginBottom:12 }}>
+        <input
+          value={filterText}
+          onChange={e => setFilterText(e.target.value)}
+          placeholder="Filter..."
+          style={{ padding:"9px 14px", borderRadius:8, border:"1px solid #E5E7EB",
+            fontSize:13, width:300, boxSizing:"border-box" }}
+        />
+      </div>
+
       <div style={{ background:"#fff", borderRadius:12, border:"1px solid #E5E7EB", overflow:"auto" }}>
         <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
           <thead>
             <tr style={{ background:"#f8fafc", borderBottom:"2px solid #E5E7EB" }}>
-              {["Abbr","Full Name","Notes","Actions"].map(h => (
-                <th key={h} style={{ padding:"10px 14px", textAlign:"left", fontSize:11,
-                  fontWeight:700, color:"#64748b", textTransform:"uppercase", letterSpacing:"0.05em" }}>{h}</th>
+              {[["Abbr","conference"],["Full Name","fullName"],["Notes","notes"],["Actions",null]].map(([h, col]) => (
+                <th key={h} onClick={col ? () => handleSort(col) : undefined} style={{ padding:"10px 14px", textAlign:"left", fontSize:11,
+                  fontWeight:700, color:"#64748b", textTransform:"uppercase", letterSpacing:"0.05em",
+                  cursor: col ? "pointer" : "default", userSelect: col ? "none" : undefined,
+                }}>{h} {col && sortCol === col ? (sortDir === "asc" ? "\u25B2" : "\u25BC") : ""}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {conferences.map(c => {
+            {(sortCol ? [...conferences].filter(c => {
+              if (!filterText) return true;
+              const q = filterText.toLowerCase();
+              return (c.conference || "").toLowerCase().includes(q) ||
+                (c.fullName || "").toLowerCase().includes(q) ||
+                (c.notes || "").toLowerCase().includes(q);
+            }).sort((a, b) => {
+              const av = a[sortCol], bv = b[sortCol];
+              if (av == null && bv == null) return 0;
+              if (av == null) return 1;
+              if (bv == null) return -1;
+              const cmp = typeof av === "number" ? av - bv : String(av).localeCompare(String(bv));
+              return sortDir === "asc" ? cmp : -cmp;
+            }) : conferences.filter(c => {
+              if (!filterText) return true;
+              const q = filterText.toLowerCase();
+              return (c.conference || "").toLowerCase().includes(q) ||
+                (c.fullName || "").toLowerCase().includes(q) ||
+                (c.notes || "").toLowerCase().includes(q);
+            })).map(c => {
               const isEditing = editingId === c.id;
               return (
                 <React.Fragment key={c.id}>

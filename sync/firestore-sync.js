@@ -196,15 +196,33 @@ export async function syncPrograms(newPrograms, options = {}) {
     details: []
   };
 
-  // Filter out junk programs with concatenated school names
+  // Filter out junk programs
+  const JUNK_KEYWORDS = ["barbarian", "all-star", "shield challenge", "select side", "alum", "earns eagle", "rwc spot", "celebrates", "academy form", "hounds form"];
   const validPrograms = newPrograms.filter(p => {
     const name = p.school || "";
+    const lower = name.toLowerCase();
+
+    // Reject concatenated names (multiple University/College keywords)
     const institutionWords = (name.match(/University|College|Institute|Academy/gi) || []).length;
     if (institutionWords > 1 && name.length > 60) {
       console.log(`  ⚠ Rejected concatenated name: "${name}"`);
       results.programs.rejected++;
       return false;
     }
+
+    // Reject non-program entries (news headlines, all-star events)
+    if (JUNK_KEYWORDS.some(kw => lower.includes(kw))) {
+      console.log(`  ⚠ Rejected non-program: "${name}"`);
+      results.programs.rejected++;
+      return false;
+    }
+
+    // Reject programs with no school name
+    if (!name || name.length < 3) {
+      results.programs.rejected++;
+      return false;
+    }
+
     return true;
   });
 

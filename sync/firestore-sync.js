@@ -170,7 +170,7 @@ function shouldOverwriteConference(existingVal, newVal) {
  * @returns {Object} - Summary of changes made
  */
 export async function syncPrograms(newPrograms, options = {}) {
-  const { dryRun = false } = options;
+  const { dryRun = false, skipContacts = false } = options;
 
   // Fetch existing data from both collections
   const existingPrograms = await getExistingPrograms();
@@ -272,7 +272,9 @@ export async function syncPrograms(newPrograms, options = {}) {
     // ── Handle contact data ──────────────────────────────────────────────
     const hasContactData = CONTACT_FIELDS.some(f => isNonEmpty(contactData[f]));
 
-    if (hasContactData && programDocId) {
+    if (skipContacts) {
+      results.contacts.skipped++;
+    } else if (hasContactData && programDocId) {
       const existingContact = contactByProgramId.get(programDocId);
 
       if (existingContact) {

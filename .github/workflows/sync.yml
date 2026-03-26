@@ -20,4 +20,4 @@ jobs:
         run: |
           echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON" > /tmp/sa.json
           export GOOGLE_APPLICATION_CREDENTIALS=/tmp/sa.json
-          node sync/sync.js
+          node sync/sync.js --skip-contacts --diff-contacts

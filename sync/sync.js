@@ -49,6 +49,8 @@ const args = process.argv.slice(2);
 const DRY_RUN = args.includes("--dry-run");
 const SCRAPE_ONLY = args.includes("--scrape-only");
 const SKIP_GOFF = args.includes("--skip-goff");
+const SKIP_CONTACTS = args.includes("--skip-contacts");
+const DIFF_CONTACTS = args.includes("--diff-contacts");
 const IMPORT_IDX = args.indexOf("--import");
 
 // ─── Conference full-name → abbreviation mapping ─────────────────────────────
@@ -541,10 +543,121 @@ async function main() {
   );
   console.log("   Writing to: programs + programContacts collections\n");
 
-  const results = await syncPrograms(programs, { dryRun: DRY_RUN });
+  const results = await syncPrograms(programs, { dryRun: DRY_RUN, skipContacts: SKIP_CONTACTS });
   printResults(results);
 
+  // Diff contacts: compare scraped contacts vs Firestore without updating
+  if (DIFF_CONTACTS) {
+    console.log("\n📋 Contact Diff (scraped vs Firestore)...\n");
+    await diffContacts(programs);
+  }
+
   process.exit(0);
+}
+
+async function diffContacts(scrapedPrograms) {
+  const existingPrograms = await getExistingPrograms();
+  const existingContacts = await getExistingProgramContacts();
+
+  // Build lookup: school|gender -> firestore programId
+  const programIdMap = new Map();
+  existingPrograms.forEach(p => {
+    programIdMap.set(`${(p.school || "").toLowerCase()}|${p.gender}`, p.id);
+  });
+
+  // Build lookup: programId -> existing contacts
+  const contactsByProgram = new Map();
+  existingContacts.forEach(c => {
+    if (!c.programId) return;
+    if (!contactsByProgram.has(c.programId)) contactsByProgram.set(c.programId, []);
+    contactsByProgram.get(c.programId).push(c);
+  });
+
+  const diffs = { newContacts: [], changedContacts: [], removedContacts: [], summary: { new: 0, changed: 0, removed: 0, matched: 0 } };
+
+  // Check scraped contacts vs existing
+  for (const prog of scrapedPrograms) {
+    if (!prog.contact) continue;
+    const key = `${(prog.school || "").toLowerCase()}|${prog.gender}`;
+    const programId = programIdMap.get(key);
+    if (!programId) continue;
+
+    const existing = contactsByProgram.get(programId) || [];
+    const match = existing.find(c =>
+      (c.contact || "").toLowerCase() === (prog.contact || "").toLowerCase()
+    );
+
+    if (!match) {
+      diffs.newContacts.push({ school: prog.school, gender: prog.gender, contact: prog.contact, title: prog.contactTitle, email: prog.email });
+      diffs.summary.new++;
+    } else {
+      const changes = [];
+      if (prog.contactTitle && match.contactTitle !== prog.contactTitle) changes.push(`title: "${match.contactTitle || ""}" → "${prog.contactTitle}"`);
+      if (prog.email && match.email !== prog.email) changes.push(`email: "${match.email || ""}" → "${prog.email}"`);
+      if (changes.length > 0) {
+        diffs.changedContacts.push({ school: prog.school, gender: prog.gender, contact: prog.contact, changes });
+        diffs.summary.changed++;
+      } else {
+        diffs.summary.matched++;
+      }
+    }
+  }
+
+  // Check for contacts in Firestore that aren't in scraped data
+  const scrapedKeys = new Set();
+  for (const prog of scrapedPrograms) {
+    if (prog.contact) {
+      const key = `${(prog.school || "").toLowerCase()}|${prog.gender}`;
+      const pid = programIdMap.get(key);
+      if (pid) scrapedKeys.add(`${pid}|${(prog.contact || "").toLowerCase()}`);
+    }
+  }
+  for (const [pid, contacts] of contactsByProgram) {
+    for (const c of contacts) {
+      const key = `${pid}|${(c.contact || "").toLowerCase()}`;
+      if (!scrapedKeys.has(key) && c.contact) {
+        const prog = existingPrograms.find(p => p.id === pid);
+        diffs.removedContacts.push({ school: prog?.school || pid, gender: prog?.gender || "?", contact: c.contact, email: c.email });
+        diffs.summary.removed++;
+      }
+    }
+  }
+
+  // Print results
+  console.log("═══════════════════════════════════════");
+  console.log("  CONTACT DIFF SUMMARY");
+  console.log("═══════════════════════════════════════");
+  console.log(`  ✅ Matched:    ${diffs.summary.matched}`);
+  console.log(`  🆕 New (in scraped, not in Firestore): ${diffs.summary.new}`);
+  console.log(`  🔄 Changed:    ${diffs.summary.changed}`);
+  console.log(`  ❌ In Firestore only (not scraped):     ${diffs.summary.removed}`);
+  console.log("═══════════════════════════════════════\n");
+
+  if (diffs.newContacts.length > 0) {
+    console.log("🆕 NEW CONTACTS (scraped but not in Firestore):");
+    diffs.newContacts.slice(0, 50).forEach(c => console.log(`  + ${c.school} (${c.gender}) | ${c.contact} | ${c.title || ""} | ${c.email || ""}`));
+    if (diffs.newContacts.length > 50) console.log(`  ... and ${diffs.newContacts.length - 50} more`);
+    console.log("");
+  }
+
+  if (diffs.changedContacts.length > 0) {
+    console.log("🔄 CHANGED CONTACTS (different data):");
+    diffs.changedContacts.slice(0, 50).forEach(c => console.log(`  ~ ${c.school} (${c.gender}) | ${c.contact} | ${c.changes.join(", ")}`));
+    if (diffs.changedContacts.length > 50) console.log(`  ... and ${diffs.changedContacts.length - 50} more`);
+    console.log("");
+  }
+
+  if (diffs.removedContacts.length > 0) {
+    console.log("❌ FIRESTORE ONLY (not in scraped data — may be manually added):");
+    diffs.removedContacts.slice(0, 50).forEach(c => console.log(`  - ${c.school} (${c.gender}) | ${c.contact} | ${c.email || ""}`));
+    if (diffs.removedContacts.length > 50) console.log(`  ... and ${diffs.removedContacts.length - 50} more`);
+    console.log("");
+  }
+
+  // Save full diff to file
+  const diffFile = resolve(__dirname, `contact-diff-${new Date().toISOString().slice(0, 10)}.json`);
+  writeFileSync(diffFile, JSON.stringify(diffs, null, 2));
+  console.log(`Full diff saved to: ${diffFile}`);
 }
 
 function printResults(results) {

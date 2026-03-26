@@ -32,6 +32,7 @@ import { scrapeNIRA } from "./scrape-nira.js";
 import { scrapeGoff } from "./scrape-goff.js";
 import { scrapeNextPhase, scrapeNextPhaseFeatured, scrapeNextPhaseScholarships } from "./scrape-nextphase.js";
 import { scrapeConferences } from "./scrape-conferences.js";
+import { scrapeRugbyWebsites } from "./scrape-rugby-websites.js";
 import {
   syncPrograms,
   syncConferenceContacts,
@@ -532,6 +533,25 @@ async function main() {
   writeFileSync(outPath, JSON.stringify(programs, null, 2));
   console.log(`\n💾 Saved scraped data to ${outPath}`);
 
+  // ─── Scrape rugby websites for coaching staff ───────────────────────
+  console.log("\n📗 Source 7: Rugby Websites (coaching staff pages)");
+  console.log("   Coverage: Programs with a rugby website URL");
+  console.log("   Data: coach names, titles, emails from staff pages\n");
+  let rugbyWebsiteContacts = [];
+  try {
+    const existingProgs = await getExistingPrograms();
+    const progsWithUrl = existingProgs.filter(p => p.rugbyWebsite);
+    rugbyWebsiteContacts = await scrapeRugbyWebsites(progsWithUrl);
+    console.log(`  ✅ Found staff on ${rugbyWebsiteContacts.length} rugby websites`);
+  } catch (err) {
+    console.error(`  ❌ Rugby website scrape failed: ${err.message}`);
+  }
+
+  // Save rugby website contacts
+  const rwPath = resolve(__dirname, `rugby-website-contacts-${new Date().toISOString().slice(0, 10)}.json`);
+  writeFileSync(rwPath, JSON.stringify(rugbyWebsiteContacts, null, 2));
+  console.log(`  💾 Saved to ${rwPath}`);
+
   if (SCRAPE_ONLY) {
     console.log("\n--scrape-only flag set, skipping Firestore sync.");
     process.exit(0);
@@ -550,6 +570,12 @@ async function main() {
   if (DIFF_CONTACTS) {
     console.log("\n📋 Contact Diff (scraped vs Firestore)...\n");
     await diffContacts(programs);
+
+    // Also diff rugby website contacts
+    if (rugbyWebsiteContacts.length > 0) {
+      console.log("\n📋 Rugby Website Contact Diff...\n");
+      await diffRugbyWebsiteContacts(rugbyWebsiteContacts);
+    }
   }
 
   process.exit(0);
@@ -658,6 +684,83 @@ async function diffContacts(scrapedPrograms) {
   const diffFile = resolve(__dirname, `contact-diff-${new Date().toISOString().slice(0, 10)}.json`);
   writeFileSync(diffFile, JSON.stringify(diffs, null, 2));
   console.log(`Full diff saved to: ${diffFile}`);
+}
+
+async function diffRugbyWebsiteContacts(rugbyWebsiteResults) {
+  const existingPrograms = await getExistingPrograms();
+  const existingContacts = await getExistingProgramContacts();
+
+  const programIdMap = new Map();
+  existingPrograms.forEach(p => {
+    programIdMap.set(`${(p.school || "").toLowerCase()}|${p.gender}`, p.id);
+  });
+
+  const contactsByProgram = new Map();
+  existingContacts.forEach(c => {
+    if (!c.programId) return;
+    if (!contactsByProgram.has(c.programId)) contactsByProgram.set(c.programId, []);
+    contactsByProgram.get(c.programId).push(c);
+  });
+
+  let newFound = 0, emailFound = 0, matched = 0;
+  const newContacts = [];
+  const emailUpdates = [];
+
+  for (const result of rugbyWebsiteResults) {
+    const key = `${(result.school || "").toLowerCase()}|${result.gender}`;
+    const programId = programIdMap.get(key);
+    if (!programId) continue;
+
+    const existing = contactsByProgram.get(programId) || [];
+
+    for (const scraped of result.contacts) {
+      const match = existing.find(c =>
+        (c.contact || "").toLowerCase().includes((scraped.contact || "").toLowerCase().split(" ")[0]) &&
+        (c.contact || "").toLowerCase().includes((scraped.contact || "").toLowerCase().split(" ").pop())
+      );
+
+      if (!match) {
+        newContacts.push({ school: result.school, gender: result.gender, ...scraped, source: result.rugbyWebsite });
+        newFound++;
+      } else {
+        matched++;
+        if (scraped.email && !match.email) {
+          emailUpdates.push({ school: result.school, contact: scraped.contact, newEmail: scraped.email, source: result.rugbyWebsite });
+          emailFound++;
+        }
+      }
+    }
+  }
+
+  console.log("═══════════════════════════════════════");
+  console.log("  RUGBY WEBSITE CONTACT DIFF");
+  console.log("═══════════════════════════════════════");
+  console.log(`  ✅ Matched existing:  ${matched}`);
+  console.log(`  🆕 New contacts found: ${newFound}`);
+  console.log(`  📧 Missing emails found: ${emailFound}`);
+  console.log("═══════════════════════════════════════\n");
+
+  if (newContacts.length > 0) {
+    console.log("🆕 NEW CONTACTS (from rugby websites, not in Firestore):");
+    newContacts.slice(0, 50).forEach(c =>
+      console.log(`  + ${c.school} (${c.gender}) | ${c.contact} | ${c.contactTitle} | ${c.email || "no email"} | src: ${c.source}`)
+    );
+    if (newContacts.length > 50) console.log(`  ... and ${newContacts.length - 50} more`);
+    console.log("");
+  }
+
+  if (emailUpdates.length > 0) {
+    console.log("📧 EMAILS FOUND (contacts exist but missing email):");
+    emailUpdates.slice(0, 50).forEach(c =>
+      console.log(`  ~ ${c.school} | ${c.contact} | ${c.newEmail} | src: ${c.source}`)
+    );
+    if (emailUpdates.length > 50) console.log(`  ... and ${emailUpdates.length - 50} more`);
+    console.log("");
+  }
+
+  const rwDiffFile = resolve(__dirname, `rugby-website-diff-${new Date().toISOString().slice(0, 10)}.json`);
+  writeFileSync(rwDiffFile, JSON.stringify({ newContacts, emailUpdates, summary: { matched, newFound, emailFound } }, null, 2));
+  console.log(`Rugby website diff saved to: ${rwDiffFile}`);
 }
 
 function printResults(results) {

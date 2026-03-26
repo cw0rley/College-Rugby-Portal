@@ -57,7 +57,7 @@ export default function ContactPage({ programs, user }) {
             <div>
               <h2 style={{ margin: "0 0 6px", fontSize: 20, color: "#0A1F44" }}>Submit Program Info</h2>
               <p style={{ margin: 0, fontSize: 14, color: "#64748b" }}>
-                Are you a coach or school representative? Use this form to add a new program or update existing information.
+                Are you a coach or school representative? Use this form to update existing program information.
               </p>
             </div>
             <div style={{ textAlign: "right", flexShrink: 0 }}>
@@ -83,34 +83,14 @@ export default function ContactPage({ programs, user }) {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              <div style={{ marginBottom: 20 }}>
-                <label style={labelStyle}>Request Type</label>
-                <div style={{ display: "flex", gap: 10 }}>
-                  {[["update","Update Existing Program"],["add","Add New Program"]].map(([val, label]) => (
-                    <button key={val} type="button" onClick={() => setRequestType(val)} style={{
-                      flex: 1, padding: "10px", borderRadius: 8, cursor: "pointer", fontWeight: 600,
-                      fontSize: 13, border: "2px solid",
-                      borderColor: requestType === val ? "#00CC00" : "#E5E7EB",
-                      background: requestType === val ? "#f0fde8" : "#fff",
-                      color: requestType === val ? "#00CC00" : "#64748b",
-                    }}>{label}</button>
-                  ))}
-                </div>
-              </div>
-
               <div style={{ marginBottom: 16 }}>
                 <label style={labelStyle}>School / Program Name *</label>
-                {requestType === "update" ? (
-                  <select value={form.school} onChange={e => set("school", e.target.value)}
-                    required style={inputStyle}>
-                    <option value="">— Select a school —</option>
-                    {[...new Set(programs.map(p => p.school).filter(Boolean))].sort()
-                      .map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                ) : (
-                  <input value={form.school} onChange={e => set("school", e.target.value)}
-                    required placeholder="e.g. University of Example" style={inputStyle} />
-                )}
+                <select value={form.school} onChange={e => set("school", e.target.value)}
+                  required style={inputStyle}>
+                  <option value="">— Select a school —</option>
+                  {[...new Set(programs.map(p => p.school).filter(Boolean))].sort()
+                    .map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
@@ -141,14 +121,11 @@ export default function ContactPage({ programs, user }) {
 
               <div style={{ marginBottom: 24 }}>
                 <label style={labelStyle}>
-                  {requestType === "update" ? "What needs to be updated?" : "Program Details"} *
+                  What needs to be updated? *
                 </label>
                 <textarea value={form.details} onChange={e => set("details", e.target.value)}
                   required rows={5} style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }}
-                  placeholder={requestType === "update"
-                    ? "Describe what information needs to be corrected or updated..."
-                    : "Include conference, league, location, scholarship info, contact details, website, etc."
-                  } />
+                  placeholder="Describe what information needs to be corrected or updated..." />
               </div>
 
               {status === "error" && (

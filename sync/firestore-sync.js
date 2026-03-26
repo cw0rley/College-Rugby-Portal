@@ -191,10 +191,22 @@ export async function syncPrograms(newPrograms, options = {}) {
   });
 
   const results = {
-    programs: { updated: 0, added: 0, unchanged: 0 },
+    programs: { updated: 0, added: 0, unchanged: 0, rejected: 0 },
     contacts: { updated: 0, added: 0, unchanged: 0, skipped: 0 },
     details: []
   };
+
+  // Filter out junk programs with concatenated school names
+  const validPrograms = newPrograms.filter(p => {
+    const name = p.school || "";
+    const institutionWords = (name.match(/University|College|Institute|Academy/gi) || []).length;
+    if (institutionWords > 1 && name.length > 60) {
+      console.log(`  ⚠ Rejected concatenated name: "${name}"`);
+      results.programs.rejected++;
+      return false;
+    }
+    return true;
+  });
 
   // Process in batches (Firestore limit is 500 per batch, we use 400 for safety)
   const BATCH_LIMIT = 400;
@@ -209,7 +221,7 @@ export async function syncPrograms(newPrograms, options = {}) {
     }
   }
 
-  for (const newRecord of newPrograms) {
+  for (const newRecord of validPrograms) {
     const { programData, contactData } = splitProgramAndContact(newRecord);
     const key = programKey(programData);
     const existingProg = programMap.get(key);

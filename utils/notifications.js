@@ -1,5 +1,5 @@
 import { collection, query, where, orderBy, onSnapshot, addDoc, updateDoc,
-  doc, serverTimestamp, writeBatch, getDocs, limit } from "firebase/firestore";
+  doc, serverTimestamp, writeBatch, getDocs, limit, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase.js";
 
 /**
@@ -69,6 +69,33 @@ export function requestBrowserNotificationPermission() {
   if (Notification.permission === "granted") return Promise.resolve(true);
   if (Notification.permission === "denied") return Promise.resolve(false);
   return Notification.requestPermission().then(p => p === "granted");
+}
+
+/**
+ * Request push notification permission and save FCM token to user doc.
+ * Returns true if token was saved successfully.
+ */
+export async function setupPushNotifications(uid) {
+  try {
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") return false;
+
+    const { getMessaging, getToken } = await import("firebase/messaging");
+    const { getApp } = await import("firebase/app");
+    const messaging = getMessaging(getApp());
+    const token = await getToken(messaging, {
+      vapidKey: null, // Uses default FCM key from Firebase config
+      serviceWorkerRegistration: await navigator.serviceWorker.getRegistration(),
+    });
+    if (!token) return false;
+
+    // Save token to user doc (dedup with arrayUnion)
+    await updateDoc(doc(db, "users", uid), { fcmTokens: arrayUnion(token) });
+    return true;
+  } catch (err) {
+    console.warn("Push notification setup failed:", err);
+    return false;
+  }
 }
 
 /**

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { subscribeToNotifications, markNotificationRead, markAllNotificationsRead,
-  requestBrowserNotificationPermission, showBrowserNotification } from "../../utils/notifications.js";
+  requestBrowserNotificationPermission, showBrowserNotification, setupPushNotifications } from "../../utils/notifications.js";
 
 function timeAgo(ts) {
   if (!ts) return "";
@@ -42,6 +42,7 @@ export default function NotificationBell({ user, isMobile, onNavigate }) {
       // Ask after a short delay so it doesn't feel aggressive
       const timer = setTimeout(() => {
         requestBrowserNotificationPermission();
+        setupPushNotifications(user.uid).catch(() => {});
         setPermissionAsked(true);
       }, 5000);
       return () => clearTimeout(timer);

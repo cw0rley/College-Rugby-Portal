@@ -15,6 +15,44 @@ const PORTAL_URL = "https://collegerugbyportal.com";
 const NAVY = "#0A1F44";
 const LIME = "#00CC00";
 
+// Send push notification via FCM to a user's saved tokens
+async function sendPushNotification(recipientUid, { title, body, link }) {
+  try {
+    const userDoc = await db.collection("users").doc(recipientUid).get();
+    if (!userDoc.exists) return;
+    const tokens = userDoc.data().fcmTokens || [];
+    if (tokens.length === 0) return;
+
+    const message = {
+      notification: { title, body },
+      data: { link: link || "/" },
+      webpush: {
+        fcmOptions: { link: `${PORTAL_URL}${link || "/"}` },
+        notification: { icon: "/logo-icon-192.png", badge: "/logo-icon-192.png" },
+      },
+    };
+
+    const staleTokens = [];
+    for (const token of tokens) {
+      try {
+        await admin.messaging().send({ ...message, token });
+      } catch (err) {
+        if (err.code === "messaging/registration-token-not-registered" ||
+            err.code === "messaging/invalid-registration-token") {
+          staleTokens.push(token);
+        }
+      }
+    }
+    // Clean up stale tokens
+    if (staleTokens.length > 0) {
+      const remaining = tokens.filter(t => !staleTokens.includes(t));
+      await db.collection("users").doc(recipientUid).update({ fcmTokens: remaining });
+    }
+  } catch (err) {
+    logger.error("Push notification error:", err.message);
+  }
+}
+
 function buildEmail({ subject, bodyHtml, ctaText, ctaUrl }) {
   return `<!DOCTYPE html>
 <html>
@@ -155,6 +193,13 @@ exports.onNewMessage = onDocumentCreated(
         ctaUrl: `${PORTAL_URL}/messages`,
       });
 
+      // Send push notification (always, not rate-limited)
+      await sendPushNotification(recipientId, {
+        title: `Message from ${senderName}`,
+        body: preview,
+        link: "/messages",
+      });
+
       const sent = await sendEmail({ to: recipientEmail, subject, html });
       if (sent) {
         await convRef.update({
@@ -235,6 +280,21 @@ exports.onPlayerInterest = onDocumentCreated(
         ctaText: "View Interested Players",
         ctaUrl: `${PORTAL_URL}/coach`,
       });
+
+      // Send push to coaches who are users
+      const coachUsersSnap = await db.collection("users")
+        .where("isCoach", "==", true).get();
+      for (const userDoc of coachUsersSnap.docs) {
+        const userData = userDoc.data();
+        const userEmail = userData.email?.toLowerCase();
+        if (userEmail && coachEmails.map(e => e.toLowerCase()).includes(userEmail)) {
+          await sendPushNotification(userDoc.id, {
+            title: `New player interest`,
+            body: `${playerName} is interested in ${schoolName}`,
+            link: "/coach",
+          });
+        }
+      }
 
       for (const email of coachEmails) {
         await sendEmail({ to: email, subject, html });

@@ -187,7 +187,7 @@ export default function ProgramModal({ program, confNameMap = {}, onClose, isFav
             <StatRow label="Acceptance Rate" value={program.acceptanceRate ? `${program.acceptanceRate}%` : null} />
             <StatRow label="Enrollment" value={program.enrollment ? program.enrollment.toLocaleString() : null} />
             {program.usNewsRank && (
-              <StatRow label="US News Rank" value={
+              <StatRow label={program.usNewsCategory ? `US News (${program.usNewsCategory})` : "US News Rank"} value={
                 program.usNewsUrl
                   ? <a href={program.usNewsUrl} target="_blank" rel="noreferrer" style={{ color: "#00CC00", textDecoration: "none", fontWeight: 600 }}>#{program.usNewsRank}</a>
                   : `#${program.usNewsRank}`

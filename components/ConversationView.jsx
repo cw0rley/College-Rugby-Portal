@@ -32,7 +32,8 @@ export default function ConversationView({ conversationId, conversation, user, o
     if (!text.trim() || sending) return;
     setSending(true);
     try {
-      await sendMessage(conversationId, user.uid, otherUid, text.trim());
+      const myName = user.displayName || user.email || "Someone";
+      await sendMessage(conversationId, user.uid, otherUid, text.trim(), myName);
       setText("");
     } catch (err) {
       console.error("Failed to send message:", err);

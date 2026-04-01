@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, doc, setDoc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, deleteDoc, query, where } from "firebase/firestore";
 import { db } from "../../firebase.js";
 
 export default function AdminUsers({ programs = [], programContacts = [] }) {
@@ -63,7 +63,35 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
   }
 
   async function removeUser(uid) {
-    if (!confirm("Remove this user's access record?")) return;
+    if (!confirm("Delete this user and all their data (profile, favorites, messages, notifications)?")) return;
+    // Delete player profile
+    await deleteDoc(doc(db, "playerProfiles", uid)).catch(() => {});
+    // Delete favorites and remove programInterest entries
+    const favSnap = await getDocs(collection(db, "users", uid, "favorites")).catch(() => ({ docs: [] }));
+    await Promise.all((favSnap.docs || []).map(async d => {
+      await deleteDoc(d.ref);
+      // Remove from that program's interested players
+      await deleteDoc(doc(db, "programInterest", d.id, "players", uid)).catch(() => {});
+    }));
+    // Also scan all programInterest for this user (in case they were added without a favorite)
+    const allProgsSnap = await getDocs(collection(db, "programs")).catch(() => ({ docs: [] }));
+    await Promise.all((allProgsSnap.docs || []).map(p =>
+      deleteDoc(doc(db, "programInterest", p.id, "players", uid)).catch(() => {})
+    ));
+    // Delete recruits subcollection
+    const recruitSnap = await getDocs(collection(db, "recruits", uid, "players")).catch(() => ({ docs: [] }));
+    await Promise.all((recruitSnap.docs || []).map(d => deleteDoc(d.ref)));
+    // Delete notifications
+    const notifSnap = await getDocs(query(collection(db, "notifications"), where("recipientUid", "==", uid))).catch(() => ({ docs: [] }));
+    await Promise.all((notifSnap.docs || []).map(d => deleteDoc(d.ref)));
+    // Delete conversations where this user is a participant
+    const convsSnap = await getDocs(query(collection(db, "conversations"), where("participants", "array-contains", uid))).catch(() => ({ docs: [] }));
+    await Promise.all((convsSnap.docs || []).map(async d => {
+      const msgsSnap = await getDocs(collection(db, "conversations", d.id, "messages")).catch(() => ({ docs: [] }));
+      await Promise.all((msgsSnap.docs || []).map(m => deleteDoc(m.ref)));
+      await deleteDoc(d.ref);
+    }));
+    // Delete user doc
     await deleteDoc(doc(db, "users", uid));
     loadUsers();
   }
@@ -144,7 +172,12 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
                   <tr style={{ borderBottom: isExpanded ? "none" : "1px solid #f1f5f9",
                     background: isExpanded ? "#eff6ff" : "", cursor: "pointer" }}
                     onClick={() => { setExpandedId(isExpanded ? null : u.id); setProgramSearch(""); }}>
-                    <td style={{ padding: "10px 14px", fontWeight: 600, color: "#0A1F44" }}>{u.email || "—"}</td>
+                    <td style={{ padding: "10px 14px", fontWeight: 600, color: "#0A1F44" }}>
+                      {u.email || "—"}
+                      {u.emailVerified && (
+                        <span title="Email verified" style={{ marginLeft: 6, color: "#00CC00", fontSize: 13 }}>&#10003;</span>
+                      )}
+                    </td>
                     <td style={{ padding: "10px 14px", color: "#475569" }}>{u.displayName || "—"}</td>
                     <td style={{ padding: "10px 14px" }}>
                       <span style={{

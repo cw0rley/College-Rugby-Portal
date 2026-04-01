@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, Suspense } from "react";
 import { Routes, Route, NavLink, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
-import { onAuthStateChanged, signInWithPopup, signInWithRedirect } from "firebase/auth";
+import { onAuthStateChanged, signInWithPopup, signInWithRedirect, sendEmailVerification } from "firebase/auth";
 import { db, auth, googleProvider } from "./firebase.js";
 import { US_STATES } from "./constants.js";
 import { exportCSV } from "./utils/csv.js";
@@ -19,6 +19,9 @@ import CompareBar from "./components/CompareBar.jsx";
 import ProgramDetailPage from "./components/ProgramDetailPage.jsx";
 import HeaderAuth from "./components/ui/HeaderAuth.jsx";
 import AuthGate from "./components/ui/AuthGate.jsx";
+import NotificationBell from "./components/ui/NotificationBell.jsx";
+import ErrorBoundary from "./components/ui/ErrorBoundary.jsx";
+import { ToastProvider } from "./components/ui/Toast.jsx";
 
 // Lazy-loaded components (loaded on demand)
 const ContactPage = React.lazy(() => import("./components/ContactPage.jsx"));
@@ -31,6 +34,7 @@ const CompareView = React.lazy(() => import("./components/CompareView.jsx"));
 const PlayerDirectoryPage = React.lazy(() => import("./components/PlayerDirectoryPage.jsx"));
 const CoachDashboardPage = React.lazy(() => import("./components/CoachDashboardPage.jsx"));
 const MessagesPage = React.lazy(() => import("./components/MessagesPage.jsx"));
+const ConferenceDetailPage = React.lazy(() => import("./components/ConferenceDetailPage.jsx"));
 
 const LazyFallback = () => (
   <div style={{ padding: 40, textAlign: "center", color: "#64748b" }}>Loading...</div>
@@ -49,35 +53,79 @@ export default function App() {
 
   // Auth state
   const [user, setUser] = useState(null);
-  const [userAccess, setUserAccess] = useState(null); // { isCoach, hasProfile, emailVerified, ... }
+  const [authReady, setAuthReady] = useState(false);
+  const [userAccess, setUserAccess] = useState(() => {
+    try {
+      const cached = sessionStorage.getItem("crp_userAccess");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        const lastUid = sessionStorage.getItem("crp_last_uid");
+        if (parsed._uid && parsed._uid === lastUid) return parsed;
+      }
+    } catch (_) {}
+    return null;
+  });
   const [hasPlayerProfile, setHasPlayerProfile] = useState(false);
-  useEffect(() => onAuthStateChanged(auth, u => {
+  const [emailVerified, setEmailVerified] = useState(false);
+  const prevUserUidRef = React.useRef(sessionStorage.getItem("crp_last_uid"));
+  useEffect(() => onAuthStateChanged(auth, async u => {
+    // Reload user to get fresh emailVerified status
+    if (u && !u.emailVerified && u.providerData?.[0]?.providerId === "password") {
+      await u.reload().catch(() => {});
+    }
+    setEmailVerified(u?.emailVerified || false);
+    // Only expire cache when a *different* user signs in (not on page reload)
+    if (u && prevUserUidRef.current && prevUserUidRef.current !== u.uid) {
+      try {
+        const raw = localStorage.getItem("crp_cache_v7");
+        if (raw) {
+          const cached = JSON.parse(raw);
+          cached.ts = 0;
+          localStorage.setItem("crp_cache_v7", JSON.stringify(cached));
+        }
+      } catch (_) {}
+    }
+    sessionStorage.setItem("crp_last_uid", u ? u.uid : "");
+    prevUserUidRef.current = u ? u.uid : "";
     setUser(u);
+    setAuthReady(true);
     if (u) {
+      // Sync emailVerified status to Firestore so admin can see it
+      if (u.emailVerified) {
+        setDoc(doc(db, "users", u.uid), { emailVerified: true }, { merge: true }).catch(() => {});
+      }
       const userRef = doc(db, "users", u.uid);
       getDoc(userRef).then(snap => {
         if (snap.exists()) {
-          setUserAccess(snap.data());
+          const data = snap.data();
+          setUserAccess(data);
+          sessionStorage.setItem("crp_userAccess", JSON.stringify({ ...data, _uid: u.uid }));
         } else {
           // Create user doc on first sign-in
           const userData = { email: u.email || "", displayName: u.displayName || "", isCoach: false, approved: false, createdAt: new Date().toISOString() };
           setDoc(userRef, userData).catch(() => {});
           setUserAccess(userData);
+          sessionStorage.setItem("crp_userAccess", JSON.stringify({ ...userData, _uid: u.uid }));
         }
       }).catch(() => setUserAccess(null));
       // Check if user has a player profile
       getDoc(doc(db, "playerProfiles", u.uid)).then(snap => {
         setHasPlayerProfile(snap.exists() && !!snap.data().firstName);
       }).catch(() => setHasPlayerProfile(false));
-      // Send email verification if not verified (email/password users)
+      // Send email verification once on first signup only
       if (!u.emailVerified && u.providerData?.[0]?.providerId === "password") {
-        import("firebase/auth").then(({ sendEmailVerification }) => {
-          sendEmailVerification(u).catch(() => {});
-        });
+        const sentKey = `verificationSent_${u.uid}`;
+        if (!localStorage.getItem(sentKey)) {
+          localStorage.setItem(sentKey, "1");
+          sendEmailVerification(u).catch((err) => {
+            console.warn("Email verification send failed:", err.message);
+          });
+        }
       }
     } else {
       setUserAccess(null);
       setHasPlayerProfile(false);
+      sessionStorage.removeItem("crp_userAccess");
     }
   }), []);
 
@@ -131,7 +179,6 @@ export default function App() {
       userAccess.assignedProgramIds.forEach(id => ids.add(id));
     }
     const result = [...ids];
-    console.log("DEBUG coachProgramIds:", result, "userAccess:", userAccess?.assignedProgramIds, "emailMatch:", email);
     return result;
   }, [user, programContacts, userAccess]);
 
@@ -140,7 +187,7 @@ export default function App() {
   useEffect(() => {
     if (!user || !programContacts.length || !userAccess) return;
     if (userAccess.isCoach) return; // already a coach
-    if (!user.emailVerified) return; // must verify email first
+    if (!emailVerified) return; // must verify email first
     const email = user.email?.toLowerCase();
     if (!email) return;
     const isHeadCoach = programContacts.some(c =>
@@ -153,7 +200,7 @@ export default function App() {
         setUserAccess(prev => ({ ...prev, isCoach: true, approved: true }));
       }).catch(() => {});
     }
-  }, [user, programContacts, userAccess]);
+  }, [user, programContacts, userAccess, emailVerified]);
 
   // Messaging state
   const [totalUnread, setTotalUnread] = useState(0);
@@ -237,60 +284,101 @@ export default function App() {
   // Analytics: track route changes
   useEffect(() => { trackPageView(location.pathname); setMobileMenuOpen(false); }, [location.pathname]);
 
+  // Restore scroll position when navigating back from program detail
+  useEffect(() => {
+    if (location.state?.restoreScroll) {
+      const savedScroll = sessionStorage.getItem("programListScroll");
+      if (savedScroll) {
+        requestAnimationFrame(() => {
+          setTimeout(() => window.scrollTo(0, parseInt(savedScroll, 10)), 50);
+        });
+      }
+    }
+  }, [location]);
+
   // Analytics: track search (debounced inside the helper)
   useEffect(() => { trackSearch(search); }, [search]);
 
   // Navigate to program detail page
   function handleSelectProgram(p) {
     if (p) {
+      sessionStorage.setItem("programListScroll", String(window.scrollY));
+      sessionStorage.setItem("programListFrom", location.pathname);
       trackProgramView(p);
       navigate(`/program/${p.id}/${toSlug(p.school)}`);
     }
   }
 
   useEffect(() => {
-    const CACHE_KEY = "crp_cache_v5";
-    const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+    const CACHE_KEY = "crp_cache_v7";
+    const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
+    async function fetchFromFirestore() {
+      const [progSnap, confSnap, ccSnap, pcSnap] = await Promise.all([
+        getDocs(collection(db, "programs")),
+        getDocs(collection(db, "conferences")),
+        getDocs(collection(db, "conferenceContacts")).catch(() => ({ docs: [] })),
+        getDocs(collection(db, "programContacts")).catch(() => ({ docs: [] })),
+      ]);
+      const p = progSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const c = confSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const cc = ccSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const pc = pcSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      setPrograms(p);
+      setConferences(c);
+      setConfContacts(cc);
+      setProgramContacts(pc);
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), programs: p, conferences: c, confContacts: cc, programContacts: pc }));
+    }
 
     async function fetchData() {
-      // Try cache first
+      // Try cache first — serve immediately even if stale
+      let hasCache = false;
+      let cacheTs = 0;
       try {
         const raw = localStorage.getItem(CACHE_KEY);
         if (raw) {
           const { ts, programs: p, conferences: c, confContacts: cc, programContacts: pc } = JSON.parse(raw);
+          setPrograms(p);
+          setConferences(c);
+          if (cc) setConfContacts(cc);
+          if (pc) setProgramContacts(pc);
+          setLoading(false);
+          hasCache = true;
+          cacheTs = ts;
+          // If cache is still fresh, check if admin has busted it
           if (Date.now() - ts < CACHE_TTL) {
-            setPrograms(p);
-            setConferences(c);
-            if (cc) setConfContacts(cc);
-            if (pc) setProgramContacts(pc);
-            setLoading(false);
+            // Quick check: has admin published changes since our cache was built?
+            getDoc(doc(db, "config", "cache")).then(snap => {
+              if (snap.exists()) {
+                const bustAt = snap.data().bustAt?.toMillis?.() || 0;
+                if (bustAt > ts) fetchFromFirestore().catch(() => {});
+              }
+            }).catch(() => {});
             return;
           }
         }
       } catch (_) { /* ignore bad cache */ }
 
-      // Cache miss or expired — fetch from Firestore
-      try {
-        const [progSnap, confSnap, ccSnap, pcSnap] = await Promise.all([
-          getDocs(collection(db, "programs")),
-          getDocs(collection(db, "conferences")),
-          getDocs(collection(db, "conferenceContacts")).catch(() => ({ docs: [] })),
-          getDocs(collection(db, "programContacts")).catch(() => ({ docs: [] })),
-        ]);
-        const p = progSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-        const c = confSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-        const cc = ccSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-        const pc = pcSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-        setPrograms(p);
-        setConferences(c);
-        setConfContacts(cc);
-        setProgramContacts(pc);
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), programs: p, conferences: c, confContacts: cc, programContacts: pc }));
-      } catch (e) {
-        setError("Failed to load data. Please check your Firebase config.");
-        console.error(e);
-      } finally {
-        setLoading(false);
+      // Fetch from Firestore — in background if we have stale cache, blocking if no cache
+      if (hasCache) {
+        fetchFromFirestore().catch(() => {});
+      } else {
+        try {
+          await fetchFromFirestore();
+        } catch (e) {
+          console.warn("First fetch attempt failed, retrying...", e);
+          // Retry once after a short delay
+          try {
+            await new Promise(r => setTimeout(r, 2000));
+            await fetchFromFirestore();
+          } catch (e2) {
+            setError("Unable to load programs. Please check your connection and refresh the page.");
+            console.error(e2);
+          }
+        } finally {
+          setLoading(false);
+        }
       }
     }
     fetchData();
@@ -317,7 +405,7 @@ export default function App() {
     return programs.filter(p => {
       if (genderFilter !== "all" && p.gender !== genderFilter) return false;
       if (stateFilter && p.state !== stateFilter) return false;
-      if (conferenceFilter && p.conference !== conferenceFilter) return false;
+      if (conferenceFilter && p.conference !== conferenceFilter && !p.conference?.includes(conferenceFilter)) return false;
       if (leagueFilter && p.league !== leagueFilter) return false;
       if (minGPA && (!p.gpa || p.gpa < parseFloat(minGPA))) return false;
       if (maxTuition) {
@@ -422,10 +510,9 @@ export default function App() {
     if (coachProgramIds.length > 0 || userAccess?.isCoach) {
       t.push({ to: "/coach", label: "My Program" });
     }
-    // Messages hidden for now
-    // if (userAccess?.isCoach || hasPlayerProfile) {
-    //   t.push({ to: "/messages", label: totalUnread > 0 ? `Messages (${totalUnread})` : "Messages" });
-    // }
+    if (userAccess?.isCoach || hasPlayerProfile) {
+      t.push({ to: "/messages", label: totalUnread > 0 ? `Messages (${totalUnread})` : "Messages" });
+    }
     if (userAccess?.isCoach) {
       t.push({ to: "/directory", label: "Player Directory" });
     }
@@ -455,7 +542,7 @@ export default function App() {
         </h1>
         <p style={{ margin: "6px 0 0", color: "#00ff00", fontSize: 16, fontWeight: 700,
           letterSpacing: "-0.02em", fontFamily: "'Montserrat', 'Inter', system-ui, sans-serif" }}>
-          Connect. Get Recruited. Play.
+          Explore. Connect. Play.
         </p>
       </div>
       <div style={{ fontSize: 13, color: "#94a3b8" }}>Loading programs...</div>
@@ -470,37 +557,8 @@ export default function App() {
     </div>
   );
 
-  // Admin route — separate layout
+  // Admin route — separate layout, AdminPage handles its own auth
   if (isAdminRoute) {
-    // Admin access: must be logged in AND have isAdmin flag
-    if (!user || !userAccess?.isAdmin) {
-      return (
-        <div style={{ minHeight: "100vh", background: "#f1f5f9",
-          fontFamily: "'Inter', system-ui, sans-serif", display: "flex",
-          alignItems: "center", justifyContent: "center" }}>
-          <div style={{ maxWidth: 400, textAlign: "center", background: "#fff",
-            borderRadius: 16, padding: 40, boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-            border: "1px solid #E5E7EB" }}>
-            <img src="/logo-icon.svg" alt="" style={{ width: 48, height: 48, marginBottom: 16 }} />
-            <h2 style={{ margin: "0 0 8px", color: "#0A1F44" }}>Admin Access Required</h2>
-            <p style={{ margin: "0 0 20px", color: "#64748b", fontSize: 14 }}>
-              {!user ? "Please sign in with an admin account." : "Your account does not have admin access."}
-            </p>
-            {!user ? (
-              <AuthGate user={user} title="" description="">
-                <div />
-              </AuthGate>
-            ) : (
-              <button onClick={() => navigate("/")} style={{
-                padding: "10px 24px", borderRadius: 8, border: "none",
-                background: "#0A1F44", color: "#fff", fontWeight: 600,
-                fontSize: 14, cursor: "pointer",
-              }}>Go to Home</button>
-            )}
-          </div>
-        </div>
-      );
-    }
     return (
       <div style={{ minHeight: "100vh", background: "#f1f5f9",
         fontFamily: "'Inter', system-ui, sans-serif", padding: "40px 24px" }}>
@@ -769,14 +827,10 @@ export default function App() {
             <div className="crp-card-grid" style={{ display: "grid",
               gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(300px, 1fr))", gap: isMobile ? 12 : 10 }}>
               {confByLeague[league].map((c, i) => {
-                const count = programs.filter(p => p.conference === c.conference).length;
+                const count = programs.filter(p => p.conference === c.conference || p.conference?.includes(c.conference)).length;
                 return (
                   <ConferenceCard key={c.id || i} conf={c} programCount={count}
-                    onClick={() => {
-                      setLeagueFilter(league);
-                      setConferenceFilter(c.conference);
-                      navigate("/");
-                    }} />
+                    onClick={() => navigate(`/conference/${c.conference}`)} />
                 );
               })}
             </div>
@@ -802,6 +856,7 @@ export default function App() {
   };
 
   return (
+    <ToastProvider>
     <div style={{ minHeight: "100vh", background: "#f1f5f9", fontFamily: "'Inter', system-ui, sans-serif", overflowX: "hidden", maxWidth: "100vw" }}>
 
       {/* Header */}
@@ -820,14 +875,18 @@ export default function App() {
               </h1>
               <p style={{ margin: "6px 0 0", color: "#00ff00", fontSize: isMobile ? 13 : 22, fontWeight: 700,
                 letterSpacing: "-0.02em" }}>
-                Connect. Get Recruited. Play.
+                Explore. Connect. Play.
               </p>
             </div>
-            {!isMobile && <HeaderAuth user={user} isMobile={false} />}
+            <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 0 : 8 }}>
+              {!isMobile && <NotificationBell user={user} isMobile={false} onNavigate={path => navigate(path)} />}
+              {!isMobile && authReady && <HeaderAuth user={user} isMobile={false} />}
+            </div>
           </div>
           {isMobile && (
-            <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12 }}>
-              <HeaderAuth user={user} isMobile={true} />
+            <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 8, marginBottom: 12 }}>
+              <NotificationBell user={user} isMobile={true} onNavigate={path => navigate(path)} />
+              {authReady && <HeaderAuth user={user} isMobile={true} />}
             </div>
           )}
 
@@ -915,7 +974,8 @@ export default function App() {
         )}
 
         {/* Email verification banner */}
-        {user && !user.emailVerified && user.providerData?.[0]?.providerId === "password" && (
+        {/* Email verification banner disabled for now */}
+        {false && user && !user.emailVerified && user.providerData?.[0]?.providerId === "password" && !userAccess?.isCoach && !userAccess?.isAdmin && (
           <div style={{
             display: "flex", alignItems: "center", gap: 12,
             background: "#dbeafe", border: "1px solid #93c5fd",
@@ -927,9 +987,7 @@ export default function App() {
               Please check your email and click the verification link to activate your account.
               {" "}
               <button onClick={() => {
-                import("firebase/auth").then(({ sendEmailVerification }) => {
-                  sendEmailVerification(user).then(() => alert("Verification email sent!")).catch(() => alert("Could not send. Try again later."));
-                });
+                sendEmailVerification(user).then(() => alert("Verification email sent!")).catch((err) => alert("Could not send: " + (err.message || "Try again later.")));
               }} style={{
                 background: "none", border: "none", color: "#1e40af", fontWeight: 700,
                 cursor: "pointer", fontSize: 13, textDecoration: "underline", padding: 0,
@@ -967,11 +1025,26 @@ export default function App() {
         )}
 
         {/* Routes */}
+        <ErrorBoundary>
         <Suspense fallback={<LazyFallback />}>
           <Routes>
             <Route path="/" element={programGridContent(false)} />
             <Route path="/favorites" element={programGridContent(true)} />
             <Route path="/conferences" element={conferencesContent} />
+            <Route path="/conference/:abbr" element={
+              <ConferenceDetailPage
+                programs={programs}
+                conferences={conferences}
+                confNameMap={confNameMap}
+                contactsByProgramId={contactsByProgramId}
+                onSelectProgram={handleSelectProgram}
+                onToggleCompare={handleToggleCompare}
+                compareIds={compareIds}
+                favoriteIds={favoriteIds}
+                onToggleFavorite={handleToggleFavorite}
+                isMobile={isMobile}
+              />
+            } />
             <Route path="/leagues" element={
               <LeagueHierarchyPage
                 programs={programs}
@@ -987,28 +1060,40 @@ export default function App() {
               />
             } />
             <Route path="/submit" element={<ContactPage programs={programs} user={user} />} />
-            <Route path="/player-profile" element={<PlayerSubmitPage user={user} />} />
+            <Route path="/player-profile" element={
+              <AuthGate user={user} title="Player Profile" description="Verify your email to create your player profile.">
+                <PlayerSubmitPage user={user} />
+              </AuthGate>
+            } />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/directory" element={
-              userAccess?.isCoach ? <PlayerDirectoryPage user={user} /> : <Navigate to="/" />
+              userAccess?.isCoach ? (
+                <AuthGate user={user} title="Player Directory" description="Verify your email to access the player directory.">
+                  <PlayerDirectoryPage user={user} onOpenMessage={handleOpenMessage} />
+                </AuthGate>
+              ) : <Navigate to="/" />
             } />
             <Route path="/coach" element={
               (coachProgramIds.length > 0 || userAccess?.isCoach) ? (
-                <CoachDashboardPage
-                  coachProgramIds={coachProgramIds}
-                  programs={programs}
-                  user={user}
-                  onOpenMessage={handleOpenMessage}
-                />
+                <AuthGate user={user} title="My Program" description="Verify your email to access your program dashboard.">
+                  <CoachDashboardPage
+                    coachProgramIds={coachProgramIds}
+                    programs={programs}
+                    user={user}
+                    onOpenMessage={handleOpenMessage}
+                  />
+                </AuthGate>
               ) : <Navigate to="/" />
             } />
             <Route path="/messages" element={
               (userAccess?.isCoach || hasPlayerProfile) ? (
-                <MessagesPage
-                  user={user}
-                  activeConversationId={pendingConversationId}
-                  onConversationOpened={() => setPendingConversationId(null)}
-                />
+                <AuthGate user={user} title="Messages" description="Verify your email to access messages.">
+                  <MessagesPage
+                    user={user}
+                    activeConversationId={pendingConversationId}
+                    onConversationOpened={() => setPendingConversationId(null)}
+                  />
+                </AuthGate>
               ) : <Navigate to="/player-profile" />
             } />
             <Route path="/program/:id/:slug" element={
@@ -1033,6 +1118,7 @@ export default function App() {
           </Routes>
           {showCompare && <CompareView programs={comparePrograms} onClose={() => setShowCompare(false)} />}
         </Suspense>
+        </ErrorBoundary>
       </div>
 
       {/* Sign-in toast for favorites/messaging */}
@@ -1067,5 +1153,6 @@ export default function App() {
 
       <Footer />
     </div>
+    </ToastProvider>
   );
 }

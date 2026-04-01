@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase.js";
 import SchoolLogo from "./ui/SchoolLogo.jsx";
@@ -36,6 +36,22 @@ const HeartIcon = ({ filled, size = 22 }) => (
 
 export default function ProgramDetailPage({ programs = [], confNameMap = {}, user, favoriteIds = new Set(), onToggleFavorite, coachProgramIds = [], onOpenMessage, onToggleCompare, compareIds = [] }) {
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const backTo = sessionStorage.getItem("programListFrom") || "/";
+  const backLabel = backTo === "/rankings" ? "Back to rankings"
+    : backTo === "/leagues" ? "Back to leagues"
+    : backTo.startsWith("/conference") ? "Back to conference"
+    : backTo === "/favorites" ? "Back to favorites"
+    : "Back to programs";
+
+  function goBack() {
+    navigate(backTo, { state: { restoreScroll: true } });
+  }
+
+  // Scroll to top when arriving at a program detail page
+  useEffect(() => { window.scrollTo(0, 0); }, [id]);
+
   const [fetchedProgram, setFetchedProgram] = useState(null);
   const [fetchedContacts, setFetchedContacts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -84,9 +100,9 @@ export default function ProgramDetailPage({ programs = [], confNameMap = {}, use
     <div style={{ textAlign: "center", padding: "60px 24px" }}>
       <div style={{ fontSize: 40, marginBottom: 16 }}>🔍</div>
       <div style={{ fontSize: 17, fontWeight: 600, color: "#0A1F44", marginBottom: 12 }}>Program not found</div>
-      <Link to="/" style={{ color: "#1a56db", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>
-        ← Back to programs
-      </Link>
+      <a onClick={() => goBack()} style={{ color: "#1a56db", fontWeight: 600, fontSize: 14, textDecoration: "none", cursor: "pointer" }}>
+        ← {backLabel}
+      </a>
     </div>
   );
 
@@ -101,13 +117,13 @@ export default function ProgramDetailPage({ programs = [], confNameMap = {}, use
   return (
     <div>
       {/* Back link */}
-      <Link to="/" style={{
+      <a onClick={() => goBack()} style={{
         display: "inline-flex", alignItems: "center", gap: 6,
         color: "#1a56db", fontWeight: 600, fontSize: 14, textDecoration: "none",
-        marginBottom: 20,
+        marginBottom: 20, cursor: "pointer",
       }}>
-        ← Back to programs
-      </Link>
+        ← {backLabel}
+      </a>
 
       <div style={{
         background: "#fff", borderRadius: 16,
@@ -246,7 +262,7 @@ export default function ProgramDetailPage({ programs = [], confNameMap = {}, use
             <StatRow label="Avg SAT" value={program.sat ? program.sat.toFixed(0) : null} />
             <StatRow label="Acceptance Rate" value={program.acceptanceRate ? `${program.acceptanceRate}%` : null} />
             {program.usNewsRank && (
-              <StatRow label="US News Rank" value={
+              <StatRow label={program.usNewsCategory ? `US News (${program.usNewsCategory})` : "US News Rank"} value={
                 program.usNewsUrl
                   ? <a href={program.usNewsUrl} target="_blank" rel="noreferrer" style={{ color: "#00CC00", textDecoration: "none", fontWeight: 600 }}>#{program.usNewsRank}</a>
                   : `#${program.usNewsRank}`

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where, serverTimestamp } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { db, auth } from "../firebase.js";
 import { logChange } from "../utils/changelog.js";
+import { createNotification } from "../utils/notifications.js";
 import AuthGate from "./ui/AuthGate.jsx";
 
 export default function ContactPage({ programs, user }) {
@@ -28,6 +29,18 @@ export default function ContactPage({ programs, user }) {
       const submissionData = { ...form, requestType, uid: user.uid, submittedAt: serverTimestamp() };
       const ref = await addDoc(collection(db, "submissions"), submissionData);
       await logChange("add", "submissions", ref.id, { ...form, requestType }, form.email || user.email || "anonymous");
+      // Notify admin users about the new submission
+      getDocs(query(collection(db, "users"), where("isAdmin", "==", true))).then(snap => {
+        snap.docs.forEach(d => {
+          createNotification({
+            recipientUid: d.id,
+            type: "submission",
+            title: "New program submission",
+            body: `${form.name || "Someone"} submitted ${requestType === "new" ? "a new program" : "an update"} for ${form.school || "a program"}`,
+            link: "/admin",
+          }).catch(() => {});
+        });
+      }).catch(() => {});
       setStatus("sent");
       setForm({ name: "", email: user.email || "", title: "", school: "", phone: "", details: "" });
     } catch (err) {

@@ -76,9 +76,9 @@ export default function ProgramCard({ program, onClick, isComparing, onToggleCom
         {program.usNewsRank && (
           program.usNewsUrl
             ? <a href={program.usNewsUrl} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} style={{ textDecoration: "none" }}>
-                <StatPill label="US News" value={`#${program.usNewsRank}`} />
+                <StatPill label={program.usNewsCategory || "US News"} value={`#${program.usNewsRank}`} />
               </a>
-            : <StatPill label="US News" value={`#${program.usNewsRank}`} />
+            : <StatPill label={program.usNewsCategory || "US News"} value={`#${program.usNewsRank}`} />
         )}
       </div>
 

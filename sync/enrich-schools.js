@@ -77,7 +77,7 @@ const SCHOOL_INFO = {
   "Rice University":               { city: "Houston", state: "TX", ncaaDivision: "NCAA D1", schoolType: "Private", enrollment: 8000 },
   "Sacramento State University":   { city: "Sacramento", state: "CA", ncaaDivision: "NCAA D1", schoolType: "Public", enrollment: 31000 },
   "Saint Mary's College":          { city: "Moraga", state: "CA", ncaaDivision: "NCAA D1", schoolType: "Private", enrollment: 3200 },
-  "Southern Illinois University":  { city: "Carbondale", state: "IL", ncaaDivision: "NCAA D1", schoolType: "Public", enrollment: 11000 },
+  "Southern Illinois University Carbondale": { city: "Carbondale", state: "IL", ncaaDivision: "NCAA D1", schoolType: "Public", enrollment: 11000 },
   "Southern Utah University":      { city: "Cedar City", state: "UT", ncaaDivision: "NCAA D1", schoolType: "Public", enrollment: 14000 },
   "Southwest Minnesota State University": { city: "Marshall", state: "MN", ncaaDivision: "NCAA D2", schoolType: "Public", enrollment: 7000 },
   "St. Edwards University":        { city: "Austin", state: "TX", ncaaDivision: "NCAA D2", schoolType: "Private", enrollment: 4000 },

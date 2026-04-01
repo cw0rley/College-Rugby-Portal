@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { db, auth } from "../firebase.js";
+import { US_STATES } from "../constants.js";
 import AuthGate from "./ui/AuthGate.jsx";
 
 const POSITIONS = [
@@ -22,6 +23,7 @@ const EMPTY_FORM = {
   position: "", secondaryPosition: "", yearsPlaying: "",
   currentClub: "", coachName: "", coachEmail: "",
   height: "", weight: "",
+  highlightVideo: "",
   selections: "", achievements: "",
   preferredRegion: "", interestedSchools: "", notes: "",
   profilePublic: false,
@@ -166,16 +168,25 @@ export default function PlayerSubmitPage({ user }) {
                       placeholder="Optional" style={inputStyle} />
                   </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 16 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={labelStyle}>High School *</label>
                     <input value={form.highSchool} onChange={e => set("highSchool", e.target.value)}
                       required placeholder="School name" style={inputStyle} />
                   </div>
                   <div>
-                    <label style={labelStyle}>City, State</label>
+                    <label style={labelStyle}>City</label>
                     <input value={form.city} onChange={e => set("city", e.target.value)}
-                      placeholder="e.g. Austin, TX" style={inputStyle} />
+                      placeholder="e.g. Austin" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>State</label>
+                    <select value={form.state} onChange={e => set("state", e.target.value)} style={inputStyle}>
+                      <option value="">— Select —</option>
+                      {Object.entries(US_STATES).sort((a, b) => a[1].localeCompare(b[1])).map(([abbr, name]) => (
+                        <option key={abbr} value={abbr}>{name}</option>
+                      ))}
+                    </select>
                   </div>
                   <div>
                     <label style={labelStyle}>Graduation Year *</label>
@@ -265,6 +276,11 @@ export default function PlayerSubmitPage({ user }) {
                       placeholder="coach@email.com" style={inputStyle} />
                   </div>
                 </div>
+                <div style={{ marginBottom: 16 }}>
+                  <label style={labelStyle}>Highlight Video URL</label>
+                  <input type="url" value={form.highlightVideo} onChange={e => set("highlightVideo", e.target.value)}
+                    placeholder="e.g. https://www.hudl.com/video/..." style={inputStyle} />
+                </div>
 
                 {/* Selections & Achievements */}
                 <div style={sectionStyle}>Selections & Achievements</div>
@@ -316,7 +332,7 @@ export default function PlayerSubmitPage({ user }) {
                       Make my profile visible in the Player Directory
                     </div>
                     <div style={{ fontSize: 12, color: "#64748b", marginTop: 4, lineHeight: 1.5 }}>
-                      Allow coaches and other users to see your name, position, graduation year, GPA, city, club, and height/weight in the public directory.
+                      Allow coaches and other users to see your name, position, graduation year, GPA, city, state, club, height/weight, and highlight video in the public directory.
                     </div>
                   </div>
                 </label>

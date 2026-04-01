@@ -197,10 +197,56 @@ export async function syncPrograms(newPrograms, options = {}) {
   };
 
   // Filter out junk programs
-  const JUNK_KEYWORDS = ["barbarian", "all-star", "shield challenge", "select side", "alum", "earns eagle", "rwc spot", "celebrates", "academy form", "hounds form"];
+  const JUNK_KEYWORDS = ["barbarian", "all-star", "shield challenge", "select side", "alum", "earns eagle", "rwc spot", "celebrates", "academy form", "hounds form", "qualifier", "millennial atlantic"];
+  // Shortened/informal names that are duplicates of canonical entries
+  const JUNK_EXACT = new Set([
+    "army", "navy", "army west point", "purdue", "notre dame", "ohio state",
+    "the ohio state university", "michigan", "michigan state", "illinois",
+    "indiana", "wisconsin", "ole miss: university of mississippi",
+    "angelo state", "cal poly humboldt", "chico state university",
+    "fresno state university", "sacramento state university",
+    "catholic university", "franciscan university",
+    "diablo valley college", "mira costa college",
+    "virginia polytechnic institute",
+  ]);
+  // Alternate name patterns that duplicate canonical entries (e.g. "University of Wisconsin - Eau Claire" vs "University of Wisconsin-Eau Claire")
+  const JUNK_PATTERNS_EXTRA = [
+    /^University of Wisconsin - /,    // canonical uses hyphen no spaces: "Wisconsin-Eau Claire"
+    /^University of (North Carolina|Texas|Pittsburgh|Maine) - /,  // same pattern
+    /^Penn (State|West) University/,  // canonical: "Pennsylvania State University" / "PennWest"
+    /^SUNY - /,                       // canonical: "SUNY Geneseo" not "SUNY - Geneseo"
+    /^(Kutztown|Millersville|Bloomsburg|West Chester|Stony Brook) University$/,  // missing "of Pennsylvania" etc
+    /^(Molloy|Queens) University$/,   // canonical has different suffix
+    /^(Indiana|York) University$/,    // too generic
+    /^University (of Buffalo|at Albany)$/,  // canonical: "University at Buffalo (SUNY)"
+    /^Washington State University\s{2,}/, // concatenated with another school
+    /^University of Washington\s+Western/, // concatenated
+    /\s{2,}/,                         // any double-spaced concatenated names
+  ];
   const validPrograms = newPrograms.filter(p => {
     const name = p.school || "";
-    const lower = name.toLowerCase();
+    const lower = name.toLowerCase().trim();
+
+    // Reject year-prefixed entries (e.g. "2024 Great Midwest 7s Qualifier")
+    if (/^\d{4}\s/.test(name)) {
+      console.log(`  ⚠ Rejected year-prefixed junk: "${name}"`);
+      results.programs.rejected++;
+      return false;
+    }
+
+    // Reject exact junk names
+    if (JUNK_EXACT.has(lower)) {
+      console.log(`  ⚠ Rejected informal/duplicate name: "${name}"`);
+      results.programs.rejected++;
+      return false;
+    }
+
+    // Reject pattern-matched junk
+    if (JUNK_PATTERNS_EXTRA.some(re => re.test(name))) {
+      console.log(`  ⚠ Rejected duplicate name pattern: "${name}"`);
+      results.programs.rejected++;
+      return false;
+    }
 
     // Reject concatenated names (multiple University/College keywords)
     const institutionWords = (name.match(/University|College|Institute|Academy/gi) || []).length;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { signInWithPopup, signInWithRedirect, getRedirectResult,
-  createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+  createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  sendEmailVerification } from "firebase/auth";
 import { auth, googleProvider } from "../../firebase.js";
 
 export default function AuthGate({ user, title, description, children }) {
@@ -9,6 +10,7 @@ export default function AuthGate({ user, title, description, children }) {
   const [authPassword, setAuthPassword] = useState("");
   const [authError, setAuthError] = useState(null);
   const [authLoading, setAuthLoading] = useState(false);
+  const [resendStatus, setResendStatus] = useState(null);
 
   async function handleGoogleSignIn() {
     setAuthError(null);
@@ -39,7 +41,57 @@ export default function AuthGate({ user, title, description, children }) {
     }
   }
 
-  if (user) return <>{children}</>;
+  // Verified or Google users can proceed
+  if (user && (user.emailVerified || user.providerData?.[0]?.providerId !== "password")) {
+    return <>{children}</>;
+  }
+
+  // Unverified email/password user — show verification prompt
+  if (user && !user.emailVerified) {
+    const alreadySent = localStorage.getItem(`verificationSent_${user.uid}`);
+    return (
+      <div style={{ maxWidth: 440, margin: "0 auto" }}>
+        <div style={{
+          background: "#fff", borderRadius: 16, padding: 40, textAlign: "center",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.06)", border: "1px solid #E5E7EB",
+        }}>
+          <div style={{ fontSize: 40, marginBottom: 16 }}>📧</div>
+          <h2 style={{ margin: "0 0 8px", fontSize: 20, color: "#0A1F44" }}>Verify Your Email</h2>
+          <p style={{ margin: "0 0 20px", fontSize: 14, color: "#64748b", lineHeight: 1.6 }}>
+            We sent a verification link to <strong>{user.email}</strong>. Please check your inbox (and spam/junk folder) and click the link to continue.
+          </p>
+          <button onClick={() => {
+            setResendStatus("sending");
+            localStorage.setItem(`verificationSent_${user.uid}`, "1");
+            sendEmailVerification(user)
+              .then(() => setResendStatus("sent"))
+              .catch((err) => setResendStatus(err.code === "auth/too-many-requests" ? "Too many attempts. Please wait a few minutes." : "Failed to send. Try again."));
+          }} disabled={resendStatus === "sending" || resendStatus === "sent"} style={{
+            padding: "10px 24px", borderRadius: 8, border: "none",
+            background: resendStatus === "sent" ? "#16a34a" : "#0A1F44", color: "#fff",
+            fontWeight: 600, fontSize: 14, cursor: resendStatus === "sent" ? "default" : "pointer",
+            marginBottom: 12,
+          }}>
+            {resendStatus === "sending" ? "Sending..." : resendStatus === "sent" ? "Email Sent!" : alreadySent ? "Resend Verification Email" : "Send Verification Email"}
+          </button>
+          {resendStatus && resendStatus !== "sending" && resendStatus !== "sent" && (
+            <p style={{ fontSize: 13, color: "#dc2626", marginTop: 8 }}>{resendStatus}</p>
+          )}
+          <p style={{ margin: "16px 0 0", fontSize: 13, color: "#94a3b8" }}>
+            Already verified?{" "}
+            <button onClick={() => window.location.reload()} style={{
+              background: "none", border: "none", color: "#00CC00", fontWeight: 600,
+              fontSize: 13, cursor: "pointer", padding: 0,
+            }}>Refresh the page</button>
+          </p>
+          <button onClick={() => auth.signOut()} style={{
+            background: "none", border: "none", color: "#94a3b8", fontWeight: 600,
+            fontSize: 13, cursor: "pointer", marginTop: 12,
+          }}>Sign out</button>
+        </div>
+      </div>
+    );
+  }
 
   const inputStyle = {
     width: "100%", padding: "10px 12px", borderRadius: 8,

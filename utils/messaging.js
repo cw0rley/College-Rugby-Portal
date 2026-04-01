@@ -1,6 +1,7 @@
 import { collection, query, where, getDocs, addDoc, doc,
   orderBy, onSnapshot, serverTimestamp, updateDoc, increment } from "firebase/firestore";
 import { db } from "../firebase.js";
+import { createNotification } from "./notifications.js";
 
 export async function getOrCreateConversation(myUid, myName, myRole, theirUid, theirName, theirRole, programId) {
   // Check for existing conversation between these two users
@@ -26,7 +27,7 @@ export async function getOrCreateConversation(myUid, myName, myRole, theirUid, t
   return ref.id;
 }
 
-export async function sendMessage(conversationId, senderId, recipientId, text) {
+export async function sendMessage(conversationId, senderId, recipientId, text, senderName) {
   await addDoc(collection(db, "conversations", conversationId, "messages"), {
     senderId,
     text,
@@ -39,6 +40,14 @@ export async function sendMessage(conversationId, senderId, recipientId, text) {
     lastMessageBy: senderId,
     [`unreadCounts.${recipientId}`]: increment(1),
   });
+  // Create in-app notification for recipient
+  createNotification({
+    recipientUid: recipientId,
+    type: "message",
+    title: `New message from ${senderName || "someone"}`,
+    body: text.substring(0, 100),
+    link: "/messages",
+  }).catch(() => {});
 }
 
 export async function markAsRead(conversationId, uid) {

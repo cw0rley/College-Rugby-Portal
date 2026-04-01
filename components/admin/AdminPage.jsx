@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, query, where, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, getDoc, query, where, addDoc, updateDoc, deleteDoc, doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "firebase/auth";
 import { db, auth, googleProvider } from "../../firebase.js";
 import { EMPTY_PROGRAM, CONF_COLS, CONF_CONTACT_COLS, LEAGUE_COLS, PROG_CONTACT_COLS } from "../../constants.js";
@@ -13,10 +13,13 @@ import AdminProgramContacts from "./AdminProgramContacts.jsx";
 import AdminChangelog from "./AdminChangelog.jsx";
 import AdminSubmissions from "./AdminSubmissions.jsx";
 import AdminUsers from "./AdminUsers.jsx";
+import AnalyticsDashboard from "./AnalyticsDashboard.jsx";
+import Pagination from "../ui/Pagination.jsx";
 
 export default function AdminPage() {
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -36,6 +39,7 @@ export default function AdminPage() {
   const [pendingSubmissionsCount, setPendingSubmissionsCount] = useState(0);
   const [sortCol, setSortCol] = useState("school");
   const [sortDir, setSortDir] = useState("asc");
+  const [adminPage, setAdminPage] = useState(1);
 
   function handleSort(col) {
     if (sortCol === col) { setSortDir(d => d === "asc" ? "desc" : "asc"); }
@@ -44,7 +48,20 @@ export default function AdminPage() {
 
   useEffect(() => {
     getRedirectResult(auth).catch(() => {});
-    return onAuthStateChanged(auth, u => { setUser(u); setAuthLoading(false); });
+    return onAuthStateChanged(auth, async u => {
+      setUser(u);
+      if (u) {
+        try {
+          const snap = await getDoc(doc(db, "users", u.uid));
+          setIsAdmin(snap.exists() && snap.data().isAdmin === true);
+        } catch (_) {
+          setIsAdmin(false);
+        }
+      } else {
+        setIsAdmin(false);
+      }
+      setAuthLoading(false);
+    });
   }, []);
 
   function loadPrograms() {
@@ -270,6 +287,16 @@ export default function AdminPage() {
     </div>
   );
 
+  if (!isAdmin) return (
+    <div style={{ maxWidth:400, margin:"60px auto", textAlign:"center",
+      background:"#fff", borderRadius:16, padding:40,
+      boxShadow:"0 1px 3px rgba(0,0,0,0.08)", border:"1px solid #E5E7EB" }}>
+      <img src="/logo-icon.svg" alt="" style={{ width:48, height:48, marginBottom:16 }} />
+      <h2 style={{ margin:"0 0 8px", color:"#0A1F44" }}>Admin Access Required</h2>
+      <p style={{ color:"#64748b", fontSize:14 }}>Your account does not have admin access.</p>
+    </div>
+  );
+
   const filteredUnsorted = programs.filter(p => {
     if (!search) return true;
     const q = search.toLowerCase();
@@ -290,6 +317,11 @@ export default function AdminPage() {
     return sortDir === "asc" ? cmp : -cmp;
   }) : filteredUnsorted;
 
+  const perPage = 50;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+  const safePage = Math.min(adminPage, totalPages);
+  const pagedPrograms = filtered.slice((safePage - 1) * perPage, safePage * perPage);
+
   const adminLeagues = leaguesList.map(l => l.name);
   const adminConferences = conferencesList.map(c => ({ name: c.conference }));
   const adminSchoolTypes = [...new Set(programs.map(p => p.schoolType).filter(Boolean))].sort();
@@ -307,7 +339,16 @@ export default function AdminPage() {
           <div style={{ fontSize:13, color:"#64748b" }}>
             Signed in as <strong>{user.email}</strong>
           </div>
-          {adminTab !== "changelog" && adminTab !== "submissions" && adminTab !== "users" && <><button onClick={() => {
+          <button onClick={() => {
+            localStorage.removeItem("crp_cache_v7");
+            setDoc(doc(db, "config", "cache"), { bustAt: serverTimestamp() }, { merge: true })
+              .then(() => alert("Cache busted! All users will get fresh data on next load."))
+              .catch(() => alert("Cache cleared locally."));
+          }} style={{
+            padding:"7px 14px", borderRadius:8, border:"1px solid #E5E7EB",
+            background:"#fff", fontWeight:600, fontSize:12, cursor:"pointer", color:"#475569",
+          }}>Publish Changes</button>
+          {adminTab !== "changelog" && adminTab !== "submissions" && adminTab !== "users" && adminTab !== "analytics" && <><button onClick={() => {
             if (adminTab === "programs") exportCSV(programs, "programs-backup.csv");
             else if (adminTab === "conferences") exportGenericCSV(CONF_COLS, conferencesList, "conferences-backup.csv");
             else if (adminTab === "confContacts") exportGenericCSV(CONF_CONTACT_COLS, confContactsList, "conference-contacts-backup.csv");
@@ -347,7 +388,7 @@ export default function AdminPage() {
 
       {/* Admin tabs */}
       <div style={{ display:"flex", gap:8, marginBottom:20 }}>
-        {[["programs","Programs"],["submissions","Submissions"],["users","Users"],["progContacts","Prog. Contacts"],["confContacts","Conf. Contacts"],["conferences","Conferences"],["leagues","Leagues"],["changelog","Changelog"]].map(([key, label]) => (
+        {[["programs","Programs"],["submissions","Submissions"],["users","Users"],["analytics","Analytics"],["progContacts","Prog. Contacts"],["confContacts","Conf. Contacts"],["conferences","Conferences"],["leagues","Leagues"],["changelog","Changelog"]].map(([key, label]) => (
           <button key={key} onClick={() => setAdminTab(key)} style={{
             padding:"9px 20px", borderRadius:10, border:"none", cursor:"pointer",
             fontWeight:600, fontSize:14, position:"relative",
@@ -479,6 +520,8 @@ export default function AdminPage() {
 
       {adminTab === "changelog" && <AdminChangelog />}
 
+      {adminTab === "analytics" && <AnalyticsDashboard />}
+
       {adminTab === "programs" && (
         <>
           {formMode === "add" && (
@@ -521,7 +564,7 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filtered.map(p => {
+                  {pagedPrograms.map(p => {
                     const isEditing = formMode === "edit" && editing?.id === p.id;
                     return (
                       <React.Fragment key={p.id}>
@@ -571,6 +614,10 @@ export default function AdminPage() {
                   })}
                 </tbody>
               </table>
+              <div style={{ padding: "8px 14px", fontSize: 12, color: "#64748b", borderTop: "1px solid #E5E7EB" }}>
+                Showing {(safePage - 1) * perPage + 1}–{Math.min(safePage * perPage, filtered.length)} of {filtered.length} programs
+              </div>
+              <Pagination currentPage={safePage} totalPages={totalPages} onPageChange={setAdminPage} />
             </div>
           )}
         </>

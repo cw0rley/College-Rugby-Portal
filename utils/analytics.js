@@ -4,7 +4,7 @@ import { analytics } from "../firebase.js";
 const isDev = typeof import.meta !== "undefined" && import.meta.env?.DEV;
 
 function track(eventName, params = {}) {
-  if (isDev) return;
+  if (isDev || !analytics) return;
   try { logEvent(analytics, eventName, params); } catch (_) {}
 }
 

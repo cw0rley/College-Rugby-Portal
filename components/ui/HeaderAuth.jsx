@@ -13,6 +13,8 @@ export default function HeaderAuth({ user, isMobile }) {
 
   async function handleGoogle() {
     setError(null);
+    const isMobile = window.innerWidth <= 900 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) { signInWithRedirect(auth, googleProvider); return; }
     try { await signInWithPopup(auth, googleProvider); setShowForm(false); }
     catch { signInWithRedirect(auth, googleProvider); }
   }

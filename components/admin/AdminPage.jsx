@@ -47,21 +47,27 @@ export default function AdminPage() {
   }
 
   useEffect(() => {
-    getRedirectResult(auth).catch(() => {});
-    return onAuthStateChanged(auth, async u => {
-      setUser(u);
-      if (u) {
-        try {
-          const snap = await getDoc(doc(db, "users", u.uid));
-          setIsAdmin(snap.exists() && snap.data().isAdmin === true);
-        } catch (_) {
+    let cancelled = false;
+    // Wait for redirect to settle, then use onAuthStateChanged as single source of truth
+    getRedirectResult(auth).catch(() => {}).then(() => {
+      if (cancelled) return;
+      onAuthStateChanged(auth, async u => {
+        if (cancelled) return;
+        setUser(u);
+        if (u) {
+          try {
+            const snap = await getDoc(doc(db, "users", u.uid));
+            if (!cancelled) setIsAdmin(snap.exists() && snap.data().isAdmin === true);
+          } catch {
+            if (!cancelled) setIsAdmin(false);
+          }
+        } else {
           setIsAdmin(false);
         }
-      } else {
-        setIsAdmin(false);
-      }
-      setAuthLoading(false);
+        if (!cancelled) setAuthLoading(false);
+      });
     });
+    return () => { cancelled = true; };
   }, []);
 
   function loadPrograms() {
@@ -272,7 +278,11 @@ export default function AdminPage() {
       <p style={{ color:"#64748b", fontSize:14, marginBottom:24 }}>
         Sign in with your Google account to manage programs.
       </p>
-      <button onClick={() => signInWithPopup(auth, googleProvider).catch(() => signInWithRedirect(auth, googleProvider))} style={{
+      <button onClick={() => {
+        const isMobile = window.innerWidth <= 900 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) { signInWithRedirect(auth, googleProvider); }
+        else { signInWithPopup(auth, googleProvider).catch(() => signInWithRedirect(auth, googleProvider)); }
+      }} style={{
         display:"inline-flex", alignItems:"center", gap:10, padding:"11px 24px",
         borderRadius:8, border:"1px solid #E5E7EB", background:"#fff",
         fontWeight:700, fontSize:14, cursor:"pointer", boxShadow:"0 1px 3px rgba(0,0,0,0.08)" }}>
@@ -294,6 +304,13 @@ export default function AdminPage() {
       <img src="/logo-icon.svg" alt="" style={{ width:48, height:48, marginBottom:16 }} />
       <h2 style={{ margin:"0 0 8px", color:"#0A1F44" }}>Admin Access Required</h2>
       <p style={{ color:"#64748b", fontSize:14 }}>Your account does not have admin access.</p>
+      <p style={{ color:"#94a3b8", fontSize:12, marginTop:16, wordBreak:"break-all" }}>
+        {user?.email}
+      </p>
+      <button onClick={() => signOut(auth)} style={{
+        marginTop:16, padding:"7px 14px", borderRadius:8, border:"1px solid #E5E7EB",
+        background:"#fff", color:"#475569", fontWeight:600, fontSize:12, cursor:"pointer",
+      }}>Sign Out</button>
     </div>
   );
 
@@ -326,6 +343,8 @@ export default function AdminPage() {
   const adminConferences = conferencesList.map(c => ({ name: c.conference }));
   const adminSchoolTypes = [...new Set(programs.map(p => p.schoolType).filter(Boolean))].sort();
 
+  const isMobile = window.innerWidth <= 900;
+
   return (
     <div>
       {/* Admin header */}
@@ -335,8 +354,8 @@ export default function AdminPage() {
           <h2 style={{ margin:"0 0 4px", fontSize:20, color:"#0A1F44" }}>Admin</h2>
           <div style={{ fontSize:13, color:"#64748b" }}>{programs.length} total programs</div>
         </div>
-        <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-          <div style={{ fontSize:13, color:"#64748b" }}>
+        <div style={{ display:"flex", alignItems:"center", gap:8, flexWrap:"wrap" }}>
+          <div style={{ fontSize:12, color:"#64748b", width: isMobile ? "100%" : "auto" }}>
             Signed in as <strong>{user.email}</strong>
           </div>
           <button onClick={() => {
@@ -364,34 +383,34 @@ export default function AdminPage() {
             else exportGenericCSV(LEAGUE_COLS, leaguesList, "leagues-backup.csv");
           }} style={{
             padding:"7px 14px", borderRadius:8, border:"1px solid #E5E7EB",
-            background:"#fff", color:"#475569", fontWeight:600, fontSize:13, cursor:"pointer" }}>
-            ⬇ Export {({programs:"Programs",conferences:"Conferences",confContacts:"Conf. Contacts",progContacts:"Prog. Contacts",leagues:"Leagues"})[adminTab]}
+            background:"#fff", color:"#475569", fontWeight:600, fontSize:12, cursor:"pointer" }}>
+            Export
           </button>
           <label style={{
             padding:"7px 14px", borderRadius:8, border:"1px solid #E5E7EB",
-            background:"#fff", color:"#475569", fontWeight:600, fontSize:13, cursor:"pointer" }}>
-            ⬆ Import {({programs:"Programs",conferences:"Conferences",confContacts:"Conf. Contacts",progContacts:"Prog. Contacts",leagues:"Leagues"})[adminTab]}
+            background:"#fff", color:"#475569", fontWeight:600, fontSize:12, cursor:"pointer" }}>
+            Import
             <input type="file" accept=".csv" onChange={handleImportFile} style={{ display:"none" }} />
           </label></>}
           <button onClick={() => signOut(auth)} style={{
             padding:"7px 14px", borderRadius:8, border:"1px solid #E5E7EB",
-            background:"#fff", color:"#475569", fontWeight:600, fontSize:13, cursor:"pointer" }}>
+            background:"#fff", color:"#475569", fontWeight:600, fontSize:12, cursor:"pointer" }}>
             Sign Out
           </button>
           <button onClick={() => { setEditing(null); setFormMode("add"); }} style={{
             padding:"8px 18px", borderRadius:8, border:"none", background:"#0A1F44",
-            color:"#fff", fontWeight:700, fontSize:13, cursor:"pointer" }}>
-            + Add Program
+            color:"#fff", fontWeight:700, fontSize:12, cursor:"pointer" }}>
+            + Add
           </button>
         </div>
       </div>
 
       {/* Admin tabs */}
-      <div style={{ display:"flex", gap:8, marginBottom:20 }}>
+      <div style={{ display:"flex", gap:6, marginBottom:20, overflowX:"auto", WebkitOverflowScrolling:"touch", paddingBottom:4 }}>
         {[["programs","Programs"],["submissions","Submissions"],["users","Users"],["analytics","Analytics"],["progContacts","Prog. Contacts"],["confContacts","Conf. Contacts"],["conferences","Conferences"],["leagues","Leagues"],["changelog","Changelog"]].map(([key, label]) => (
           <button key={key} onClick={() => setAdminTab(key)} style={{
-            padding:"9px 20px", borderRadius:10, border:"none", cursor:"pointer",
-            fontWeight:600, fontSize:14, position:"relative",
+            padding: isMobile ? "8px 14px" : "9px 20px", borderRadius:10, border:"none", cursor:"pointer",
+            fontWeight:600, fontSize: isMobile ? 12 : 14, position:"relative", whiteSpace:"nowrap", flexShrink:0,
             background: adminTab === key ? "#0A1F44" : "#fff",
             color: adminTab === key ? "#fff" : "#475569",
             boxShadow: adminTab === key ? "0 4px 12px rgba(26,86,219,0.3)" : "0 1px 3px rgba(0,0,0,0.08)",
@@ -551,7 +570,7 @@ export default function AdminPage() {
           ) : (
             <div style={{ background:"#fff", borderRadius:12, border:"1px solid #E5E7EB",
               boxShadow:"0 1px 3px rgba(0,0,0,0.06)", overflow:"auto" }}>
-              <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
+              <table style={{ width:"100%", minWidth:700, borderCollapse:"collapse", fontSize:13 }}>
                 <thead>
                   <tr style={{ background:"#f8fafc", borderBottom:"2px solid #E5E7EB" }}>
                     {[["School","school"],["State","state"],["Gender","gender"],["Conference","conference"],["Scholarship","rugbyScholarship"],["Actions",null]].map(([h, col]) => (

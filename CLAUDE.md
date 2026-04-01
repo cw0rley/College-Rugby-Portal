@@ -17,6 +17,7 @@ A web app for discovering and comparing college rugby programs across the US. Pl
 - `npm run build && firebase deploy --only hosting` — Deploy frontend
 - `firebase deploy --only functions` — Deploy Cloud Functions
 - `node sync/sync.js` — Run data sync pipeline
+- `git add -A && git commit -m "message"` — Commit all changes (exclude `nul` and other Windows artifacts via .gitignore)
 
 ## Brand & Style
 

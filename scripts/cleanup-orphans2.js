@@ -44,10 +44,11 @@ for (const d of interestSnap.docs) {
 console.log(`\n--- recruits ---`);
 let cleanedRecruits = 0;
 for (const uid of userIds) {
-  const recruitsSnap = await getDocs(collection(db, "recruits", uid, "players"));
+  const recruitsSnap = await getDocs(collection(db, "users", uid, "recruits"));
   for (const d of recruitsSnap.docs) {
-    if (!userIds.has(d.data().playerUid || d.id)) {
-      console.log(`  ORPHAN recruit: coach ${uid} has recruit ${d.id} (${d.data().firstName || "?"} ${d.data().lastName || "?"})`);
+    if (!userIds.has(d.id)) {
+      const pd = d.data().playerData || {};
+      console.log(`  ORPHAN recruit: coach ${uid} has recruit ${d.id} (${pd.firstName || "?"} ${pd.lastName || "?"})`);
       await deleteDoc(d.ref);
       console.log(`    -> deleted`);
       cleanedRecruits++;

@@ -276,6 +276,8 @@ export default function App() {
   }
 
   async function handleSignInForFavorites() {
+    const isMobile = window.innerWidth <= 900 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) { signInWithRedirect(auth, googleProvider); return; }
     try { await signInWithPopup(auth, googleProvider); }
     catch { signInWithRedirect(auth, googleProvider); }
     setShowSignInPrompt(false);
@@ -909,57 +911,40 @@ export default function App() {
       </div>
 
       {/* Main content */}
-      <div onClick={() => { if (!disclaimerDismissed) setDisclaimerDismissed(true); }} style={{ maxWidth: 1100, margin: "24px auto 40px", padding: isMobile ? "0 8px" : "0 24px", paddingBottom: compareIds.length > 0 ? 70 : 0 }}>
+      <div onClick={() => { if (!disclaimerDismissed) setDisclaimerDismissed(true); }} style={{ maxWidth: 1100, margin: "24px auto 40px", padding: isMobile ? "0 8px" : "0 24px", paddingBottom: isMobile ? Math.max(compareIds.length > 0 ? 70 : 0, 70) : (compareIds.length > 0 ? 70 : 0) }}>
 
-        {/* Nav — hamburger on mobile, tabs on desktop */}
+        {/* Nav — bottom tab bar on mobile, tabs on desktop */}
         {isMobile ? (
-          <div style={{ marginBottom: 20 }}>
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{
-              display: "flex", alignItems: "center", gap: 10, padding: "10px 16px",
-              borderRadius: 10, border: "none", cursor: "pointer",
-              background: mobileMenuOpen ? "#0A1F44" : "#fff",
-              color: mobileMenuOpen ? "#fff" : "#475569",
-              fontWeight: 700, fontSize: 14,
-              boxShadow: "0 1px 3px rgba(0,0,0,0.08)", width: "100%",
-              justifyContent: "space-between",
-            }}>
-              <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  {mobileMenuOpen
-                    ? <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>
-                    : <><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></>
-                  }
-                </svg>
-                {navItems.find(item => {
-                  if (item.end) return location.pathname === item.to;
-                  return location.pathname.startsWith(item.to);
-                })?.label || "Menu"}
-              </span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
-                style={{ transform: mobileMenuOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
+          <>
+            {/* "More" menu overlay */}
             {mobileMenuOpen && (
-              <div style={{
-                marginTop: 6, background: "#fff", borderRadius: 12, overflow: "hidden",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.12)", border: "1px solid #E5E7EB",
-              }}>
-                {navItems.map(item => (
-                  <NavLink key={item.to} to={item.to} end={item.end || false}
-                    onClick={() => setMobileMenuOpen(false)}
-                    style={({ isActive }) => ({
-                      display: "block", padding: "12px 16px",
-                      textDecoration: "none", fontWeight: 600, fontSize: 14,
-                      borderBottom: "1px solid #f1f5f9",
-                      background: isActive ? "#0A1F44" : "#fff",
-                      color: isActive ? "#00FF00" : "#475569",
-                    })}
-                  >{item.label}</NavLink>
-                ))}
+              <div style={{ marginBottom: 20 }}>
+                <div style={{
+                  background: "#fff", borderRadius: 12, overflow: "hidden",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.12)", border: "1px solid #E5E7EB",
+                }}>
+                  {navItems.filter(item => {
+                    // Exclude items already in the bottom bar
+                    const bottomPaths = userAccess?.isCoach
+                      ? ["/", "/coach", "/directory", "/messages"]
+                      : ["/", "/favorites", "/player-profile", "/messages"];
+                    return !bottomPaths.includes(item.to);
+                  }).map(item => (
+                    <NavLink key={item.to} to={item.to} end={item.end || false}
+                      onClick={() => setMobileMenuOpen(false)}
+                      style={({ isActive }) => ({
+                        display: "block", padding: "12px 16px",
+                        textDecoration: "none", fontWeight: 600, fontSize: 14,
+                        borderBottom: "1px solid #f1f5f9",
+                        background: isActive ? "#0A1F44" : "#fff",
+                        color: isActive ? "#00FF00" : "#475569",
+                      })}
+                    >{item.label}</NavLink>
+                  ))}
+                </div>
               </div>
             )}
-          </div>
+          </>
         ) : (
           <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
             {navItems.map(item => (
@@ -1152,6 +1137,67 @@ export default function App() {
       />
 
       <Footer />
+
+      {/* Mobile bottom tab bar */}
+      {isMobile && !isAdminRoute && (() => {
+        const isCoach = userAccess?.isCoach;
+        const bottomTabs = isCoach ? [
+          { to: "/", label: "Programs", end: true, icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> },
+          { to: "/coach", label: "My Program", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> },
+          { to: "/directory", label: "Players", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> },
+          { to: "/messages", label: "Messages", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, badge: totalUnread },
+        ] : [
+          { to: "/", label: "Programs", end: true, icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> },
+          { to: "/favorites", label: "Favorites", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> },
+          { to: "/player-profile", label: "Profile", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> },
+          ...(hasPlayerProfile ? [{ to: "/messages", label: "Messages", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, badge: totalUnread }] : []),
+        ];
+        // Add "More" tab
+        bottomTabs.push({ to: "#more", label: "More", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg> });
+        return (
+          <div style={{
+            position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 900,
+            background: "#fff", borderTop: "1px solid #E5E7EB",
+            display: "flex", justifyContent: "space-around", alignItems: "center",
+            paddingBottom: "env(safe-area-inset-bottom, 0px)",
+            boxShadow: "0 -2px 10px rgba(0,0,0,0.06)",
+          }}>
+            {bottomTabs.map(tab => {
+              const isMore = tab.to === "#more";
+              const isActive = isMore ? mobileMenuOpen : (tab.end ? location.pathname === tab.to : location.pathname.startsWith(tab.to));
+              return (
+                <NavLink
+                  key={tab.to}
+                  to={isMore ? location.pathname : tab.to}
+                  end={tab.end || false}
+                  onClick={e => {
+                    if (isMore) { e.preventDefault(); setMobileMenuOpen(!mobileMenuOpen); }
+                    else { setMobileMenuOpen(false); }
+                  }}
+                  style={{
+                    display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
+                    padding: "8px 4px 6px", textDecoration: "none", flex: 1, position: "relative",
+                    color: isActive ? "#00CC00" : "#94a3b8",
+                  }}
+                >
+                  <div style={{ position: "relative" }}>
+                    {tab.icon}
+                    {tab.badge > 0 && (
+                      <span style={{
+                        position: "absolute", top: -4, right: -8,
+                        background: "#dc2626", color: "#fff", borderRadius: 10,
+                        padding: "0 5px", fontSize: 9, fontWeight: 700,
+                        minWidth: 14, textAlign: "center", lineHeight: "16px",
+                      }}>{tab.badge}</span>
+                    )}
+                  </div>
+                  <span style={{ fontSize: 10, fontWeight: 600 }}>{tab.label}</span>
+                </NavLink>
+              );
+            })}
+          </div>
+        );
+      })()}
     </div>
     </ToastProvider>
   );

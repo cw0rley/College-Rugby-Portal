@@ -14,6 +14,8 @@ export default function AuthGate({ user, title, description, children }) {
 
   async function handleGoogleSignIn() {
     setAuthError(null);
+    const isMobile = window.innerWidth <= 900 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) { signInWithRedirect(auth, googleProvider); return; }
     try { await signInWithPopup(auth, googleProvider); }
     catch (err) { signInWithRedirect(auth, googleProvider); }
   }

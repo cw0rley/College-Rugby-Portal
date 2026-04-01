@@ -911,7 +911,7 @@ export default function App() {
       </div>
 
       {/* Main content */}
-      <div onClick={() => { if (!disclaimerDismissed) setDisclaimerDismissed(true); }} style={{ maxWidth: 1100, margin: "24px auto 40px", padding: isMobile ? "0 8px" : "0 24px", paddingBottom: isMobile ? Math.max(compareIds.length > 0 ? 70 : 0, 70) : (compareIds.length > 0 ? 70 : 0) }}>
+      <div onClick={() => { if (!disclaimerDismissed) setDisclaimerDismissed(true); }} style={{ maxWidth: 1100, margin: "24px auto 40px", padding: isMobile ? "0 8px" : "0 24px", paddingBottom: isMobile ? Math.max(compareIds.length > 0 ? 70 : 0, 90) : (compareIds.length > 0 ? 70 : 0) }}>
 
         {/* Nav — bottom tab bar on mobile, tabs on desktop */}
         {isMobile ? (
@@ -1159,7 +1159,7 @@ export default function App() {
             position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 900,
             background: "#fff", borderTop: "1px solid #E5E7EB",
             display: "flex", justifyContent: "space-around", alignItems: "center",
-            paddingBottom: "env(safe-area-inset-bottom, 0px)",
+            paddingBottom: "max(env(safe-area-inset-bottom, 0px), 8px)",
             boxShadow: "0 -2px 10px rgba(0,0,0,0.06)",
           }}>
             {bottomTabs.map(tab => {

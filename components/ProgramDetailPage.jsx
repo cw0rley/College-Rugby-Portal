@@ -5,6 +5,37 @@ import { db } from "../firebase.js";
 import SchoolLogo from "./ui/SchoolLogo.jsx";
 import Badge from "./ui/Badge.jsx";
 
+function renderMarkdown(text) {
+  if (!text) return null;
+  // Sanitize HTML entities
+  const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const lines = text.split("\n");
+  const html = lines.map(line => {
+    // Headers
+    if (/^### (.+)/.test(line)) return `<h4 style="margin:12px 0 4px;font-size:14px;font-weight:700;color:#0A1F44">${esc(line.slice(4))}</h4>`;
+    if (/^## (.+)/.test(line)) return `<h3 style="margin:14px 0 4px;font-size:15px;font-weight:700;color:#0A1F44">${esc(line.slice(3))}</h3>`;
+    if (/^# (.+)/.test(line)) return `<h3 style="margin:16px 0 6px;font-size:16px;font-weight:800;color:#0A1F44">${esc(line.slice(2))}</h3>`;
+    // List items
+    if (/^[-*] (.+)/.test(line)) {
+      const content = esc(line.slice(2));
+      return `<div style="display:flex;gap:8px;margin:2px 0 2px 8px"><span style="color:#00CC00;font-weight:700">&#8226;</span><span>${applyInline(content)}</span></div>`;
+    }
+    // Empty line
+    if (line.trim() === "") return `<div style="height:8px"></div>`;
+    // Regular paragraph
+    return `<p style="margin:4px 0">${applyInline(esc(line))}</p>`;
+  }).join("");
+
+  function applyInline(s) {
+    return s
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/\[(.+?)\]\((https?:\/\/.+?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#00CC00;font-weight:600;text-decoration:none">$1</a>');
+  }
+
+  return <div dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
 function StatRow({ label, value }) {
   if (!value && value !== 0) return null;
   return (
@@ -299,9 +330,8 @@ export default function ProgramDetailPage({ programs = [], confNameMap = {}, use
           {program.notes && (
             <>
               <SectionHeader>Program Notes</SectionHeader>
-              <div style={{ fontSize: 13, color: "#475569", lineHeight: 1.8, padding: "8px 0",
-                whiteSpace: "pre-wrap" }}>
-                {program.notes}
+              <div style={{ fontSize: 13, color: "#475569", lineHeight: 1.8, padding: "8px 0" }}>
+                {renderMarkdown(program.notes)}
               </div>
             </>
           )}

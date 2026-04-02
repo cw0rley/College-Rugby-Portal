@@ -187,8 +187,29 @@ export default function ProgramForm({ initial, onSave, onCancel, leagues = [], c
         letterSpacing:"0.06em", margin:"16px 0 10px" }}>📝 Notes</div>
       <div style={{ marginBottom:24 }}>
         <textarea value={form.notes ?? ""} onChange={e => set("notes", e.target.value)}
-          placeholder="Additional notes about this program..."
-          rows={3} style={{ ...inp, resize:"vertical" }} />
+          placeholder={"Describe the program. Supports formatting:\n# Heading\n**bold text**\n*italic text*\n- bullet point\n[link text](https://url)"}
+          rows={6} style={{ ...inp, resize:"vertical" }}
+          onKeyDown={e => {
+            if ((e.ctrlKey || e.metaKey) && (e.key === "b" || e.key === "i")) {
+              e.preventDefault();
+              const ta = e.target;
+              const start = ta.selectionStart;
+              const end = ta.selectionEnd;
+              const text = ta.value;
+              const selected = text.substring(start, end);
+              const wrap = e.key === "b" ? "**" : "*";
+              const newText = text.substring(0, start) + wrap + (selected || "text") + wrap + text.substring(end);
+              set("notes", newText);
+              setTimeout(() => {
+                ta.focus();
+                if (selected) { ta.selectionStart = start; ta.selectionEnd = end + wrap.length * 2; }
+                else { ta.selectionStart = start + wrap.length; ta.selectionEnd = start + wrap.length + 4; }
+              }, 0);
+            }
+          }} />
+        <div style={{ fontSize:11, color:"#94a3b8", marginTop:4 }}>
+          Ctrl+B bold, Ctrl+I italic, - bullet points, # heading, [link](url)
+        </div>
       </div>
 
       <div style={{ display:"flex", gap:10, justifyContent:"flex-end" }}>

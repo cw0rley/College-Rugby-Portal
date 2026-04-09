@@ -37,6 +37,14 @@
     ],
     "rewrites": [
       {
+        "source": "/coach-guide.html",
+        "destination": "/coach-guide.html"
+      },
+      {
+        "source": "/player-guide.html",
+        "destination": "/player-guide.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

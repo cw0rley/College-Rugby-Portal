@@ -1,4 +1,5 @@
 const { onDocumentCreated } = require("firebase-functions/v2/firestore");
+const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const { defineString } = require("firebase-functions/params");
 const logger = require("firebase-functions/logger");
 const admin = require("firebase-admin");
@@ -311,3 +312,62 @@ exports.onPlayerInterest = onDocumentCreated(
     }
   }
 );
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Function 3: resendVerificationEmail (callable)
+// Admin-only: generates a verification link and emails it via Resend
+// ═══════════════════════════════════════════════════════════════════════════
+exports.resendVerificationEmail = onCall(async (request) => {
+  // Must be authenticated
+  if (!request.auth) {
+    throw new HttpsError("unauthenticated", "Must be signed in.");
+  }
+
+  // Must be admin
+  const callerDoc = await db.collection("users").doc(request.auth.uid).get();
+  if (!callerDoc.exists || callerDoc.data().isAdmin !== true) {
+    throw new HttpsError("permission-denied", "Admin access required.");
+  }
+
+  const { uid } = request.data;
+  if (!uid) {
+    throw new HttpsError("invalid-argument", "uid is required.");
+  }
+
+  try {
+    const userRecord = await admin.auth().getUser(uid);
+    if (!userRecord.email) {
+      throw new HttpsError("failed-precondition", "User has no email address.");
+    }
+
+    // Generate verification link
+    const link = await admin.auth().generateEmailVerificationLink(userRecord.email, {
+      url: PORTAL_URL,
+    });
+
+    // Send via Resend
+    const subject = "Verify your College Rugby Portal account";
+    const html = buildEmail({
+      subject,
+      bodyHtml: `
+        <p>Hi${userRecord.displayName ? ` ${userRecord.displayName}` : ""},</p>
+        <p>Please verify your email address to complete your College Rugby Portal account setup.</p>
+        <p>Click the button below to verify your email:</p>
+      `,
+      ctaText: "Verify Email",
+      ctaUrl: link,
+    });
+
+    const sent = await sendEmail({ to: userRecord.email, subject, html });
+    if (!sent) {
+      throw new HttpsError("internal", "Failed to send email.");
+    }
+
+    logger.info(`Verification email resent to ${userRecord.email} by admin ${request.auth.uid}`);
+    return { success: true, email: userRecord.email };
+  } catch (err) {
+    if (err instanceof HttpsError) throw err;
+    logger.error("resendVerificationEmail error:", err);
+    throw new HttpsError("internal", err.message || "Failed to resend verification email.");
+  }
+});

@@ -8,7 +8,7 @@ export default function CompareBar({ compareIds, programs, onRemove, onClear, on
 
   return (
     <div style={{
-      position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 900,
+      position: "fixed", bottom: isMobile ? 60 : 0, left: 0, right: 0, zIndex: 950,
       background: "#0A1F44", color: "#fff", padding: isMobile ? "10px 12px" : "12px 24px",
       boxShadow: "0 -4px 20px rgba(0,0,0,0.3)",
       display: "flex", alignItems: "center", gap: isMobile ? 8 : 12,

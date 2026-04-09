@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, doc, setDoc, deleteDoc, query, where } from "firebase/firestore";
-import { db } from "../../firebase.js";
+import { httpsCallable } from "firebase/functions";
+import { db, functions } from "../../firebase.js";
 
 export default function AdminUsers({ programs = [], programContacts = [] }) {
   const [users, setUsers] = useState([]);
@@ -60,6 +61,17 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
     const updated = current.filter(id => id !== programId);
     await setDoc(doc(db, "users", uid), { assignedProgramIds: updated }, { merge: true });
     loadUsers();
+  }
+
+  async function resendVerification(uid, email) {
+    if (!confirm(`Resend verification email to ${email}?`)) return;
+    try {
+      const fn = httpsCallable(functions, "resendVerificationEmail");
+      await fn({ uid });
+      alert(`Verification email sent to ${email}`);
+    } catch (err) {
+      alert(`Failed to send: ${err.message}`);
+    }
   }
 
   async function removeUser(uid) {
@@ -199,24 +211,41 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
                     {allIds.map(id => getProgramLabel(id)).join(", ")}
                   </div>
                 )}
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }} onClick={e => e.stopPropagation()}>
-                  <button onClick={() => toggleCoach(u.id, u.isCoach)} style={{
-                    padding: "5px 10px", borderRadius: 6, border: "1px solid #E5E7EB",
-                    background: u.isCoach ? "#fee2e2" : "#f0fde8",
-                    color: u.isCoach ? "#dc2626" : "#00CC00",
-                    fontWeight: 600, fontSize: 11, cursor: "pointer",
-                  }}>{u.isCoach ? "Remove Coach" : "Make Coach"}</button>
-                  <button onClick={() => toggleAdmin(u.id, u.isAdmin)} style={{
-                    padding: "5px 10px", borderRadius: 6, border: "1px solid #E5E7EB",
-                    background: u.isAdmin ? "#fee2e2" : "#dbeafe",
-                    color: u.isAdmin ? "#dc2626" : "#1a56db",
-                    fontWeight: 600, fontSize: 11, cursor: "pointer",
-                  }}>{u.isAdmin ? "Remove Admin" : "Make Admin"}</button>
-                  <button onClick={() => removeUser(u.id)} style={{
-                    padding: "5px 10px", borderRadius: 6, border: "none",
-                    background: "#fee2e2", color: "#dc2626",
-                    fontWeight: 600, fontSize: 11, cursor: "pointer",
-                  }}>Delete</button>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }} onClick={e => e.stopPropagation()}>
+                  {(() => {
+                    const btnBase = {
+                      padding: "6px 8px", borderRadius: 6, width: "100%",
+                      fontWeight: 600, fontSize: 11, cursor: "pointer",
+                      whiteSpace: "nowrap", textAlign: "center",
+                    };
+                    return (
+                      <>
+                        <button onClick={() => toggleCoach(u.id, u.isCoach)} style={{
+                          ...btnBase, border: "1px solid #E5E7EB",
+                          background: u.isCoach ? "#fee2e2" : "#f0fde8",
+                          color: u.isCoach ? "#dc2626" : "#00CC00",
+                        }}>{u.isCoach ? "Remove Coach" : "Make Coach"}</button>
+                        <button onClick={() => toggleAdmin(u.id, u.isAdmin)} style={{
+                          ...btnBase, border: "1px solid #E5E7EB",
+                          background: u.isAdmin ? "#fee2e2" : "#dbeafe",
+                          color: u.isAdmin ? "#dc2626" : "#1a56db",
+                        }}>{u.isAdmin ? "Remove Admin" : "Make Admin"}</button>
+                        <button
+                          onClick={() => u.email && !u.emailVerified && resendVerification(u.id, u.email)}
+                          disabled={!u.email || u.emailVerified}
+                          style={{
+                            ...btnBase, border: "1px solid #E5E7EB",
+                            background: (u.email && !u.emailVerified) ? "#fffbeb" : "#f8fafc",
+                            color: (u.email && !u.emailVerified) ? "#b45309" : "#cbd5e1",
+                            cursor: (u.email && !u.emailVerified) ? "pointer" : "default",
+                          }}>Resend Email</button>
+                        <button onClick={() => removeUser(u.id)} style={{
+                          ...btnBase, border: "none",
+                          background: "#fee2e2", color: "#dc2626",
+                        }}>Delete</button>
+                      </>
+                    );
+                  })()}
                 </div>
                 {isExpanded && u.isCoach && (
                   <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #E5E7EB" }}>
@@ -343,23 +372,40 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
                       </td>
                       <td style={{ padding: "10px 14px" }} onClick={e => e.stopPropagation()}>
                         <div style={{ display: "flex", gap: 8 }}>
-                          <button onClick={() => toggleCoach(u.id, u.isCoach)} style={{
-                            padding: "5px 12px", borderRadius: 6, border: "1px solid #E5E7EB",
-                            background: u.isCoach ? "#fee2e2" : "#f0fde8",
-                            color: u.isCoach ? "#dc2626" : "#00CC00",
-                            fontWeight: 600, fontSize: 12, cursor: "pointer",
-                          }}>{u.isCoach ? "Remove Coach" : "Make Coach"}</button>
-                          <button onClick={() => toggleAdmin(u.id, u.isAdmin)} style={{
-                            padding: "5px 12px", borderRadius: 6, border: "1px solid #E5E7EB",
-                            background: u.isAdmin ? "#fee2e2" : "#dbeafe",
-                            color: u.isAdmin ? "#dc2626" : "#1a56db",
-                            fontWeight: 600, fontSize: 12, cursor: "pointer",
-                          }}>{u.isAdmin ? "Remove Admin" : "Make Admin"}</button>
-                          <button onClick={() => removeUser(u.id)} style={{
-                            padding: "5px 12px", borderRadius: 6, border: "none",
-                            background: "#fee2e2", color: "#dc2626",
-                            fontWeight: 600, fontSize: 12, cursor: "pointer",
-                          }}>Delete</button>
+                          {(() => {
+                            const btnBase = {
+                              padding: "6px 10px", borderRadius: 6, width: 82,
+                              fontWeight: 600, fontSize: 12, cursor: "pointer",
+                              lineHeight: 1.3, textAlign: "center",
+                            };
+                            return (
+                              <>
+                                <button onClick={() => toggleCoach(u.id, u.isCoach)} style={{
+                                  ...btnBase, border: "1px solid #E5E7EB",
+                                  background: u.isCoach ? "#fee2e2" : "#f0fde8",
+                                  color: u.isCoach ? "#dc2626" : "#00CC00",
+                                }}>{u.isCoach ? "Remove Coach" : "Make Coach"}</button>
+                                <button onClick={() => toggleAdmin(u.id, u.isAdmin)} style={{
+                                  ...btnBase, border: "1px solid #E5E7EB",
+                                  background: u.isAdmin ? "#fee2e2" : "#dbeafe",
+                                  color: u.isAdmin ? "#dc2626" : "#1a56db",
+                                }}>{u.isAdmin ? "Remove Admin" : "Make Admin"}</button>
+                                <button
+                                  onClick={() => u.email && !u.emailVerified && resendVerification(u.id, u.email)}
+                                  disabled={!u.email || u.emailVerified}
+                                  style={{
+                                    ...btnBase, border: "1px solid #E5E7EB",
+                                    background: (u.email && !u.emailVerified) ? "#fffbeb" : "#f8fafc",
+                                    color: (u.email && !u.emailVerified) ? "#b45309" : "#cbd5e1",
+                                    cursor: (u.email && !u.emailVerified) ? "pointer" : "default",
+                                  }}>Resend Email</button>
+                                <button onClick={() => removeUser(u.id)} style={{
+                                  ...btnBase, border: "none",
+                                  background: "#fee2e2", color: "#dc2626",
+                                }}>Delete</button>
+                              </>
+                            );
+                          })()}
                         </div>
                       </td>
                     </tr>

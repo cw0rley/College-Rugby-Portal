@@ -157,6 +157,31 @@ function shouldOverwriteConference(existingVal, newVal) {
   return false;
 }
 
+// ─── Conference name normalization ───────────────────────────────────────────
+
+/**
+ * If a conference value looks like a full name (long, has spaces),
+ * try to match it to an existing conference abbreviation.
+ */
+function normalizeConference(value, existingConferences) {
+  if (!value) return value;
+  const v = String(value).trim();
+  // Already looks like an abbreviation (short, mostly uppercase)
+  if (v.length <= 10 && v === v.toUpperCase()) return v;
+  // Try to match against existing conference full names
+  const lower = v.toLowerCase();
+  for (const conf of existingConferences) {
+    if (conf.fullName && conf.fullName.toLowerCase() === lower) {
+      return conf.conference; // Return the abbreviation
+    }
+  }
+  // No match found — return as-is but log a warning
+  if (v.length > 10 && v.includes(" ")) {
+    console.log(`  ⚠ Long conference name not matched to abbreviation: "${v}"`);
+  }
+  return v;
+}
+
 // ─── Sync programs + programContacts ────────────────────────────────────────
 
 /**
@@ -175,6 +200,7 @@ export async function syncPrograms(newPrograms, options = {}) {
   // Fetch existing data from both collections
   const existingPrograms = await getExistingPrograms();
   const existingContacts = await getExistingProgramContacts();
+  const existingConferences = await getExistingConferences();
 
   // Build lookup maps
   const programMap = new Map();
@@ -218,6 +244,12 @@ export async function syncPrograms(newPrograms, options = {}) {
     /^(Kutztown|Millersville|Bloomsburg|West Chester|Stony Brook) University$/,  // missing "of Pennsylvania" etc
     /^(Molloy|Queens) University$/,   // canonical has different suffix
     /^(Indiana|York) University$/,    // too generic
+    /^(York|Molloy|Mount Saint) College$/,  // too generic, missing qualifiers
+    /^University of (Minnesota|Wisconsin|Nebraska|Illinois)$/,  // bare names — canonical has campus suffix
+    /^Washington University - St\. Louis$/,  // canonical: "in St. Louis"
+    /^Oklahoma University$/,  // canonical: "University of Oklahoma"
+    /^University of Health Sciences & Pharmacy/,  // canonical uses "and"
+    /^University of Minnesota - Moorhead$/,  // canonical: "Minnesota State University Moorhead"
     /^University (of Buffalo|at Albany)$/,  // canonical: "University at Buffalo (SUNY)"
     /^Washington State University\s{2,}/, // concatenated with another school
     /^University of Washington\s+Western/, // concatenated
@@ -272,6 +304,41 @@ export async function syncPrograms(newPrograms, options = {}) {
     return true;
   });
 
+  // ── Deduplicate near-match names against existing programs ──────────
+  // If a new program has no state and a similar-named program already exists, skip it
+  const existingNames = new Map();
+  existingPrograms.forEach(p => {
+    existingNames.set(normalizeSchool(p.school) + "::" + (p.gender || ""), p);
+  });
+
+  const deduped = validPrograms.filter(p => {
+    const key = programKey(p);
+    // If it already exists, it's an update — let it through
+    if (programMap.has(key)) return true;
+
+    // New program: reject if it has no state (likely bad scrape data)
+    if (!p.state) {
+      console.log(`  ⚠ Rejected new program without state: "${p.school}" (${p.gender})`);
+      results.programs.rejected++;
+      return false;
+    }
+
+    // Check for near-duplicate: existing program whose normalized name contains or is contained by this one
+    const norm = normalizeSchool(p.school);
+    for (const [existKey, existProg] of existingNames) {
+      const existNorm = normalizeSchool(existProg.school);
+      if (existProg.gender !== p.gender) continue;
+      // One name contains the other (e.g. "York College" vs "York College of Pennsylvania")
+      if (norm !== existNorm && (norm.includes(existNorm) || existNorm.includes(norm))) {
+        console.log(`  ⚠ Rejected near-duplicate: "${p.school}" (existing: "${existProg.school}")`);
+        results.programs.rejected++;
+        return false;
+      }
+    }
+
+    return true;
+  });
+
   // Process in batches (Firestore limit is 500 per batch, we use 400 for safety)
   const BATCH_LIMIT = 400;
   let batch = db.batch();
@@ -285,8 +352,12 @@ export async function syncPrograms(newPrograms, options = {}) {
     }
   }
 
-  for (const newRecord of validPrograms) {
+  for (const newRecord of deduped) {
     const { programData, contactData } = splitProgramAndContact(newRecord);
+    // Normalize conference name to abbreviation
+    if (programData.conference) {
+      programData.conference = normalizeConference(programData.conference, existingConferences);
+    }
     const key = programKey(programData);
     const existingProg = programMap.get(key);
 

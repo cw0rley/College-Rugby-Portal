@@ -46,28 +46,36 @@ export default function AdminPage() {
     else { setSortCol(col); setSortDir("asc"); }
   }
 
+  async function checkAdmin(u) {
+    if (!u) return false;
+    try {
+      const snap = await getDoc(doc(db, "users", u.uid));
+      return snap.exists() && snap.data().isAdmin === true;
+    } catch {
+      return false;
+    }
+  }
+
   useEffect(() => {
     let cancelled = false;
-    // Wait for redirect to settle, then use onAuthStateChanged as single source of truth
-    getRedirectResult(auth).catch(() => {}).then(() => {
+    getRedirectResult(auth).catch(() => {});
+    const unsub = onAuthStateChanged(auth, async u => {
       if (cancelled) return;
-      onAuthStateChanged(auth, async u => {
-        if (cancelled) return;
-        setUser(u);
-        if (u) {
-          try {
-            const snap = await getDoc(doc(db, "users", u.uid));
-            if (!cancelled) setIsAdmin(snap.exists() && snap.data().isAdmin === true);
-          } catch {
-            if (!cancelled) setIsAdmin(false);
-          }
-        } else {
-          setIsAdmin(false);
+      setUser(u);
+      if (u) {
+        let admin = await checkAdmin(u);
+        // Retry once after a short delay — iOS Safari sometimes needs time to stabilize
+        if (!admin) {
+          await new Promise(r => setTimeout(r, 1000));
+          if (!cancelled) admin = await checkAdmin(u);
         }
-        if (!cancelled) setAuthLoading(false);
-      });
+        if (!cancelled) setIsAdmin(admin);
+      } else {
+        setIsAdmin(false);
+      }
+      if (!cancelled) setAuthLoading(false);
     });
-    return () => { cancelled = true; };
+    return () => { cancelled = true; unsub(); };
   }, []);
 
   function loadPrograms() {

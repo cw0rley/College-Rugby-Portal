@@ -90,19 +90,35 @@ export default function App() {
     setUser(u);
     setAuthReady(true);
     if (u) {
-      // Sync emailVerified status to Firestore so admin can see it
-      if (u.emailVerified) {
-        setDoc(doc(db, "users", u.uid), { emailVerified: true }, { merge: true }).catch(() => {});
-      }
       const userRef = doc(db, "users", u.uid);
       getDoc(userRef).then(snap => {
         if (snap.exists()) {
           const data = snap.data();
           setUserAccess(data);
           sessionStorage.setItem("crp_userAccess", JSON.stringify({ ...data, _uid: u.uid }));
+          // Backfill any missing fields from the auth user
+          const updates = {};
+          if (u.email && !data.email) updates.email = u.email;
+          if (u.displayName && !data.displayName) updates.displayName = u.displayName;
+          if (u.emailVerified && !data.emailVerified) updates.emailVerified = true;
+          if (Object.keys(updates).length > 0) {
+            setDoc(userRef, updates, { merge: true }).catch(() => {});
+          }
         } else {
-          // Create user doc on first sign-in
-          const userData = { email: u.email || "", displayName: u.displayName || "", isCoach: false, approved: false, createdAt: new Date().toISOString() };
+          // Skip creating user doc if email is missing — prevents orphan records
+          if (!u.email) {
+            console.warn("Skipping user doc creation — no email on auth user");
+            return;
+          }
+          // Create user doc on first sign-in with all known fields in one write
+          const userData = {
+            email: u.email,
+            displayName: u.displayName || "",
+            emailVerified: !!u.emailVerified,
+            isCoach: false,
+            approved: false,
+            createdAt: new Date().toISOString(),
+          };
           setDoc(userRef, userData).catch(() => {});
           setUserAccess(userData);
           sessionStorage.setItem("crp_userAccess", JSON.stringify({ ...userData, _uid: u.uid }));
@@ -982,7 +998,7 @@ export default function App() {
         )}
 
         {/* Data disclaimer banner */}
-        {!disclaimerDismissed && !user && (
+        {!disclaimerDismissed && !user && !isMobile && (
           <div style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",
             gap: 12, background: "#fffbeb", border: "1px solid #fde68a",

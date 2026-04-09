@@ -73,13 +73,15 @@ export default function ProgramCard({ program, onClick, isComparing, onToggleCom
         {program.sat && <StatPill label="SAT" value={program.sat?.toFixed(0)} />}
         {program.inStateTuition && <StatPill label="In-State" value={`$${(program.inStateTuition/1000).toFixed(0)}k`} />}
         {program.rugbyRanking && <StatPill label="Rugby Rank" value={`#${program.rugbyRanking}`} />}
-        {program.usNewsRank && (
-          program.usNewsUrl
+        {program.usNewsRank && (() => {
+          const shortCat = (program.usNewsCategory || "US News")
+            .replace("National ", "").replace("Regional ", "Reg. ");
+          return program.usNewsUrl
             ? <a href={program.usNewsUrl} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} style={{ textDecoration: "none" }}>
-                <StatPill label={program.usNewsCategory || "US News"} value={`#${program.usNewsRank}`} />
+                <StatPill label={shortCat} value={`#${program.usNewsRank}`} />
               </a>
-            : <StatPill label={program.usNewsCategory || "US News"} value={`#${program.usNewsRank}`} />
-        )}
+            : <StatPill label={shortCat} value={`#${program.usNewsRank}`} />;
+        })()}
       </div>
 
       {/* Compare checkbox */}

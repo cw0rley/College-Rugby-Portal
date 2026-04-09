@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { signInWithPopup, signInWithRedirect, getRedirectResult,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  sendEmailVerification } from "firebase/auth";
+  sendEmailVerification, updateProfile } from "firebase/auth";
 import { auth, googleProvider } from "../../firebase.js";
 
 export default function AuthGate({ user, title, description, children }) {
   const [authMode, setAuthMode] = useState("login");
+  const [authName, setAuthName] = useState("");
   const [authEmail, setAuthEmail] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [authError, setAuthError] = useState(null);
@@ -26,7 +27,10 @@ export default function AuthGate({ user, title, description, children }) {
     setAuthLoading(true);
     try {
       if (authMode === "signup") {
-        await createUserWithEmailAndPassword(auth, authEmail, authPassword);
+        const cred = await createUserWithEmailAndPassword(auth, authEmail, authPassword);
+        if (authName.trim()) {
+          await updateProfile(cred.user, { displayName: authName.trim() });
+        }
       } else {
         await signInWithEmailAndPassword(auth, authEmail, authPassword);
       }
@@ -138,6 +142,10 @@ export default function AuthGate({ user, title, description, children }) {
 
         {/* Email/password */}
         <form onSubmit={handleEmailAuth}>
+          {authMode === "signup" && (
+            <input type="text" value={authName} onChange={e => setAuthName(e.target.value)}
+              required placeholder="Full name" style={{ ...inputStyle, marginBottom: 10 }} />
+          )}
           <input type="email" value={authEmail} onChange={e => setAuthEmail(e.target.value)}
             required placeholder="Email address" style={{ ...inputStyle, marginBottom: 10 }} />
           <input type="password" value={authPassword} onChange={e => setAuthPassword(e.target.value)}

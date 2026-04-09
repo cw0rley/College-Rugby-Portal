@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { signInWithPopup, signInWithRedirect, createUserWithEmailAndPassword,
-  signInWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
+  signInWithEmailAndPassword, sendEmailVerification, signOut, updateProfile } from "firebase/auth";
 import { auth, googleProvider } from "../../firebase.js";
 
 export default function HeaderAuth({ user, isMobile }) {
   const [showForm, setShowForm] = useState(false);
   const [authMode, setAuthMode] = useState("login");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -26,11 +27,15 @@ export default function HeaderAuth({ user, isMobile }) {
     try {
       if (authMode === "signup") {
         const cred = await createUserWithEmailAndPassword(auth, email, password);
+        if (name.trim()) {
+          await updateProfile(cred.user, { displayName: name.trim() });
+        }
         sendEmailVerification(cred.user).catch(() => {});
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
       setShowForm(false);
+      setName("");
       setEmail("");
       setPassword("");
     } catch (err) {
@@ -102,6 +107,14 @@ export default function HeaderAuth({ user, isMobile }) {
 
               {/* Email/password */}
               <form onSubmit={handleEmailAuth}>
+                {authMode === "signup" && (
+                  <input type="text" value={name} onChange={e => setName(e.target.value)}
+                    required placeholder="Full name" style={{
+                      width: "100%", padding: "8px 10px", borderRadius: 6,
+                      border: "1px solid #E5E7EB", fontSize: 13, marginBottom: 8,
+                      boxSizing: "border-box", outline: "none", color: "#0A1F44",
+                    }} />
+                )}
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)}
                   required placeholder="Email" style={{
                     width: "100%", padding: "8px 10px", borderRadius: 6,

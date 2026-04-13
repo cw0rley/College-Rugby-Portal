@@ -244,7 +244,12 @@ export async function syncPrograms(newPrograms, options = {}) {
     /^(Kutztown|Millersville|Bloomsburg|West Chester|Stony Brook) University$/,  // missing "of Pennsylvania" etc
     /^(Molloy|Queens) University$/,   // canonical has different suffix
     /^(Indiana|York) University$/,    // too generic
-    /^(York|Molloy|Mount Saint) College$/,  // too generic, missing qualifiers
+    /^(York|Mount Saint) College$/,  // too generic, missing qualifiers
+    /^Molloy College$/,  // renamed to Molloy University
+    /^St\. Joseph'?s University$/,  // canonical: "Saint Josephs University"
+    /^University of North Carolina Greensboro$/,  // canonical: "at Greensboro"
+    /^University of Texas El Paso$/,  // canonical: "at El Paso"
+    /^College of St\. Benedict$/,  // canonical: "College of Saint Benedict"
     /^University of (Minnesota|Wisconsin|Nebraska|Illinois)$/,  // bare names — canonical has campus suffix
     /^Washington University - St\. Louis$/,  // canonical: "in St. Louis"
     /^Oklahoma University$/,  // canonical: "University of Oklahoma"
@@ -371,6 +376,8 @@ export async function syncPrograms(newPrograms, options = {}) {
       const updates = {};
       for (const [field, value] of Object.entries(programData)) {
         if (field === "id" || !isNonEmpty(value)) continue;
+        // Don't overwrite rankings that were manually set via admin
+        if (field === "rugbyRanking" && existingProg.rankingManual) continue;
         const existingVal = existingProg[field];
         if (!isNonEmpty(existingVal)) {
           // Empty field — fill it in

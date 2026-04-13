@@ -1,0 +1,140 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Public read collections (programs, conferences, leagues, contacts) ──
+    // Anyone can read program data — this is the core public content
+    match /programs/{programId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /programContacts/{contactId} {
+      allow read: if true;
+      allow write: if isAdmin() || isCoachOfProgram(resource.data.programId);
+    }
+    match /conferences/{confId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /conferenceContacts/{contactId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /leagues/{leagueId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── Cache config (public read for cache busting) ──
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── Users ──
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+
+      // Favorites subcollection
+      match /favorites/{favId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Recruits subcollection (coaches' private recruit lists)
+      match /recruits/{recruitId} {
+        allow read, write: if isOwner(userId);
+        allow delete: if isAdmin();
+      }
+    }
+
+    // ── Player profiles ──
+    match /playerProfiles/{userId} {
+      // Public profiles readable by all signed-in users (for player directory)
+      allow read: if isSignedIn();
+      allow create, update: if isOwner(userId);
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    // ── Program interest (players who favorited a program) ──
+    match /programInterest/{programId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+
+      match /players/{playerId} {
+        allow read: if isSignedIn();
+        allow create, update: if isOwner(playerId);
+        allow delete: if isOwner(playerId) || isAdmin();
+      }
+    }
+
+    // ── Conversations & messages ──
+    match /conversations/{convId} {
+      allow read: if isSignedIn() && isParticipant();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isParticipant();
+      allow delete: if isAdmin();
+
+      match /messages/{msgId} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn();
+        allow delete: if isAdmin();
+      }
+    }
+
+    // ── Notifications ──
+    match /notifications/{notifId} {
+      allow read: if isSignedIn() && resource.data.recipientUid == request.auth.uid;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource.data.recipientUid == request.auth.uid;
+      allow delete: if isAdmin() || resource.data.recipientUid == request.auth.uid;
+    }
+
+    // ── Submissions (contact form) ──
+    match /submissions/{subId} {
+      allow read: if isAdmin();
+      allow create: if isSignedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    // ── Changelog ──
+    match /changelog/{logId} {
+      allow read: if isAdmin();
+      allow create: if isAdmin();
+    }
+
+    // ── Analytics events ──
+    match /analytics/{docId} {
+      allow read: if isAdmin();
+      allow create: if true;
+      allow update: if true;
+    }
+
+    // ── Helper functions ──
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    function isCoachOfProgram(programId) {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        programId in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.assignedProgramIds;
+    }
+
+    function isParticipant() {
+      return request.auth.uid in resource.data.participants;
+    }
+  }
+}

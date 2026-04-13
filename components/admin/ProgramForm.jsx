@@ -15,7 +15,9 @@ export default function ProgramForm({ initial, onSave, onCancel, leagues = [], c
     setSaving(true);
     const data = { ...form };
     ["gpa","sat","acceptanceRate","enrollment","inStateTuition","outStateTuition","rugbyRanking"]
-      .forEach(k => { if (data[k] !== "" && data[k] != null) data[k] = Number(data[k]); else delete data[k]; });
+      .forEach(k => { if (data[k] !== "" && data[k] != null) data[k] = Number(data[k]); else data[k] = null; });
+    // Ensure rankingManual is always saved as boolean
+    data.rankingManual = !!data.rankingManual;
     await onSave(data);
     setSaving(false);
   }
@@ -103,7 +105,22 @@ export default function ProgramForm({ initial, onSave, onCancel, leagues = [], c
       <div style={{ fontWeight:700, fontSize:12, color:"#94a3b8", textTransform:"uppercase",
         letterSpacing:"0.06em", margin:"16px 0 10px" }}>🏉 Rugby</div>
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:12, marginBottom:12 }}>
-        {group("National Ranking","rugbyRanking","number")}
+        <div>
+          {group("National Ranking","rugbyRanking","number")}
+          <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:4 }}>
+            <label style={{ display:"flex", alignItems:"center", gap:6, cursor:"pointer", fontSize:12 }}>
+              <input type="checkbox" checked={!!form.rankingManual}
+                onChange={e => set("rankingManual", e.target.checked)} style={{ width:14, height:14 }} />
+              <span style={{ color: form.rankingManual ? "#b45309" : "#94a3b8" }}>Manual override</span>
+            </label>
+            {form.rankingManual && form.rugbyRanking && (
+              <button type="button" onClick={() => { set("rugbyRanking", ""); set("rankingManual", false); }} style={{
+                background:"none", border:"none", color:"#dc2626", fontSize:11,
+                fontWeight:600, cursor:"pointer", padding:0,
+              }}>Reset to sync</button>
+            )}
+          </div>
+        </div>
         <div style={{ display:"flex", flexDirection:"column", gap:10, paddingTop:20 }}>
           <label style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer", fontSize:13 }}>
             <input type="checkbox" checked={!!form.rugbyScholarship}

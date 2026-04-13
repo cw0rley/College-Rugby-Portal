@@ -12,7 +12,7 @@ const firebaseConfig = {
   storageBucket: "college-rugby-portal.firebasestorage.app",
   messagingSenderId: "794742569184",
   appId: "1:794742569184:web:5feb0dfefdd07836a67885",
-  measurementId: "G-K1K3SYDN5W"
+  measurementId: "G-D2E10NVHXK"
 };
 
 const app = initializeApp(firebaseConfig);

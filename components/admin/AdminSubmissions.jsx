@@ -77,14 +77,6 @@ export default function AdminSubmissions({ userEmail, programs = [], onRefresh }
               });
             }
           }
-          // Apply details as notes if they contain useful info
-          if (sub.details) {
-            const existingNotes = match.notes || "";
-            const newNote = `[Update ${new Date().toLocaleDateString()}] ${sub.details}`;
-            await updateDoc(doc(db, "programs", match.id), {
-              notes: existingNotes ? existingNotes + "\n\n" + newNote : newNote,
-            });
-          }
           await logChange("update", "programs", match.id, { approvedSubmission: sub.id, school: sub.school }, userEmail);
         }
       } else if (sub.requestType === "add") {
@@ -92,7 +84,6 @@ export default function AdminSubmissions({ userEmail, programs = [], onRefresh }
         const newProgram = {
           school: sub.school || "",
           gender: "mens",
-          notes: sub.details || "",
         };
         const ref = await addDoc(collection(db, "programs"), newProgram);
         // Add submitter as contact if they provided info
@@ -351,9 +342,9 @@ export default function AdminSubmissions({ userEmail, programs = [], onRefresh }
                             <strong>What "Approve & Apply" does:</strong>{" "}
                             {sub.requestType === "update"
                               ? matchedProgram
-                                ? `Updates ${matchedProgram.school}'s notes with the details. Adds/updates contact info if provided.`
+                                ? `Adds/updates contact info for ${matchedProgram.school} if provided. Sends confirmation email to submitter.`
                                 : `No matching program found for "${sub.school}" — will mark as approved but won't update any program.`
-                              : `Creates a new program "${sub.school}" with the submitted details and adds the submitter as a contact.`
+                              : `Creates a new program "${sub.school}" and adds the submitter as a contact. Sends confirmation email to submitter.`
                             }
                           </div>
                         </td>

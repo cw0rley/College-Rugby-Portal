@@ -1,4 +1,4 @@
-const { onDocumentCreated } = require("firebase-functions/v2/firestore");
+const { onDocumentCreated, onDocumentUpdated } = require("firebase-functions/v2/firestore");
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const { defineString } = require("firebase-functions/params");
 const logger = require("firebase-functions/logger");
@@ -371,3 +371,48 @@ exports.resendVerificationEmail = onCall(async (request) => {
     throw new HttpsError("internal", err.message || "Failed to resend verification email.");
   }
 });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Function 4: onSubmissionApproved
+// Sends email to the submitter when their submission is approved
+// ═══════════════════════════════════════════════════════════════════════════
+exports.onSubmissionApproved = onDocumentUpdated(
+  "submissions/{subId}",
+  async (event) => {
+    try {
+      const before = event.data.before.data();
+      const after = event.data.after.data();
+
+      // Only trigger when status changes to "approved"
+      if (before.status === "approved" || after.status !== "approved") return;
+
+      const submitterEmail = after.email;
+      if (!submitterEmail) {
+        logger.info("onSubmissionApproved: No submitter email, skipping.");
+        return;
+      }
+
+      const schoolName = after.school || "the program";
+      const submitterName = after.name || "";
+      const requestType = after.requestType === "add" ? "added" : "updated";
+      const subject = `Your submission for ${schoolName} has been approved`;
+
+      const html = buildEmail({
+        subject,
+        bodyHtml: `
+          <p>${submitterName ? `Hi ${submitterName},` : "Hi,"}</p>
+          <p>Great news! Your submission for <strong>${schoolName}</strong> has been reviewed and approved.</p>
+          <p>The program has been ${requestType} on College Rugby Portal. You can view the latest information on the site.</p>
+          <p>Thank you for helping keep our program information accurate and up to date!</p>
+        `,
+        ctaText: "View on College Rugby Portal",
+        ctaUrl: PORTAL_URL,
+      });
+
+      await sendEmail({ to: submitterEmail, subject, html });
+      logger.info(`onSubmissionApproved: Sent approval email to ${submitterEmail} for ${schoolName}`);
+    } catch (err) {
+      logger.error("onSubmissionApproved error:", err);
+    }
+  }
+);

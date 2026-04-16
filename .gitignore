@@ -76,3 +76,13 @@ sync/service-account.json
 sync/service-account..json
 nul
 contacts/send-log.json
+contacts/scraped-comparison.csv
+contacts/scraped-review.csv
+
+# Scraped data files
+sync/scraped-*.json
+sync/programs.json
+sync/conferences.json
+
+# Puppeteer cache
+.cache/puppeteer

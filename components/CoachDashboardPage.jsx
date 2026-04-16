@@ -19,7 +19,15 @@ const currentYear = new Date().getFullYear();
 const GRAD_YEARS = [];
 for (let y = currentYear; y <= currentYear + 5; y++) GRAD_YEARS.push(y);
 
-export default function CoachDashboardPage({ coachProgramIds, programs, user, onOpenMessage }) {
+export default function CoachDashboardPage({ coachProgramIds, programs, conferences = [], user, onOpenMessage }) {
+  const [leagues, setLeagues] = useState([]);
+
+  // Load leagues from Firestore
+  useEffect(() => {
+    getDocs(collection(db, "leagues")).then(snap => {
+      setLeagues(snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => a.name.localeCompare(b.name)));
+    }).catch(() => {});
+  }, []);
   const [playersByProgram, setPlayersByProgram] = useState({});
   const [loading, setLoading] = useState(true);
   const [activeProgramId, setActiveProgramId] = useState(coachProgramIds[0] || "");
@@ -109,6 +117,8 @@ export default function CoachDashboardPage({ coachProgramIds, programs, user, on
         rugbyScholarship: !!activeProgram.rugbyScholarship,
         schoolFunded: !!activeProgram.schoolFunded,
         notes: activeProgram.notes || "",
+        league: activeProgram.league || "",
+        conference: activeProgram.conference || "",
       });
       loadContacts(activeProgram.id);
     }
@@ -149,6 +159,8 @@ export default function CoachDashboardPage({ coachProgramIds, programs, user, on
         rugbyScholarship: editForm.rugbyScholarship,
         schoolFunded: editForm.schoolFunded,
         notes: editForm.notes,
+        league: editForm.league,
+        conference: editForm.conference,
       };
       await updateDoc(doc(db, "programs", activeProgram.id), updates);
       await logChange("update", "programs", activeProgram.id, updates, user.email);
@@ -442,6 +454,8 @@ export default function CoachDashboardPage({ coachProgramIds, programs, user, on
           setNewContact={setNewContact}
           addingContact={addingContact}
           onAddContact={handleAddContact}
+          conferences={conferences}
+          leagues={leagues}
           isMobile={isMobile}
         />
       )}

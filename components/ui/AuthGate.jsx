@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { signInWithPopup, signInWithRedirect, getRedirectResult,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   sendEmailVerification, updateProfile } from "firebase/auth";
-import { auth, googleProvider } from "../../firebase.js";
+import { httpsCallable } from "firebase/functions";
+import { auth, googleProvider, functions } from "../../firebase.js";
 
 export default function AuthGate({ user, title, description, children }) {
   const [authMode, setAuthMode] = useState("login");
@@ -69,9 +70,15 @@ export default function AuthGate({ user, title, description, children }) {
           <button onClick={() => {
             setResendStatus("sending");
             localStorage.setItem(`verificationSent_${user.uid}`, "1");
-            sendEmailVerification(user)
+            const sendVerification = httpsCallable(functions, "sendVerificationEmail");
+            sendVerification()
               .then(() => setResendStatus("sent"))
-              .catch((err) => setResendStatus(err.code === "auth/too-many-requests" ? "Too many attempts. Please wait a few minutes." : "Failed to send. Try again."));
+              .catch(() => {
+                // Fall back to Firebase native email
+                sendEmailVerification(user)
+                  .then(() => setResendStatus("sent"))
+                  .catch((err) => setResendStatus(err.code === "auth/too-many-requests" ? "Too many attempts. Please wait a few minutes." : "Failed to send. Try again."));
+              });
           }} disabled={resendStatus === "sending" || resendStatus === "sent"} style={{
             padding: "10px 24px", borderRadius: 8, border: "none",
             background: resendStatus === "sent" ? "#16a34a" : "#0A1F44", color: "#fff",

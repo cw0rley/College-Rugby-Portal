@@ -13,6 +13,7 @@ export default function EditProgramTab({
   contacts, contactsLoading, contactEdits, setContactEdits,
   contactSaving, onSaveContact, onDeleteContact,
   newContact, setNewContact, addingContact, onAddContact,
+  conferences = [], leagues = [],
   isMobile,
 }) {
   const fileRef = useRef(null);
@@ -124,6 +125,34 @@ export default function EditProgramTab({
               onChange={e => setEditField("schoolFunded", e.target.checked)} style={{ width: 16, height: 16 }} />
             School Funded
           </label>
+        </div>
+
+        {/* League & Conference */}
+        <div style={{
+          display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+          gap: 12, marginBottom: 16,
+        }}>
+          <div>
+            <label style={lbl}>League</label>
+            <select value={editForm.league || ""} onChange={e => setEditField("league", e.target.value)} style={inp}>
+              <option value="">-- Select League --</option>
+              {leagues.map(l => <option key={l.id} value={l.name}>{l.name}</option>)}
+            </select>
+          </div>
+          <div>
+            <label style={lbl}>Conference</label>
+            <select value={editForm.conference || ""} onChange={e => setEditField("conference", e.target.value)} style={inp}>
+              <option value="">-- Select Conference --</option>
+              {conferences
+                .slice()
+                .sort((a, b) => (a.fullName || a.conference || "").localeCompare(b.fullName || b.conference || ""))
+                .map(c => (
+                  <option key={c.id} value={c.conference}>
+                    {c.fullName ? `${c.fullName} (${c.conference})` : c.conference}
+                  </option>
+                ))}
+            </select>
+          </div>
         </div>
 
         {/* Notes */}

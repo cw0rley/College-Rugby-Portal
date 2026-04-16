@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { signInWithPopup, signInWithRedirect, createUserWithEmailAndPassword,
   signInWithEmailAndPassword, sendEmailVerification, signOut, updateProfile } from "firebase/auth";
-import { auth, googleProvider } from "../../firebase.js";
+import { httpsCallable } from "firebase/functions";
+import { auth, googleProvider, functions } from "../../firebase.js";
 
 export default function HeaderAuth({ user, isMobile }) {
   const [showForm, setShowForm] = useState(false);
@@ -30,7 +31,11 @@ export default function HeaderAuth({ user, isMobile }) {
         if (name.trim()) {
           await updateProfile(cred.user, { displayName: name.trim() });
         }
-        sendEmailVerification(cred.user).catch(() => {});
+        // Send verification via Resend Cloud Function, fall back to Firebase native
+        const sendVerification = httpsCallable(functions, "sendVerificationEmail");
+        sendVerification().catch(() => {
+          sendEmailVerification(cred.user).catch(() => {});
+        });
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }

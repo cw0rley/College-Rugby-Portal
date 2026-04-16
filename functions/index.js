@@ -373,7 +373,90 @@ exports.resendVerificationEmail = onCall(async (request) => {
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Function 4: onSubmissionApproved
+// Function 4: deleteUser (callable)
+// Admin-only: deletes a user from Firebase Authentication
+// ═══════════════════════════════════════════════════════════════════════════
+exports.deleteUser = onCall(async (request) => {
+  if (!request.auth) {
+    throw new HttpsError("unauthenticated", "Must be signed in.");
+  }
+
+  const callerDoc = await db.collection("users").doc(request.auth.uid).get();
+  if (!callerDoc.exists || callerDoc.data().isAdmin !== true) {
+    throw new HttpsError("permission-denied", "Admin access required.");
+  }
+
+  const { uid } = request.data;
+  if (!uid) {
+    throw new HttpsError("invalid-argument", "uid is required.");
+  }
+
+  try {
+    await admin.auth().deleteUser(uid);
+    logger.info(`User ${uid} deleted from Auth by admin ${request.auth.uid}`);
+    return { success: true };
+  } catch (err) {
+    if (err.code === "auth/user-not-found") {
+      logger.info(`User ${uid} not found in Auth (already deleted)`);
+      return { success: true, alreadyDeleted: true };
+    }
+    logger.error("deleteUser error:", err);
+    throw new HttpsError("internal", err.message || "Failed to delete user.");
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Function 5: sendVerificationEmail (callable)
+// Sends verification email via Resend on signup (not admin-only)
+// ═══════════════════════════════════════════════════════════════════════════
+exports.sendVerificationEmail = onCall(async (request) => {
+  if (!request.auth) {
+    throw new HttpsError("unauthenticated", "Must be signed in.");
+  }
+
+  const uid = request.auth.uid;
+
+  try {
+    const userRecord = await admin.auth().getUser(uid);
+    if (!userRecord.email) {
+      throw new HttpsError("failed-precondition", "User has no email address.");
+    }
+    if (userRecord.emailVerified) {
+      return { success: true, alreadyVerified: true };
+    }
+
+    const link = await admin.auth().generateEmailVerificationLink(userRecord.email, {
+      url: PORTAL_URL,
+    });
+
+    const subject = "Verify your College Rugby Portal account";
+    const html = buildEmail({
+      subject,
+      bodyHtml: `
+        <p>Hi${userRecord.displayName ? ` ${userRecord.displayName}` : ""},</p>
+        <p>Please verify your email address to complete your College Rugby Portal account setup.</p>
+        <p>Click the button below to verify your email:</p>
+      `,
+      ctaText: "Verify Email",
+      ctaUrl: link,
+    });
+
+    const sent = await sendEmail({ to: userRecord.email, subject, html });
+    if (!sent) {
+      throw new HttpsError("internal", "Failed to send email.");
+    }
+
+    logger.info(`Verification email sent to ${userRecord.email} for uid ${uid}`);
+    return { success: true, email: userRecord.email };
+  } catch (err) {
+    if (err instanceof HttpsError) throw err;
+    logger.error("sendVerificationEmail error:", err);
+    throw new HttpsError("internal", err.message || "Failed to send verification email.");
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Function 6: onSubmissionApproved
 // Sends email to the submitter when their submission is approved
 // ═══════════════════════════════════════════════════════════════════════════
 exports.onSubmissionApproved = onDocumentUpdated(

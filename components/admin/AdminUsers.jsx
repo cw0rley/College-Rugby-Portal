@@ -111,6 +111,13 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
     }));
     // Delete user doc
     await deleteDoc(doc(db, "users", uid));
+    // Delete from Firebase Authentication
+    try {
+      const deleteUserAuth = httpsCallable(functions, "deleteUser");
+      await deleteUserAuth({ uid });
+    } catch (err) {
+      console.warn("Failed to delete from Auth (may already be removed):", err.message);
+    }
     loadUsers();
   }
 

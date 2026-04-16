@@ -6,11 +6,12 @@ service cloud.firestore {
     // Anyone can read program data — this is the core public content
     match /programs/{programId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow update: if isAdmin() || isCoach();
+      allow create, delete: if isAdmin();
     }
     match /programContacts/{contactId} {
       allow read: if true;
-      allow write: if isAdmin() || isCoachOfProgram(resource.data.programId);
+      allow write: if isAdmin() || isCoach();
     }
     match /conferences/{confId} {
       allow read: if true;
@@ -102,7 +103,7 @@ service cloud.firestore {
     // ── Changelog ──
     match /changelog/{logId} {
       allow read: if isAdmin();
-      allow create: if isAdmin();
+      allow create: if isSignedIn();
     }
 
     // ── Analytics events ──
@@ -127,10 +128,17 @@ service cloud.firestore {
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
     }
 
+    function isCoach() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isCoach == true;
+    }
+
     function isCoachOfProgram(programId) {
       return request.auth != null &&
         exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
-        programId in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.assignedProgramIds;
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isCoach == true &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get("assignedProgramIds", []).hasAny([programId]);
     }
 
     function isParticipant() {

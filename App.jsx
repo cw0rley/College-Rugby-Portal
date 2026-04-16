@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo, Suspense } from "react";
 import { Routes, Route, NavLink, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged, signInWithPopup, signInWithRedirect, sendEmailVerification } from "firebase/auth";
-import { db, auth, googleProvider } from "./firebase.js";
+import { httpsCallable } from "firebase/functions";
+import { db, auth, googleProvider, functions } from "./firebase.js";
 import { US_STATES } from "./constants.js";
 import { exportCSV } from "./utils/csv.js";
 import { trackPageView, trackProgramView, trackSearch, trackFilter, trackExport } from "./utils/analytics.js";
@@ -128,13 +129,16 @@ export default function App() {
       getDoc(doc(db, "playerProfiles", u.uid)).then(snap => {
         setHasPlayerProfile(snap.exists() && !!snap.data().firstName);
       }).catch(() => setHasPlayerProfile(false));
-      // Send email verification once on first signup only
+      // Send verification email via Resend on first signup only
       if (!u.emailVerified && u.providerData?.[0]?.providerId === "password") {
         const sentKey = `verificationSent_${u.uid}`;
         if (!localStorage.getItem(sentKey)) {
           localStorage.setItem(sentKey, "1");
-          sendEmailVerification(u).catch((err) => {
-            console.warn("Email verification send failed:", err.message);
+          const sendVerification = httpsCallable(functions, "sendVerificationEmail");
+          sendVerification().catch((err) => {
+            console.warn("Verification email send failed:", err.message);
+            // Fall back to Firebase native email
+            sendEmailVerification(u).catch(() => {});
           });
         }
       }
@@ -206,14 +210,21 @@ export default function App() {
     if (!emailVerified) return; // must verify email first
     const email = user.email?.toLowerCase();
     if (!email) return;
-    const isHeadCoach = programContacts.some(c =>
-      c.email?.toLowerCase() === email &&
-      (c.contactTitle || "").toLowerCase().includes("head coach")
-    );
-    if (isHeadCoach) {
+    const isCoachContact = programContacts.some(c => {
+      if (c.email?.toLowerCase() !== email) return false;
+      const title = (c.contactTitle || "").toLowerCase();
+      return title.includes("head coach") || title.includes("recruiting") || title.includes("director");
+    });
+    if (isCoachContact) {
+      // Collect all program IDs this coach is associated with
+      const matchedProgramIds = programContacts
+        .filter(c => c.email?.toLowerCase() === email)
+        .map(c => c.programId);
+      const existingIds = userAccess?.assignedProgramIds || [];
+      const mergedIds = [...new Set([...existingIds, ...matchedProgramIds])];
       const userRef = doc(db, "users", user.uid);
-      setDoc(userRef, { isCoach: true, approved: true }, { merge: true }).then(() => {
-        setUserAccess(prev => ({ ...prev, isCoach: true, approved: true }));
+      setDoc(userRef, { isCoach: true, approved: true, assignedProgramIds: mergedIds }, { merge: true }).then(() => {
+        setUserAccess(prev => ({ ...prev, isCoach: true, approved: true, assignedProgramIds: mergedIds }));
       }).catch(() => {});
     }
   }, [user, programContacts, userAccess, emailVerified]);
@@ -1080,6 +1091,7 @@ export default function App() {
                   <CoachDashboardPage
                     coachProgramIds={coachProgramIds}
                     programs={programs}
+                    conferences={conferences}
                     user={user}
                     onOpenMessage={handleOpenMessage}
                   />

@@ -29,7 +29,7 @@ async function sendPushNotification(recipientUid, { title, body, link }) {
       data: { link: link || "/" },
       webpush: {
         fcmOptions: { link: `${PORTAL_URL}${link || "/"}` },
-        notification: { icon: "/logo-icon-192.png", badge: "/logo-icon-192.png" },
+        notification: { icon: "/apple-touch-icon.png", badge: "/apple-touch-icon.png" },
       },
     };
 
@@ -456,7 +456,53 @@ exports.sendVerificationEmail = onCall(async (request) => {
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Function 6: onSubmissionApproved
+// Function 6: onNewSubmission
+// Sends email to admin when a new submission is created
+// ═══════════════════════════════════════════════════════════════════════════
+exports.onNewSubmission = onDocumentCreated(
+  "submissions/{subId}",
+  async (event) => {
+    try {
+      const snap = event.data;
+      if (!snap) return;
+
+      const data = snap.data();
+      const schoolName = data.school || "(no school)";
+      const submitterName = data.name || "(anonymous)";
+      const submitterEmail = data.email || "(no email)";
+      const requestType = data.requestType === "add" ? "New Program" : "Program Update";
+      const details = data.details || "(no details)";
+      const subject = `New submission: ${requestType} - ${schoolName}`;
+
+      const html = buildEmail({
+        subject,
+        bodyHtml: `
+          <p>A new submission has been received on College Rugby Portal.</p>
+          <table style="margin:16px 0;border-collapse:collapse;width:100%;">
+            <tr><td style="padding:6px 12px 6px 0;color:#666;font-weight:600;">Type</td><td style="padding:6px 0;">${requestType}</td></tr>
+            <tr><td style="padding:6px 12px 6px 0;color:#666;font-weight:600;">School</td><td style="padding:6px 0;">${schoolName}</td></tr>
+            <tr><td style="padding:6px 12px 6px 0;color:#666;font-weight:600;">Submitted By</td><td style="padding:6px 0;">${submitterName}</td></tr>
+            <tr><td style="padding:6px 12px 6px 0;color:#666;font-weight:600;">Email</td><td style="padding:6px 0;">${submitterEmail}</td></tr>
+            ${data.title ? `<tr><td style="padding:6px 12px 6px 0;color:#666;font-weight:600;">Title</td><td style="padding:6px 0;">${data.title}</td></tr>` : ""}
+          </table>
+          <p style="background:#F4F4F4;padding:16px;border-radius:6px;border-left:4px solid ${LIME};margin:16px 0;">
+            ${details}
+          </p>
+        `,
+        ctaText: "Review in Admin",
+        ctaUrl: `${PORTAL_URL}/admin`,
+      });
+
+      await sendEmail({ to: "pat@claytonrugby.com", subject, html });
+      logger.info(`onNewSubmission: Notified admin about submission from ${submitterName} for ${schoolName}`);
+    } catch (err) {
+      logger.error("onNewSubmission error:", err);
+    }
+  }
+);
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Function 7: onSubmissionApproved
 // Sends email to the submitter when their submission is approved
 // ═══════════════════════════════════════════════════════════════════════════
 exports.onSubmissionApproved = onDocumentUpdated(

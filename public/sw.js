@@ -17,8 +17,8 @@ messaging.onBackgroundMessage((payload) => {
   const link = payload.data?.link || "/";
   self.registration.showNotification(title || "College Rugby Portal", {
     body: body || "",
-    icon: "/logo-icon-192.png",
-    badge: "/logo-icon-192.png",
+    icon: "/apple-touch-icon.png",
+    badge: "/apple-touch-icon.png",
     data: { url: "https://collegerugbyportal.com" + link },
   });
 });

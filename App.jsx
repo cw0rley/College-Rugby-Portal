@@ -891,12 +891,12 @@ export default function App() {
       {/* Header */}
       <div style={{
         background: "#0A1F44",
-        padding: isMobile ? "16px 8px 24px" : "28px 24px 36px", color: "#fff",
+        padding: isMobile ? "10px 8px 24px" : "16px 24px 36px", color: "#fff",
       }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
-          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 12 : 20, marginBottom: isMobile ? 16 : 24 }}>
-            <img src="/logo-icon.svg" alt="" style={{ width: isMobile ? 48 : 80, height: isMobile ? 48 : 80, flexShrink: 0, cursor: "pointer" }} onClick={() => navigate("/")} />
+          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 6 : 10, marginBottom: isMobile ? 8 : 12 }}>
+            <img src="/logo-goalposts.svg" alt="" style={{ width: isMobile ? 64 : 110, height: isMobile ? 64 : 110, flexShrink: 0, cursor: "pointer" }} onClick={() => navigate("/")} />
             <div style={{ flex: 1 }}>
               <h1 style={{ margin: 0, fontSize: isMobile ? 20 : 32, fontWeight: 800, letterSpacing: "-0.03em",
                 color: "#F4F4F4", fontFamily: "'Montserrat', 'Inter', system-ui, sans-serif" }}>

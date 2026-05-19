@@ -3,7 +3,7 @@ import { signInWithPopup, signInWithRedirect, getRedirectResult,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   sendEmailVerification, updateProfile } from "firebase/auth";
 import { httpsCallable } from "firebase/functions";
-import { auth, googleProvider, functions } from "../../firebase.js";
+import { auth, googleProvider, appleProvider, functions } from "../../firebase.js";
 
 export default function AuthGate({ user, title, description, children }) {
   const [authMode, setAuthMode] = useState("login");
@@ -20,6 +20,17 @@ export default function AuthGate({ user, title, description, children }) {
     if (isMobile) { signInWithRedirect(auth, googleProvider); return; }
     try { await signInWithPopup(auth, googleProvider); }
     catch (err) { signInWithRedirect(auth, googleProvider); }
+  }
+
+  async function handleAppleSignIn() {
+    setAuthError(null);
+    const isMobile = window.innerWidth <= 900 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) { signInWithRedirect(auth, appleProvider); return; }
+    try { await signInWithPopup(auth, appleProvider); }
+    catch (err) {
+      if (err.code === "auth/popup-closed-by-user") return;
+      setAuthError(err.message || "Apple sign-in failed. Please try again.");
+    }
   }
 
   async function handleEmailAuth(e) {
@@ -139,6 +150,20 @@ export default function AuthGate({ user, title, description, children }) {
             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
           </svg>
           Sign in with Google
+        </button>
+
+        {/* Apple sign-in */}
+        <button onClick={handleAppleSignIn} style={{
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+          width: "100%", padding: "12px", borderRadius: 8,
+          border: "1px solid #E5E7EB", background: "#000",
+          color: "#fff", fontWeight: 600, fontSize: 15, cursor: "pointer",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.08)", marginBottom: 20,
+        }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff">
+            <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+          </svg>
+          Sign in with Apple
         </button>
 
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>

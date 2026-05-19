@@ -27,14 +27,24 @@ const NAVY = "#0A1F44";
 const LIME = "#00CC00";
 
 const SCHOOLS = [
-  { school: "Molloy University", gender: "womens" },
-  { school: "Maryville University", gender: "womens" },
-  { school: "Manhattanville College", gender: "womens" },
-  { school: "Lehigh University", gender: "womens" },
-  { school: "La Salle University", gender: "womens" },
-  { school: "Juniata College", gender: "womens" },
-  { school: "Ithaca College", gender: "womens" },
-  { school: "Iowa State University", gender: "womens" },
+  { school: "Eastern Michigan University", gender: "mens" },
+  { school: "Eastern Illinois University", gender: "mens" },
+  { school: "Duquesne University", gender: "mens" },
+  { school: "DePaul University", gender: "mens" },
+  { school: "Davidson College", gender: "mens" },
+  { school: "Davenport University", gender: "mens" },
+  { school: "Connecticut College", gender: "womens" },
+  { school: "Connecticut College", gender: "mens" },
+  { school: "College of St. Scholastica", gender: "mens" },
+  { school: "Colby-Sawyer College", gender: "mens" },
+  { school: "California State University, Long Beach", gender: "mens" },
+  { school: "Brown University", gender: "womens" },
+  { school: "Brigham Young University", gender: "mens" },
+  { school: "Brandeis University", gender: "mens" },
+  { school: "Bowling Green State University", gender: "womens" },
+  { school: "Ball State University", gender: "mens" },
+  { school: "Augustana College", gender: "mens" },
+  { school: "Appalachian State University", gender: "mens" },
 ];
 
 function buildEmail(coachName, schoolName) {

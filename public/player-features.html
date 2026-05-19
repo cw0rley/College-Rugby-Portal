@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Rugby Portal - Find Your Program</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #F4F4F4; }
+  @page { margin: 0; size: letter; }
+  @media print { body { background: #fff; } .page { box-shadow: none !important; } }
+
+  .page {
+    max-width: 8.5in;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #0A1F44 0%, #122D5E 100%);
+    padding: 36px 44px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute; right: -40px; top: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 3px solid rgba(0,255,0,0.12);
+  }
+  .header-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px; font-weight: 900; color: #fff; letter-spacing: -0.5px;
+  }
+  .tagline { color: #00FF00; font-size: 13px; font-weight: 700; margin-top: 4px; letter-spacing: 1.5px; text-transform: uppercase; }
+  .header-url {
+    background: rgba(0,255,0,0.12); border: 1px solid rgba(0,255,0,0.3);
+    border-radius: 6px; padding: 8px 16px; text-align: center; margin-top: 4px;
+  }
+  .header-url span { color: #00FF00; font-size: 14px; font-weight: 700; }
+  .header-url small { display: block; color: rgba(255,255,255,0.6); font-size: 10px; margin-top: 2px; }
+  .hero-text {
+    margin-top: 20px; color: rgba(255,255,255,0.9); font-size: 15px; line-height: 1.5; max-width: 520px;
+  }
+  .hero-headline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px; font-weight: 800; color: #fff; margin-top: 16px;
+  }
+  .hero-headline span { color: #00FF00; }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    display: flex; background: #0A1F44; border-top: 2px solid #00CC00;
+  }
+  .stat {
+    flex: 1; text-align: center; padding: 14px 8px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; color: #00FF00; }
+  .stat-label { font-size: 10px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+
+  /* ── Features grid ── */
+  .features { padding: 32px 44px 24px; }
+  .features-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px; font-weight: 800; color: #0A1F44; margin-bottom: 20px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .features-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .feature {
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .feature-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: #0A1F44; color: #00FF00;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 900; flex-shrink: 0;
+  }
+  .feature h3 { font-size: 13px; font-weight: 700; color: #0A1F44; margin-bottom: 3px; }
+  .feature p { font-size: 11.5px; color: #64748b; line-height: 1.5; }
+
+  /* ── How it works ── */
+  .how-it-works {
+    padding: 24px 44px 28px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .how-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px; font-weight: 800; color: #0A1F44; margin-bottom: 18px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .steps {
+    display: flex; gap: 20px;
+  }
+  .step-card {
+    flex: 1; text-align: center;
+  }
+  .step-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #0A1F44; color: #00FF00;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px; font-weight: 900; margin-bottom: 8px;
+  }
+  .step-card h4 { font-size: 13px; font-weight: 700; color: #0A1F44; margin-bottom: 4px; }
+  .step-card p { font-size: 11px; color: #64748b; line-height: 1.5; }
+  .step-arrow {
+    display: flex; align-items: center; color: #00CC00; font-size: 20px; font-weight: 900;
+    padding-top: 10px;
+  }
+
+  /* ── Footer CTA ── */
+  .footer-cta {
+    background: linear-gradient(135deg, #0A1F44 0%, #122D5E 100%);
+    padding: 24px 44px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-cta-text h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px; font-weight: 900; color: #fff;
+  }
+  .footer-cta-text h2 span { color: #00FF00; }
+  .footer-cta-text p { color: rgba(255,255,255,0.7); font-size: 12px; margin-top: 4px; }
+  .cta-badge {
+    background: #00CC00; color: #0A1F44;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px; font-weight: 800;
+    padding: 14px 28px; border-radius: 8px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .free-tag {
+    display: inline-block; background: rgba(0,255,0,0.15); color: #00FF00;
+    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px;
+    text-transform: uppercase; letter-spacing: 1px; margin-left: 8px; vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <h1>College Rugby Portal</h1>
+        <div class="tagline">Explore. Connect. Play.</div>
+      </div>
+      <div class="header-url">
+        <span>collegerugbyportal.com</span>
+        <small>Works on any device</small>
+      </div>
+    </div>
+    <div class="hero-headline">Find the right college rugby program <span>for you.</span></div>
+    <p class="hero-text">
+      The only free platform built to help high school and club rugby players discover,
+      compare, and connect with college programs across every level in the US.
+    </p>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-num">900+</div>
+      <div class="stat-label">Programs</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50</div>
+      <div class="stat-label">States</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100+</div>
+      <div class="stat-label">Conferences</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Free</div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="features">
+    <div class="features-title">Everything you need to find your program</div>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">S</div>
+        <div>
+          <h3>Search and Filter</h3>
+          <p>Filter by state, league, conference, scholarships, GPA, tuition, and more to find programs that fit you.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">C</div>
+        <div>
+          <h3>Compare Side-by-Side</h3>
+          <p>Compare up to 3 programs at once across academics, tuition, rankings, rugby info, and coach contacts.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">P</div>
+        <div>
+          <h3>Player Profile</h3>
+          <p>Build a recruiting profile with your stats, position, GPA, and highlight video. Coaches browse the Player Directory to find you.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">M</div>
+        <div>
+          <h3>Message Coaches</h3>
+          <p>Send messages directly to coaching staffs through the portal. Coaches get email and push notifications.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">F</div>
+        <div>
+          <h3>Favorite Programs</h3>
+          <p>Save programs you're interested in. When you favorite a program, the coaching staff is notified automatically.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">R</div>
+        <div>
+          <h3>Rankings and Leagues</h3>
+          <p>Browse national rankings, league standings, and conference pages. See where every program stacks up.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="how-it-works">
+    <div class="how-title">Get started in 3 minutes</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h4>Create a Free Account</h4>
+        <p>Sign up with Google or email at collegerugbyportal.com. No cost, no catch.</p>
+      </div>
+      <div class="step-arrow">&#10132;</div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h4>Build Your Profile</h4>
+        <p>Add your position, GPA, grad year, and highlight video. Make it public so coaches can find you.</p>
+      </div>
+      <div class="step-arrow">&#10132;</div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h4>Connect with Coaches</h4>
+        <p>Favorite programs, message coaches directly, and get on their radar.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer CTA -->
+  <div class="footer-cta">
+    <div class="footer-cta-text">
+      <h2>Start your search <span>today.</span></h2>
+      <p>No fees. No subscriptions. Just rugby. <span class="free-tag">Always Free</span></p>
+    </div>
+    <div class="cta-badge">collegerugbyportal.com</div>
+  </div>
+
+</div>
+
+</body>
+</html>

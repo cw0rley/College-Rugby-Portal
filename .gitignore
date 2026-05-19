@@ -78,6 +78,13 @@ nul
 contacts/send-log.json
 contacts/scraped-comparison.csv
 contacts/scraped-review.csv
+contacts/*-log.json
+contacts/*.csv
+contacts/*.js
+contacts/*.txt
+
+# Build output
+dist/
 
 # Scraped data files
 sync/scraped-*.json

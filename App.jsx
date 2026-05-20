@@ -640,30 +640,22 @@ export default function App() {
             </div>
 
             {isMobile ? (
-              <>
-                <div style={{ display: "flex", gap: 8 }}>
-                  <select value={stateFilter} onChange={e => setStateFilter(e.target.value)}
-                    style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
-                      fontSize: 14, color: "#475569", background: "#fff", cursor: "pointer", flex: 1 }}>
-                    <option value="">All States</option>
-                    {Object.entries(US_STATES).sort((a,b) => a[1].localeCompare(b[1])).map(([abbr, name]) => (
-                      <option key={abbr} value={abbr}>{name}</option>
-                    ))}
-                  </select>
-                  <select value={leagueFilter} onChange={e => { setLeagueFilter(e.target.value); setConferenceFilter(""); }}
-                    style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
-                      fontSize: 14, color: "#475569", background: "#fff", cursor: "pointer", flex: 1 }}>
-                    <option value="">All Leagues</option>
-                    {uniqueLeagues.map(l => <option key={l} value={l}>{l}</option>)}
-                  </select>
-                </div>
-                <select value={conferenceFilter} onChange={e => setConferenceFilter(e.target.value)}
+              <div style={{ display: "flex", gap: 8 }}>
+                <select value={stateFilter} onChange={e => setStateFilter(e.target.value)}
                   style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
-                    fontSize: 14, color: "#475569", background: "#fff", cursor: "pointer", width: "100%" }}>
-                  <option value="">All Conferences</option>
-                  {uniqueConferences.map(c => <option key={c} value={c}>{confNameMap[c] || c}</option>)}
+                    fontSize: 14, color: "#475569", background: "#fff", cursor: "pointer", flex: 1 }}>
+                  <option value="">All States</option>
+                  {Object.entries(US_STATES).sort((a,b) => a[1].localeCompare(b[1])).map(([abbr, name]) => (
+                    <option key={abbr} value={abbr}>{name}</option>
+                  ))}
                 </select>
-              </>
+                <select value={leagueFilter} onChange={e => { setLeagueFilter(e.target.value); setConferenceFilter(""); }}
+                  style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
+                    fontSize: 14, color: "#475569", background: "#fff", cursor: "pointer", flex: 1 }}>
+                  <option value="">All Leagues</option>
+                  {uniqueLeagues.map(l => <option key={l} value={l}>{l}</option>)}
+                </select>
+              </div>
             ) : (
               <>
                 <select value={stateFilter} onChange={e => setStateFilter(e.target.value)}
@@ -679,12 +671,6 @@ export default function App() {
                     fontSize: 13, color: "#475569", background: "#fff", cursor: "pointer", maxWidth: 180 }}>
                   <option value="">All Leagues</option>
                   {uniqueLeagues.map(l => <option key={l} value={l}>{l}</option>)}
-                </select>
-                <select value={conferenceFilter} onChange={e => setConferenceFilter(e.target.value)}
-                  style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
-                    fontSize: 13, color: "#475569", background: "#fff", cursor: "pointer", maxWidth: 200 }}>
-                  <option value="">All Conferences</option>
-                  {uniqueConferences.map(c => <option key={c} value={c}>{confNameMap[c] || c}</option>)}
                 </select>
               </>
             )}
@@ -717,6 +703,17 @@ export default function App() {
             <div style={{ background: "#fff", borderRadius: 12, padding: 16, marginBottom: 20,
               boxShadow: "0 1px 3px rgba(0,0,0,0.06)", display: "flex", gap: 16, flexWrap: "wrap",
               alignItems: "flex-end" }}>
+              <div>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600,
+                  color: "#64748b", marginBottom: 6 }}>Conference</label>
+                <select value={conferenceFilter} onChange={e => setConferenceFilter(e.target.value)}
+                  style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
+                    fontSize: 13, color: "#475569", background: "#fff", cursor: "pointer",
+                    width: isMobile ? "100%" : 200 }}>
+                  <option value="">All Conferences</option>
+                  {uniqueConferences.map(c => <option key={c} value={c}>{confNameMap[c] || c}</option>)}
+                </select>
+              </div>
               <div>
                 <label style={{ display: "block", fontSize: 12, fontWeight: 600,
                   color: "#64748b", marginBottom: 6 }}>Min GPA</label>

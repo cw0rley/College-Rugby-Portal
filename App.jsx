@@ -17,7 +17,7 @@ import ProgramTable from "./components/ProgramTable.jsx";
 import ConferenceCard from "./components/ConferenceCard.jsx";
 import Footer from "./components/Footer.jsx";
 import CompareBar from "./components/CompareBar.jsx";
-import ProgramDetailPage from "./components/ProgramDetailPage.jsx";
+const ProgramDetailPage = React.lazy(() => import("./components/ProgramDetailPage.jsx"));
 import HeaderAuth from "./components/ui/HeaderAuth.jsx";
 import AuthGate from "./components/ui/AuthGate.jsx";
 import NotificationBell from "./components/ui/NotificationBell.jsx";

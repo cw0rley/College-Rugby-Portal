@@ -62,6 +62,24 @@ export default function AboutPage() {
         </p>
       </div>
 
+      <div style={cardStyle}>
+        <h3 style={{ margin: "0 0 12px", fontSize: 16, fontWeight: 700, color: "#0A1F44" }}>Guides</h3>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+          <a href="/player-features.html" style={{ padding: "10px 18px", borderRadius: 8,
+            background: "#0A1F44", color: "#fff", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>
+            Player Features
+          </a>
+          <a href="/player-guide.html" style={{ padding: "10px 18px", borderRadius: 8,
+            background: "#0A1F44", color: "#fff", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>
+            Player Guide
+          </a>
+          <a href="/coach-guide.html" style={{ padding: "10px 18px", borderRadius: 8,
+            background: "#0A1F44", color: "#fff", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>
+            Coach Guide
+          </a>
+        </div>
+      </div>
+
       <div style={{ ...cardStyle, background: "#fffbeb", border: "1px solid #fde68a" }}>
         <h3 style={{ margin: "0 0 8px", fontSize: 14, fontWeight: 700, color: "#92400e" }}>Disclaimer</h3>
         <p style={{ margin: 0, fontSize: 13, color: "#78350f", lineHeight: 1.7 }}>

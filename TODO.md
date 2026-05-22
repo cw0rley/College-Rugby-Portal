@@ -11,12 +11,12 @@
 - [ ] Review .gitignore for completeness
 
 ## Features
-- [ ] Link player-features.html from somewhere on the site (currently orphaned)
+- [x] Link player-features.html from somewhere on the site (linked on About page)
 - [ ] Coach onboarding flow — first-time coach login experience, guided setup
 - [ ] Program page editing UX — make it obvious what coaches can update and how
 
 ## Performance
-- [ ] Code-split the 810KB index bundle (Vite warning) — lazy load heavy pages
+- [x] Code-split the 810KB index bundle — split Firebase chunk, lazy-load ProgramDetailPage (257KB main bundle now)
 
 ## Growth / Marketing
 - [ ] Instagram content — slides are ready in brand-kit/
@@ -25,5 +25,5 @@
 - [ ] SEO — meta tags, Open Graph, program pages indexable?
 
 ## Testing
-- [ ] Verify Sign in with Apple works live on collegerugbyportal.com
+- [x] Verify Sign in with Apple works live on collegerugbyportal.com
 - [ ] Test coach sign-up flow end to end (new coach, email match, dashboard access)

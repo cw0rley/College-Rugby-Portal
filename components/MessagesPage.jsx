@@ -2,17 +2,7 @@ import React, { useState, useEffect } from "react";
 import { subscribeToConversations, markAsRead } from "../utils/messaging.js";
 import ConversationView from "./ConversationView.jsx";
 import AuthGate from "./ui/AuthGate.jsx";
-
-function timeAgo(ts) {
-  if (!ts) return "";
-  const date = ts.toDate ? ts.toDate() : new Date(ts.seconds * 1000);
-  const diff = Date.now() - date.getTime();
-  if (diff < 60000) return "Just now";
-  if (diff < 3600000) return `${Math.floor(diff / 60000)}m`;
-  if (diff < 86400000) return `${Math.floor(diff / 3600000)}h`;
-  if (diff < 604800000) return `${Math.floor(diff / 86400000)}d`;
-  return date.toLocaleDateString([], { month: "short", day: "numeric" });
-}
+import { timeAgo } from "../utils/timeAgo.js";
 
 export default function MessagesPage({ user, activeConversationId, onConversationOpened }) {
   const [conversations, setConversations] = useState([]);

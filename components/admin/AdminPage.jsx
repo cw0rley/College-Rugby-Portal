@@ -145,7 +145,7 @@ export default function AdminPage() {
         }
       }
     }
-    localStorage.removeItem("crp_cache_v5");
+    localStorage.removeItem("crp_cache_v7");
     setFormMode(null); setEditing(null);
     loadPrograms();
   }
@@ -160,7 +160,7 @@ export default function AdminPage() {
     }));
     await deleteDoc(doc(db, "programs", deleteTarget.id));
     await logChange("delete", "programs", deleteTarget.id, deleteTarget, user.email);
-    localStorage.removeItem("crp_cache_v5");
+    localStorage.removeItem("crp_cache_v7");
     setDeleteTarget(null); setDeleting(false);
     loadPrograms(); loadProgContacts();
   }
@@ -268,7 +268,7 @@ export default function AdminPage() {
       console.error("Import error:", err);
     }
     if (skipped > 0) console.log(`Import: skipped ${skipped} unchanged rows`);
-    localStorage.removeItem("crp_cache_v5");
+    localStorage.removeItem("crp_cache_v7");
     setImporting(false);
     setImportPreview(null);
     setImportStats({ added, updated });

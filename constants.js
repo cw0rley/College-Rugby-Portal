@@ -47,3 +47,13 @@ export const LEAGUE_COLS = [["name","Name"]];
 export const PROG_CONTACT_COLS = [
   ["school","School"],["gender","Gender"],["contact","Contact"],["contactTitle","Contact Title"],["email","Email"],
 ];
+
+export const POSITIONS = [
+  "Loosehead Prop", "Hooker", "Tighthead Prop",
+  "Lock", "Blindside Flanker", "Openside Flanker", "Number 8",
+  "Scrum Half", "Fly Half", "Inside Center", "Outside Center",
+  "Left Wing", "Right Wing", "Fullback",
+];
+
+const currentYear = new Date().getFullYear();
+export const GRAD_YEARS = Array.from({ length: 6 }, (_, i) => currentYear + i);

@@ -2,19 +2,8 @@ import React, { useState, useEffect } from "react";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { db, auth } from "../firebase.js";
-import { US_STATES } from "../constants.js";
+import { US_STATES, POSITIONS, GRAD_YEARS } from "../constants.js";
 import AuthGate from "./ui/AuthGate.jsx";
-
-const POSITIONS = [
-  "Loosehead Prop", "Hooker", "Tighthead Prop",
-  "Lock", "Blindside Flanker", "Openside Flanker", "Number 8",
-  "Scrum Half", "Fly Half", "Inside Center", "Outside Center",
-  "Left Wing", "Right Wing", "Fullback",
-];
-
-const GRADUATION_YEARS = [];
-const currentYear = new Date().getFullYear();
-for (let y = currentYear; y <= currentYear + 5; y++) GRADUATION_YEARS.push(y);
 
 const EMPTY_FORM = {
   firstName: "", lastName: "", email: "", phone: "",
@@ -193,7 +182,7 @@ export default function PlayerSubmitPage({ user }) {
                     <select value={form.graduationYear} onChange={e => set("graduationYear", e.target.value)}
                       required style={inputStyle}>
                       <option value="">— Select —</option>
-                      {GRADUATION_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+                      {GRAD_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
                     </select>
                   </div>
                 </div>

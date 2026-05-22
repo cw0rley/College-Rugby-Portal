@@ -1,21 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase.js";
-import { US_STATES } from "../constants.js";
+import { US_STATES, POSITIONS, GRAD_YEARS } from "../constants.js";
 import AuthGate from "./ui/AuthGate.jsx";
 import StarRating from "./ui/StarRating.jsx";
 import { loadRecruits, saveRecruit, removeRecruit, updateRecruitRating } from "../utils/recruits.js";
-
-const POSITIONS = [
-  "Loosehead Prop", "Hooker", "Tighthead Prop",
-  "Lock", "Blindside Flanker", "Openside Flanker", "Number 8",
-  "Scrum Half", "Fly Half", "Inside Center", "Outside Center",
-  "Left Wing", "Right Wing", "Fullback",
-];
-
-const currentYear = new Date().getFullYear();
-const GRAD_YEARS = [];
-for (let y = currentYear; y <= currentYear + 5; y++) GRAD_YEARS.push(y);
 
 const SORTED_STATES = Object.entries(US_STATES).sort((a, b) => a[1].localeCompare(b[1]));
 

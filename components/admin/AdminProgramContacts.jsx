@@ -34,21 +34,21 @@ export default function AdminProgramContacts({ contacts, programs, onRefresh, us
     setSaving(true);
     const ref = await addDoc(collection(db, "programContacts"), { ...newForm });
     await logChange("add", "programContacts", ref.id, { ...newForm }, userEmail);
-    localStorage.removeItem("crp_cache_v5");
+    localStorage.removeItem("crp_cache_v7");
     setNewForm({ programId:"", contact:"", contactTitle:"", email:"" });
     setSaving(false); onRefresh();
   }
   async function handleUpdate(id) {
     await updateDoc(doc(db, "programContacts", id), editForm);
     await logChange("update", "programContacts", id, editForm, userEmail);
-    localStorage.removeItem("crp_cache_v5");
+    localStorage.removeItem("crp_cache_v7");
     setEditingId(null); onRefresh();
   }
   async function handleDelete(id) {
     const deleted = contacts.find(c => c.id === id);
     await deleteDoc(doc(db, "programContacts", id));
     await logChange("delete", "programContacts", id, deleted || {}, userEmail);
-    localStorage.removeItem("crp_cache_v5");
+    localStorage.removeItem("crp_cache_v7");
     onRefresh();
   }
 

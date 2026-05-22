@@ -103,7 +103,7 @@ export default function AdminSubmissions({ userEmail, programs = [], onRefresh }
       await logChange("update", "submissions", sub.id, { status: "approved", school: sub.school }, userEmail);
 
       // Clear cache so main site picks up changes
-      localStorage.removeItem("crp_cache_v5");
+      localStorage.removeItem("crp_cache_v7");
       loadSubmissions();
       if (onRefresh) onRefresh();
     } catch (err) {

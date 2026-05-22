@@ -7,17 +7,7 @@ import { loadRecruits, updateRecruitRating, updateRecruitNotes, removeRecruit } 
 import InterestedPlayersTab from "./coach/InterestedPlayersTab.jsx";
 import RecruitsTab from "./coach/RecruitsTab.jsx";
 import EditProgramTab from "./coach/EditProgramTab.jsx";
-
-const POSITIONS = [
-  "Loosehead Prop", "Hooker", "Tighthead Prop",
-  "Lock", "Blindside Flanker", "Openside Flanker", "Number 8",
-  "Scrum Half", "Fly Half", "Inside Center", "Outside Center",
-  "Left Wing", "Right Wing", "Fullback",
-];
-
-const currentYear = new Date().getFullYear();
-const GRAD_YEARS = [];
-for (let y = currentYear; y <= currentYear + 5; y++) GRAD_YEARS.push(y);
+import { POSITIONS, GRAD_YEARS } from "../constants.js";
 
 export default function CoachDashboardPage({ coachProgramIds, programs, conferences = [], user, onOpenMessage }) {
   const [leagues, setLeagues] = useState([]);
@@ -64,7 +54,6 @@ export default function CoachDashboardPage({ coachProgramIds, programs, conferen
 
   // Sync activeProgramId when coachProgramIds updates
   useEffect(() => {
-    console.log("DEBUG CoachDashboard coachProgramIds:", coachProgramIds, "activeProgramId:", activeProgramId);
     if (coachProgramIds.length > 0 && !coachProgramIds.includes(activeProgramId)) {
       setActiveProgramId(coachProgramIds[0]);
     }
@@ -164,7 +153,7 @@ export default function CoachDashboardPage({ coachProgramIds, programs, conferen
       };
       await updateDoc(doc(db, "programs", activeProgram.id), updates);
       await logChange("update", "programs", activeProgram.id, updates, user.email);
-      localStorage.removeItem("crp_cache_v5");
+      localStorage.removeItem("crp_cache_v7");
       // Update local program object so UI reflects changes
       Object.assign(activeProgram, updates);
       setEditMsg("Program saved successfully!");
@@ -187,7 +176,7 @@ export default function CoachDashboardPage({ coachProgramIds, programs, conferen
         contactTitle: edits.contactTitle,
         email: edits.email,
       });
-      localStorage.removeItem("crp_cache_v5");
+      localStorage.removeItem("crp_cache_v7");
       await loadContacts(activeProgram.id);
     } catch (err) {
       console.error("Failed to save contact:", err);
@@ -201,7 +190,7 @@ export default function CoachDashboardPage({ coachProgramIds, programs, conferen
     if (!confirm("Remove this contact?")) return;
     try {
       await deleteDoc(doc(db, "programContacts", contactId));
-      localStorage.removeItem("crp_cache_v5");
+      localStorage.removeItem("crp_cache_v7");
       await loadContacts(activeProgram.id);
     } catch (err) {
       console.error("Failed to delete contact:", err);
@@ -219,7 +208,7 @@ export default function CoachDashboardPage({ coachProgramIds, programs, conferen
         contactTitle: newContact.contactTitle,
         email: newContact.email,
       });
-      localStorage.removeItem("crp_cache_v5");
+      localStorage.removeItem("crp_cache_v7");
       setNewContact({ contact: "", contactTitle: "", email: "" });
       await loadContacts(activeProgram.id);
     } catch (err) {

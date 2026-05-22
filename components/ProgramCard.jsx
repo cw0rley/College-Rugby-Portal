@@ -64,7 +64,7 @@ export default function ProgramCard({ program, onClick, isComparing, onToggleCom
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
         <Badge label={genderLabel} color={genderColor} />
         {program.league && <Badge label={program.league} color="#00CC00" />}
-        {program.rugbyScholarship && <Badge label="🏉 Scholarship" color="#7e3af2" />}
+        {program.rugbyScholarship && <Badge label="Scholarship" color="#7e3af2" />}
         {program.schoolFunded && <Badge label="School Funded" color="#ff5a1f" />}
       </div>
 

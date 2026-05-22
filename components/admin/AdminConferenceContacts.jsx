@@ -28,21 +28,21 @@ export default function AdminConferenceContacts({ contacts, conferences, leagues
     setSaving(true);
     const ref = await addDoc(collection(db, "conferenceContacts"), { ...newForm });
     await logChange("add", "conferenceContacts", ref.id, { ...newForm }, userEmail);
-    localStorage.removeItem("crp_cache_v5");
+    localStorage.removeItem("crp_cache_v7");
     setNewForm({ conference:"", league:"", gender:"mens", contactName:"", contactTitle:"", email:"", phone:"" });
     setSaving(false); onRefresh();
   }
   async function handleUpdate(id) {
     await updateDoc(doc(db, "conferenceContacts", id), editForm);
     await logChange("update", "conferenceContacts", id, editForm, userEmail);
-    localStorage.removeItem("crp_cache_v5");
+    localStorage.removeItem("crp_cache_v7");
     setEditingId(null); onRefresh();
   }
   async function handleDelete(id) {
     const deleted = contacts.find(c => c.id === id);
     await deleteDoc(doc(db, "conferenceContacts", id));
     await logChange("delete", "conferenceContacts", id, deleted || {}, userEmail);
-    localStorage.removeItem("crp_cache_v5");
+    localStorage.removeItem("crp_cache_v7");
     onRefresh();
   }
 

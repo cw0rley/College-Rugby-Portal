@@ -1,9 +1,9 @@
 import React from "react";
+import { useIsMobile } from "../../utils/useIsMobile.js";
 
 export default function Pagination({ currentPage, totalPages, onPageChange }) {
+  const isMobile = useIsMobile();
   if (totalPages <= 1) return null;
-
-  const isMobile = window.innerWidth <= 900;
 
   // Build page numbers to show
   const pages = [];

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { collection, getDocs, doc, setDoc, deleteDoc, query, where } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { db, functions } from "../../firebase.js";
+import { useIsMobile } from "../../utils/useIsMobile.js";
+import { useToast } from "../ui/Toast.jsx";
+import ConfirmDialog from "../ui/ConfirmDialog.jsx";
 
 export default function AdminUsers({ programs = [], programContacts = [] }) {
   const [users, setUsers] = useState([]);
@@ -12,6 +15,8 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
   const [programSearch, setProgramSearch] = useState("");
   const [sortCol, setSortCol] = useState("");
   const [sortDir, setSortDir] = useState("asc");
+  const [confirmAction, setConfirmAction] = useState(null);
+  const { addToast } = useToast();
 
   function handleSort(col) {
     if (sortCol === col) { setSortDir(d => d === "asc" ? "desc" : "asc"); }
@@ -63,19 +68,30 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
     loadUsers();
   }
 
-  async function resendVerification(uid, email) {
-    if (!confirm(`Resend verification email to ${email}?`)) return;
-    try {
-      const fn = httpsCallable(functions, "resendVerificationEmail");
-      await fn({ uid });
-      alert(`Verification email sent to ${email}`);
-    } catch (err) {
-      alert(`Failed to send: ${err.message}`);
-    }
+  function resendVerification(uid, email) {
+    setConfirmAction({
+      message: `Resend verification email to ${email}?`,
+      onConfirm: async () => {
+        setConfirmAction(null);
+        try {
+          const fn = httpsCallable(functions, "resendVerificationEmail");
+          await fn({ uid });
+          addToast(`Verification email sent to ${email}`, "success");
+        } catch (err) {
+          addToast(`Failed to send: ${err.message}`, "error");
+        }
+      },
+    });
   }
 
-  async function removeUser(uid) {
-    if (!confirm("Delete this user and all their data (profile, favorites, messages, notifications)?")) return;
+  function removeUser(uid) {
+    setConfirmAction({
+      message: "Delete this user and all their data (profile, favorites, messages, notifications)?",
+      onConfirm: () => { setConfirmAction(null); doRemoveUser(uid); },
+    });
+  }
+
+  async function doRemoveUser(uid) {
     // Delete player profile
     await deleteDoc(doc(db, "playerProfiles", uid)).catch(() => {});
     // Delete favorites and remove programInterest entries
@@ -138,7 +154,7 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
     return p ? `${p.school} (${p.gender === "womens" ? "Women's" : "Men's"})` : programId.substring(0, 12) + "...";
   }
 
-  const isMobile = window.innerWidth <= 900;
+  const isMobile = useIsMobile();
 
   return (
     <div>
@@ -495,6 +511,13 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
       <p style={{ marginTop: 12, fontSize: 12, color: "#94a3b8" }}>
         Coaches can access Messages and Player Directory. Click a coach row to assign programs. Users are created automatically when they sign in.
       </p>
+      {confirmAction && (
+        <ConfirmDialog
+          message={confirmAction.message}
+          onConfirm={confirmAction.onConfirm}
+          onCancel={() => setConfirmAction(null)}
+        />
+      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase.js";
+import { useToast } from "../ui/Toast.jsx";
 
 const inp = { padding: "8px 10px", borderRadius: 8, border: "1px solid #E5E7EB",
   fontSize: 13, width: "100%", boxSizing: "border-box" };
@@ -18,6 +19,7 @@ export default function EditProgramTab({
 }) {
   const fileRef = useRef(null);
   const [uploading, setUploading] = useState(false);
+  const { addToast } = useToast();
 
   return (
     <div>
@@ -98,7 +100,7 @@ export default function EditProgramTab({
                   setEditField("logoUrl", url);
                 } catch (err) {
                   console.error("Upload failed:", err);
-                  alert("Upload failed: " + err.message);
+                  addToast("Upload failed: " + err.message, "error");
                 } finally {
                   setUploading(false);
                   e.target.value = "";

@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase.js";
 import SchoolLogo from "./ui/SchoolLogo.jsx";
+import { useIsMobile } from "../utils/useIsMobile.js";
 import Badge from "./ui/Badge.jsx";
 
 function renderMarkdown(text) {
@@ -121,7 +122,7 @@ export default function ProgramDetailPage({ programs = [], confNameMap = {}, use
     return () => { document.title = "College Rugby Portal"; };
   }, [program]);
 
-  const isMobile = Math.min(window.innerWidth, screen.width) <= 900;
+  const isMobile = useIsMobile();
 
   if (loading) return (
     <div style={{ padding: 40, textAlign: "center", color: "#64748b" }}>Loading program...</div>

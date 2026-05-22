@@ -10,6 +10,7 @@ import { trackPageView, trackProgramView, trackSearch, trackFilter, trackExport 
 import { loadFavorites, addFavorite, removeFavorite } from "./utils/favorites.js";
 import { getOrCreateConversation, subscribeToConversations } from "./utils/messaging.js";
 import { toSlug } from "./utils/slug.js";
+import { useIsMobile } from "./utils/useIsMobile.js";
 
 // Eagerly loaded components (used on first render)
 import ProgramCard from "./components/ProgramCard.jsx";
@@ -45,12 +46,7 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 900);
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+  const isMobile = useIsMobile();
 
   // Auth state
   const [user, setUser] = useState(null);
@@ -589,20 +585,22 @@ export default function App() {
   // Admin route — separate layout, AdminPage handles its own auth
   if (isAdminRoute) {
     return (
-      <div style={{ minHeight: "100vh", background: "#f1f5f9",
-        fontFamily: "'Inter', system-ui, sans-serif", padding: "40px 24px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
-            <img src="/logo-icon.svg" alt="" style={{ width: 28, height: 28 }} />
-            <span style={{ fontWeight: 800, fontSize: 18, color: "#0f172a" }}>
-              College Rugby Portal &mdash; Admin
-            </span>
+      <ToastProvider>
+        <div style={{ minHeight: "100vh", background: "#f1f5f9",
+          fontFamily: "'Inter', system-ui, sans-serif", padding: "40px 24px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
+              <img src="/logo-icon.svg" alt="" style={{ width: 28, height: 28 }} />
+              <span style={{ fontWeight: 800, fontSize: 18, color: "#0f172a" }}>
+                College Rugby Portal &mdash; Admin
+              </span>
+            </div>
+            <Suspense fallback={<LazyFallback />}>
+              <AdminPage />
+            </Suspense>
           </div>
-          <Suspense fallback={<LazyFallback />}>
-            <AdminPage />
-          </Suspense>
         </div>
-      </div>
+      </ToastProvider>
     );
   }
 

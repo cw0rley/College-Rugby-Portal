@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, orderBy, limit, where } from "firebase/firestore";
 import { db } from "../../firebase.js";
-
-function useIsMobile() {
-  const [mobile, setMobile] = useState(window.innerWidth <= 900);
-  useEffect(() => {
-    const handler = () => setMobile(window.innerWidth <= 900);
-    window.addEventListener("resize", handler);
-    return () => window.removeEventListener("resize", handler);
-  }, []);
-  return mobile;
-}
+import { useIsMobile } from "../../utils/useIsMobile.js";
 
 function StatCard({ label, value, color }) {
   return (

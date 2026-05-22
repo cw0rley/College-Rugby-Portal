@@ -3,6 +3,8 @@ import { collection, getDocs, getDoc, query, where, addDoc, updateDoc, deleteDoc
 import { signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "firebase/auth";
 import { db, auth, googleProvider } from "../../firebase.js";
 import { EMPTY_PROGRAM, CONF_COLS, CONF_CONTACT_COLS, LEAGUE_COLS, PROG_CONTACT_COLS } from "../../constants.js";
+import { useIsMobile } from "../../utils/useIsMobile.js";
+import { useToast } from "../ui/Toast.jsx";
 import { exportCSV, parseCSV, exportGenericCSV, parseGenericCSV } from "../../utils/csv.js";
 import { logChange } from "../../utils/changelog.js";
 import ProgramForm from "./ProgramForm.jsx";
@@ -17,6 +19,7 @@ import AnalyticsDashboard from "./AnalyticsDashboard.jsx";
 import Pagination from "../ui/Pagination.jsx";
 
 export default function AdminPage() {
+  const { addToast } = useToast();
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -351,7 +354,7 @@ export default function AdminPage() {
   const adminConferences = conferencesList.map(c => ({ name: c.conference }));
   const adminSchoolTypes = [...new Set(programs.map(p => p.schoolType).filter(Boolean))].sort();
 
-  const isMobile = window.innerWidth <= 900;
+  const isMobile = useIsMobile();
 
   return (
     <div>
@@ -369,8 +372,8 @@ export default function AdminPage() {
           <button onClick={() => {
             localStorage.removeItem("crp_cache_v7");
             setDoc(doc(db, "config", "cache"), { bustAt: serverTimestamp() }, { merge: true })
-              .then(() => alert("Cache busted! All users will get fresh data on next load."))
-              .catch(() => alert("Cache cleared locally."));
+              .then(() => addToast("Cache busted! All users will get fresh data on next load.", "success"))
+              .catch(() => addToast("Cache cleared locally.", "info"));
           }} style={{
             padding:"7px 14px", borderRadius:8, border:"1px solid #E5E7EB",
             background:"#fff", fontWeight:600, fontSize:12, cursor:"pointer", color:"#475569",

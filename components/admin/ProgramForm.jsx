@@ -1,12 +1,14 @@
 import React, { useState, useRef } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase.js";
+import { useToast } from "../ui/Toast.jsx";
 
 export default function ProgramForm({ initial, onSave, onCancel, leagues = [], conferences = [], schoolTypes = [] }) {
   const [form, setForm] = useState(initial);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef(null);
+  const { addToast } = useToast();
 
   function set(k, v) { setForm(f => ({ ...f, [k]: v })); }
 
@@ -172,7 +174,7 @@ export default function ProgramForm({ initial, onSave, onCancel, leagues = [], c
                   set("logoUrl", url);
                 } catch (err) {
                   console.error("Upload failed:", err);
-                  alert("Upload failed: " + err.message);
+                  addToast("Upload failed: " + err.message, "error");
                 } finally {
                   setUploading(false);
                   e.target.value = "";

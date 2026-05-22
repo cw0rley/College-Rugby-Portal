@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase.js";
 import { US_STATES, POSITIONS, GRAD_YEARS } from "../constants.js";
+import { useIsMobile } from "../utils/useIsMobile.js";
 import AuthGate from "./ui/AuthGate.jsx";
 import StarRating from "./ui/StarRating.jsx";
 import { loadRecruits, saveRecruit, removeRecruit, updateRecruitRating } from "../utils/recruits.js";
@@ -17,7 +18,7 @@ export default function PlayerDirectoryPage({ user, onOpenMessage }) {
   const [stateFilter, setStateFilter] = useState("");
   const [recruits, setRecruits] = useState({}); // { playerUid: { rating, ... } }
 
-  const isMobile = Math.min(window.innerWidth, screen.width) <= 900;
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!user) return;

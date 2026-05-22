@@ -1,6 +1,7 @@
 import React from "react";
 import SchoolLogo from "./ui/SchoolLogo.jsx";
 import Badge from "./ui/Badge.jsx";
+import { useIsMobile } from "../utils/useIsMobile.js";
 
 function StatRow({ label, value }) {
   if (!value && value !== 0) return null;
@@ -39,7 +40,7 @@ export default function ProgramModal({ program, confNameMap = {}, onClose, isFav
     ? (confNameMap[program.conference] || program.conference)
     : null;
 
-  const isMobile = window.innerWidth <= 900;
+  const isMobile = useIsMobile();
 
   return (
     <div style={{

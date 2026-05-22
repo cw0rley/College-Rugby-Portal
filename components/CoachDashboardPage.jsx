@@ -8,9 +8,14 @@ import InterestedPlayersTab from "./coach/InterestedPlayersTab.jsx";
 import RecruitsTab from "./coach/RecruitsTab.jsx";
 import EditProgramTab from "./coach/EditProgramTab.jsx";
 import { POSITIONS, GRAD_YEARS } from "../constants.js";
+import { useIsMobile } from "../utils/useIsMobile.js";
+import { useToast } from "./ui/Toast.jsx";
+import ConfirmDialog from "./ui/ConfirmDialog.jsx";
 
 export default function CoachDashboardPage({ coachProgramIds, programs, conferences = [], user, onOpenMessage }) {
   const [leagues, setLeagues] = useState([]);
+  const [confirmAction, setConfirmAction] = useState(null);
+  const { addToast } = useToast();
 
   // Load leagues from Firestore
   useEffect(() => {
@@ -50,7 +55,7 @@ export default function CoachDashboardPage({ coachProgramIds, programs, conferen
   const [noteDrafts, setNoteDrafts] = useState({});
   const [noteSaving, setNoteSaving] = useState({});
 
-  const isMobile = window.innerWidth <= 900;
+  const isMobile = useIsMobile();
 
   // Sync activeProgramId when coachProgramIds updates
   useEffect(() => {
@@ -180,22 +185,27 @@ export default function CoachDashboardPage({ coachProgramIds, programs, conferen
       await loadContacts(activeProgram.id);
     } catch (err) {
       console.error("Failed to save contact:", err);
-      alert("Error saving contact: " + err.message);
+      addToast("Error saving contact: " + err.message, "error");
     } finally {
       setContactSaving(s => ({ ...s, [contactId]: false }));
     }
   }
 
-  async function handleDeleteContact(contactId) {
-    if (!confirm("Remove this contact?")) return;
-    try {
-      await deleteDoc(doc(db, "programContacts", contactId));
-      localStorage.removeItem("crp_cache_v7");
-      await loadContacts(activeProgram.id);
-    } catch (err) {
-      console.error("Failed to delete contact:", err);
-      alert("Error deleting contact: " + err.message);
-    }
+  function handleDeleteContact(contactId) {
+    setConfirmAction({
+      message: "Remove this contact?",
+      onConfirm: async () => {
+        setConfirmAction(null);
+        try {
+          await deleteDoc(doc(db, "programContacts", contactId));
+          localStorage.removeItem("crp_cache_v7");
+          await loadContacts(activeProgram.id);
+        } catch (err) {
+          console.error("Failed to delete contact:", err);
+          addToast("Error deleting contact: " + err.message, "error");
+        }
+      },
+    });
   }
 
   async function handleAddContact() {
@@ -213,7 +223,7 @@ export default function CoachDashboardPage({ coachProgramIds, programs, conferen
       await loadContacts(activeProgram.id);
     } catch (err) {
       console.error("Failed to add contact:", err);
-      alert("Error adding contact: " + err.message);
+      addToast("Error adding contact: " + err.message, "error");
     } finally {
       setAddingContact(false);
     }
@@ -244,16 +254,21 @@ export default function CoachDashboardPage({ coachProgramIds, programs, conferen
     }
   }
 
-  async function handleRemoveRecruit(playerUid) {
-    if (!confirm("Remove this player from your recruit list?")) return;
-    const removed = recruits.find(r => r.playerUid === playerUid);
-    setRecruits(list => list.filter(r => r.playerUid !== playerUid));
-    try {
-      await removeRecruit(user.uid, playerUid);
-    } catch (err) {
-      console.error("Failed to remove recruit:", err);
-      if (removed) setRecruits(list => [...list, removed]);
-    }
+  function handleRemoveRecruit(playerUid) {
+    setConfirmAction({
+      message: "Remove this player from your recruit list?",
+      onConfirm: async () => {
+        setConfirmAction(null);
+        const removed = recruits.find(r => r.playerUid === playerUid);
+        setRecruits(list => list.filter(r => r.playerUid !== playerUid));
+        try {
+          await removeRecruit(user.uid, playerUid);
+        } catch (err) {
+          console.error("Failed to remove recruit:", err);
+          if (removed) setRecruits(list => [...list, removed]);
+        }
+      },
+    });
   }
 
   const filtered = useMemo(() => {
@@ -446,6 +461,13 @@ export default function CoachDashboardPage({ coachProgramIds, programs, conferen
           conferences={conferences}
           leagues={leagues}
           isMobile={isMobile}
+        />
+      )}
+      {confirmAction && (
+        <ConfirmDialog
+          message={confirmAction.message}
+          onConfirm={confirmAction.onConfirm}
+          onCancel={() => setConfirmAction(null)}
         />
       )}
     </div>

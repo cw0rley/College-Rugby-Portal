@@ -1,9 +1,9 @@
 import React from "react";
+import { useIsMobile } from "../utils/useIsMobile.js";
 
 export default function CompareBar({ compareIds, programs, onRemove, onClear, onCompare }) {
+  const isMobile = useIsMobile();
   if (compareIds.length === 0) return null;
-
-  const isMobile = Math.min(window.innerWidth, screen.width) <= 900;
   const selectedPrograms = programs.filter(p => compareIds.includes(p.id));
 
   return (

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { collection, getDocs, updateDoc, addDoc, doc, orderBy, query, where } from "firebase/firestore";
 import { db } from "../../firebase.js";
 import { logChange } from "../../utils/changelog.js";
+import { useToast } from "../ui/Toast.jsx";
 
 export default function AdminSubmissions({ userEmail, programs = [], onRefresh }) {
+  const { addToast } = useToast();
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("pending");
@@ -108,7 +110,7 @@ export default function AdminSubmissions({ userEmail, programs = [], onRefresh }
       if (onRefresh) onRefresh();
     } catch (err) {
       console.error("Failed to approve submission:", err);
-      alert("Error: " + err.message);
+      addToast("Error: " + err.message, "error");
     }
     setActing(null);
   }

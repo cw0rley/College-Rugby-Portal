@@ -3,8 +3,8 @@
 ## Bugs
 - [x] Fix stale cache key mismatch — updated all `crp_cache_v5` references to `crp_cache_v7`
 - [x] Remove DEBUG console.log in CoachDashboardPage.jsx
-- [ ] Replace browser `alert()`/`confirm()` calls with Toast notifications and confirmation modals (CoachDashboardPage, EditProgramTab, AdminUsers, AdminSubmissions)
-- [ ] Fix `isMobile` not updating on resize — 11 components compute it once at render without a resize listener (MessagesPage, CoachDashboardPage, Pagination, ProgramModal, AdminPage, etc.)
+- [x] Replace browser `alert()`/`confirm()` calls with Toast notifications and ConfirmDialog modals
+- [x] Fix `isMobile` not updating on resize — extracted useIsMobile hook, updated all components
 
 ## Security
 - [ ] Firestore rules: `isCoachOfProgram()` is defined but never used — coaches can currently update any program, not just their own

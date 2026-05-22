@@ -3,13 +3,14 @@ import { subscribeToConversations, markAsRead } from "../utils/messaging.js";
 import ConversationView from "./ConversationView.jsx";
 import AuthGate from "./ui/AuthGate.jsx";
 import { timeAgo } from "../utils/timeAgo.js";
+import { useIsMobile } from "../utils/useIsMobile.js";
 
 export default function MessagesPage({ user, activeConversationId, onConversationOpened }) {
   const [conversations, setConversations] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [showConversation, setShowConversation] = useState(false);
 
-  const isMobile = window.innerWidth <= 900;
+  const isMobile = useIsMobile();
 
   // Scroll to top when Messages page loads
   useEffect(() => { window.scrollTo(0, 0); }, []);

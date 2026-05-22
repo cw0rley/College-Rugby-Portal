@@ -1,5 +1,6 @@
 import React from "react";
 import SchoolLogo from "./ui/SchoolLogo.jsx";
+import { useIsMobile } from "../utils/useIsMobile.js";
 
 function fmt(val) {
   if (val === null || val === undefined || val === "") return "\u2014";
@@ -146,7 +147,7 @@ function BadgeRow({ label, programs, getter }) {
 export default function CompareView({ programs, onClose }) {
   if (!programs || programs.length === 0) return null;
 
-  const isMobile = Math.min(window.innerWidth, screen.width) <= 900;
+  const isMobile = useIsMobile();
 
   return (
     <div style={{

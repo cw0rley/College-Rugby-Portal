@@ -4,6 +4,7 @@ import { signOut } from "firebase/auth";
 import { db, auth } from "../firebase.js";
 import { US_STATES, POSITIONS, GRAD_YEARS } from "../constants.js";
 import AuthGate from "./ui/AuthGate.jsx";
+import { useIsMobile } from "../utils/useIsMobile.js";
 
 const EMPTY_FORM = {
   firstName: "", lastName: "", email: "", phone: "",
@@ -19,6 +20,7 @@ const EMPTY_FORM = {
 };
 
 export default function PlayerSubmitPage({ user }) {
+  const isMobile = useIsMobile();
   const [form, setForm] = useState({ ...EMPTY_FORM });
   const [status, setStatus] = useState(null);
   const [hasExisting, setHasExisting] = useState(false);
@@ -133,7 +135,7 @@ export default function PlayerSubmitPage({ user }) {
 
                 {/* Personal Info */}
                 <div style={sectionStyle}>Personal Information</div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={labelStyle}>First Name *</label>
                     <input value={form.firstName} onChange={e => set("firstName", e.target.value)}
@@ -145,7 +147,7 @@ export default function PlayerSubmitPage({ user }) {
                       required placeholder="Last name" style={inputStyle} />
                   </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={labelStyle}>Email *</label>
                     <input type="email" value={form.email} onChange={e => set("email", e.target.value)}
@@ -157,7 +159,7 @@ export default function PlayerSubmitPage({ user }) {
                       placeholder="Optional" style={inputStyle} />
                   </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 16, marginBottom: 16 }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr 1fr", gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={labelStyle}>High School *</label>
                     <input value={form.highSchool} onChange={e => set("highSchool", e.target.value)}
@@ -189,7 +191,7 @@ export default function PlayerSubmitPage({ user }) {
 
                 {/* Academics */}
                 <div style={sectionStyle}>Academics</div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 16, marginBottom: 16 }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr 1fr", gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={labelStyle}>GPA</label>
                     <input type="number" step="0.01" min="0" max="5" value={form.gpa}
@@ -214,7 +216,7 @@ export default function PlayerSubmitPage({ user }) {
 
                 {/* Rugby */}
                 <div style={sectionStyle}>Rugby</div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 16 }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr", gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={labelStyle}>Primary Position *</label>
                     <select value={form.position} onChange={e => set("position", e.target.value)}
@@ -237,7 +239,7 @@ export default function PlayerSubmitPage({ user }) {
                       onChange={e => set("yearsPlaying", e.target.value)} placeholder="e.g. 4" style={inputStyle} />
                   </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={labelStyle}>Current Club / Team</label>
                     <input value={form.currentClub} onChange={e => set("currentClub", e.target.value)}
@@ -253,7 +255,7 @@ export default function PlayerSubmitPage({ user }) {
                     </div>
                   </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={labelStyle}>Coach Name</label>
                     <input value={form.coachName} onChange={e => set("coachName", e.target.value)}

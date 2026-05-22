@@ -132,9 +132,9 @@ export default function ProgramDetailPage({ programs = [], confNameMap = {}, use
     <div style={{ textAlign: "center", padding: "60px 24px" }}>
       <div style={{ fontSize: 40, marginBottom: 16 }}>🔍</div>
       <div style={{ fontSize: 17, fontWeight: 600, color: "#0A1F44", marginBottom: 12 }}>Program not found</div>
-      <a onClick={() => goBack()} style={{ color: "#1a56db", fontWeight: 600, fontSize: 14, textDecoration: "none", cursor: "pointer" }}>
+      <button onClick={() => goBack()} style={{ background: "none", border: "none", color: "#1a56db", fontWeight: 600, fontSize: 14, cursor: "pointer", padding: 0 }}>
         ← {backLabel}
-      </a>
+      </button>
     </div>
   );
 
@@ -149,13 +149,13 @@ export default function ProgramDetailPage({ programs = [], confNameMap = {}, use
   return (
     <div>
       {/* Back link */}
-      <a onClick={() => goBack()} style={{
-        display: "inline-flex", alignItems: "center", gap: 6,
-        color: "#1a56db", fontWeight: 600, fontSize: 14, textDecoration: "none",
+      <button onClick={() => goBack()} style={{
+        display: "inline-flex", alignItems: "center", gap: 6, background: "none", border: "none",
+        color: "#1a56db", fontWeight: 600, fontSize: 14, padding: 0,
         marginBottom: 20, cursor: "pointer",
       }}>
         ← {backLabel}
-      </a>
+      </button>
 
       <div style={{
         background: "#fff", borderRadius: 16,

@@ -6,6 +6,8 @@
 - [x] Replace browser `alert()`/`confirm()` calls with Toast notifications and ConfirmDialog modals
 - [x] Fix `isMobile` not updating on resize — extracted useIsMobile hook, updated all components
 
+- [ ] Fix analytics dashboard — all values show 0, events may not be writing to Firestore
+
 ## Security
 - [x] Firestore rules: use `isCoachOfProgram()` so coaches can only update their own programs/contacts
 - [x] Validate URL scheme in ProgramDetailPage `renderMarkdown()` — already safe (regex requires https?://)
@@ -13,7 +15,7 @@
 ## UI / Design
 - [ ] Declutter the header — logo + title + tagline + search + auth is a lot stacked up top
 - [ ] Review mobile header — even more cramped on small screens
-- [ ] Player profile form not mobile-responsive — 4-column grids crush on small screens
+- [x] Player profile form not mobile-responsive — grids now stack on mobile via useIsMobile
 - [ ] Add loading skeletons instead of plain "Loading..." text spinners
 - [x] Remove emoji from ProgramCard scholarship badge per style guide
 - [ ] Enable the "Message" button on ProgramDetailPage (currently commented out, infrastructure exists)
@@ -30,8 +32,8 @@
 - [x] Code-split the 810KB index bundle — split Firebase chunk, lazy-load ProgramDetailPage (257KB main bundle now)
 - [ ] Lazy-import `firebase/analytics` — it's in the eager chunk but not needed until after render
 - [ ] Lazy-import `firebase/storage` — only used by coach/admin logo upload (~30KB wasted for regular users)
-- [ ] Load Montserrat font (heading font per brand guide) — currently not imported, headings fall back to system font
-- [ ] Add `font-display: swap` to Google Fonts link in index.html
+- [x] Load Montserrat font (heading font per brand guide) — added to Google Fonts import
+- [x] Add `font-display: swap` to Google Fonts link in index.html (already had display=swap)
 - [ ] Add `<link rel="preload">` for critical assets (logo-icon.svg, hero background)
 - [ ] Reduce SchoolLogo Google favicon requests — cache results or use avatar fallback more aggressively
 
@@ -39,7 +41,7 @@
 - [ ] Dynamic Open Graph meta tags on ProgramDetailPage — shared links show generic site info
 - [ ] Generate sitemap with program and conference detail pages (currently only 7 static routes)
 - [ ] Review robots.txt — disallow auth-required routes (/admin, /messages, /coach, /player-profile)
-- [ ] Fix `<a onClick>` without `href` in ProgramDetailPage — should be `<button>` for keyboard access
+- [x] Fix `<a onClick>` without `href` in ProgramDetailPage — changed to `<button>`
 - [ ] Add aria-labels to icon-only buttons in messaging (back arrow, send button)
 - [ ] Add aria-labels to emoji icons in AboutPage feature grid
 

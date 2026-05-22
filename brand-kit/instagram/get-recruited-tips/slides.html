@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Instagram Carousel — 5 Ways to Get Recruited</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #222; font-family: 'Inter', system-ui, sans-serif; display: flex; flex-direction: column; align-items: center; gap: 40px; padding: 40px; }
+
+  .slide {
+    width: 1080px; height: 1080px;
+    background: linear-gradient(160deg, #0E2550 0%, #0A1F44 40%, #081A3A 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; padding: 60px 80px;
+  }
+  .slide::before {
+    content: ''; position: absolute; right: -80px; top: -80px;
+    width: 360px; height: 360px; border-radius: 50%;
+    border: 3px solid rgba(0,255,0,0.07);
+  }
+  .slide::after {
+    content: ''; position: absolute; left: -120px; bottom: -120px;
+    width: 300px; height: 300px; border-radius: 50%;
+    border: 2px solid rgba(0,255,0,0.05);
+  }
+  .slide * { position: relative; z-index: 1; }
+
+  .swipe { color: rgba(255,255,255,0.35); font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; position: absolute; bottom: 48px; }
+  .slide-num { color: rgba(255,255,255,0.2); font-size: 13px; font-weight: 600; letter-spacing: 1px; position: absolute; top: 48px; right: 60px; }
+  .watermark { position: absolute; top: 48px; left: 60px; color: rgba(255,255,255,0.2); font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
+  .divider { width: 80px; height: 4px; background: #00CC00; border-radius: 2px; margin: 20px auto 0; }
+  .tagline { color: #00FF00; font-size: 16px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+
+  /* Cover */
+  .cover-number {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 160px; font-weight: 900; color: rgba(0,255,0,0.08);
+    position: absolute; top: -20px; right: 40px; z-index: 0 !important;
+    line-height: 1;
+  }
+  .cover-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 56px; font-weight: 900; color: #fff;
+    text-align: center; line-height: 1.15;
+  }
+  .cover-title span { color: #00FF00; }
+  .cover-sub {
+    color: rgba(255,255,255,0.6); font-size: 20px; text-align: center;
+    line-height: 1.6; max-width: 700px; margin-top: 24px;
+  }
+
+  /* Tip slide */
+  .tip-number {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 220px; font-weight: 900;
+    color: rgba(0,255,0,0.06);
+    position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
+    line-height: 1; z-index: 0 !important;
+  }
+  .tip-header {
+    width: 100%; margin-bottom: 28px;
+  }
+  .tip-label {
+    font-size: 14px; font-weight: 700; color: #00CC00;
+    text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px;
+  }
+  .tip-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 44px; font-weight: 900; color: #fff;
+    line-height: 1.15;
+  }
+  .tip-title span { color: #00FF00; }
+  .tip-rule { width: 60px; height: 4px; background: #00CC00; border-radius: 2px; margin-top: 16px; }
+  .tip-body {
+    color: rgba(255,255,255,0.7); font-size: 22px; line-height: 1.7;
+    width: 100%; max-width: 780px;
+  }
+  .tip-body strong { color: #fff; font-weight: 700; }
+  .tip-callout {
+    background: rgba(0,204,0,0.08); border-left: 4px solid #00CC00;
+    border-radius: 0 14px 14px 0; padding: 24px 28px; width: 100%;
+    margin-top: 28px;
+  }
+  .tip-callout p { font-size: 18px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+  .tip-callout strong { color: #00FF00; }
+
+  /* CTA */
+  .cta-btn {
+    background: #00CC00; color: #0A1F44; font-family: 'Montserrat', sans-serif;
+    font-size: 22px; font-weight: 800; padding: 20px 48px; border-radius: 12px;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-top: 36px;
+  }
+  .free-badge {
+    display: inline-block; background: rgba(0,255,0,0.15); color: #00FF00;
+    font-size: 14px; font-weight: 700; padding: 6px 16px; border-radius: 6px;
+    text-transform: uppercase; letter-spacing: 2px; margin-top: 20px;
+    border: 1px solid rgba(0,255,0,0.25);
+  }
+  .logo { width: 180px; height: auto; margin-bottom: 28px; }
+  .headline { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 800; color: #fff; text-align: center; line-height: 1.25; }
+  .headline span { color: #00FF00; }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: Cover -->
+<div class="slide">
+  <div class="cover-number">5</div>
+  <svg viewBox="0 0 280 250" style="width:120px;height:auto;margin-bottom:20px" xmlns="http://www.w3.org/2000/svg">
+    <rect x="37" y="15" width="206" height="220" rx="22" fill="rgba(255,255,255,0.08)"/>
+    <rect x="108" y="35" width="8" height="177" fill="rgba(255,255,255,0.3)"/>
+    <rect x="164" y="35" width="8" height="177" fill="rgba(255,255,255,0.3)"/>
+    <rect x="98" y="165" width="84" height="8" fill="rgba(255,255,255,0.3)"/>
+    <g transform="translate(54.640 140.000) scale(0.064000 -0.064000)"><path d="M419 -14Q336 -14 265.5 13.0Q195 40 143.5 88.5Q92 137 63.0 203.5Q34 270 34 350Q34 430 63.0 496.5Q92 563 143.5 611.5Q195 660 265.5 687.0Q336 714 419 714Q516 714 592.5 680.0Q669 646 720 582L594 468Q561 508 520.0 529.0Q479 550 429 550Q371 550 327.5 525.0Q284 500 259.0 455.0Q234 410 234 350Q234 290 259.0 245.0Q284 200 327.5 175.0Q371 150 429 150Q479 150 520.0 171.0Q561 192 594 232L720 118Q669 54 592.5 20.0Q516 -14 419 -14Z" fill="#FFFFFF"/></g>
+    <g transform="translate(116.320 140.000) scale(0.064000 -0.064000)"><path d="M70 0V700H383Q537 700 619.0 630.5Q701 561 701 441Q701 364 665.0 307.5Q629 251 563 220L715 0H503L376 186H268V0ZM268 339H378Q440 339 470.5 366.0Q501 393 501 441Q501 490 470.5 517.0Q440 544 378 544H268Z" fill="#00FF00"/></g>
+    <g transform="translate(178.416 140.000) scale(0.064000 -0.064000)"><path d="M70 0V700H390Q485 700 555.0 668.5Q625 637 663.0 579.0Q701 521 701 441Q701 362 663.0 304.0Q625 246 555.0 214.5Q485 183 390 183H268V0ZM268 339H378Q440 339 470.5 366.0Q501 393 501 441Q501 490 470.5 517.0Q440 544 378 544H268Z" fill="#FFFFFF"/></g>
+    <rect x="57" y="212" width="166" height="5" fill="#00FF00"/>
+  </svg>
+  <div class="cover-title">5 Ways to Get on a<br>Coach's <span>Radar</span></div>
+  <div class="divider"></div>
+  <div class="cover-sub">What college rugby coaches actually want to see from recruits — and how to stand out.</div>
+  <div class="swipe">SAVE THIS POST &#8594;</div>
+</div>
+
+<!-- SLIDE 2: Tip 1 -->
+<div class="slide">
+  <div class="watermark">@collegerugbyportal</div>
+  <div class="slide-num">1 / 5</div>
+  <div class="tip-number">1</div>
+  <div class="tip-header">
+    <div class="tip-label">Tip 1</div>
+    <div class="tip-title">Build a <span>Player Profile</span></div>
+    <div class="tip-rule"></div>
+  </div>
+  <div class="tip-body">
+    Coaches don't have time to chase you down. They search the <strong>Player Directory</strong> looking for recruits by position, grad year, and location.
+    <br><br>
+    If you don't have a profile, <strong>you don't exist</strong> to most coaching staffs.
+  </div>
+  <div class="tip-callout">
+    <p><strong>What to include:</strong> Position, grad year, GPA, height/weight, current club, and a highlight video link. Make your profile public so every coach on the platform can find you.</p>
+  </div>
+  <div class="swipe">SWIPE &#8594;</div>
+</div>
+
+<!-- SLIDE 3: Tip 2 -->
+<div class="slide">
+  <div class="watermark">@collegerugbyportal</div>
+  <div class="slide-num">2 / 5</div>
+  <div class="tip-number">2</div>
+  <div class="tip-header">
+    <div class="tip-label">Tip 2</div>
+    <div class="tip-title">Post a <span>Highlight Video</span></div>
+    <div class="tip-rule"></div>
+  </div>
+  <div class="tip-body">
+    This is the <strong>single most important thing</strong> you can do. Coaches watch film before they reach out. No video = no interest.
+    <br><br>
+    It doesn't have to be professionally edited. <strong>Game footage is fine.</strong> 2-3 minutes showing your best plays.
+  </div>
+  <div class="tip-callout">
+    <p><strong>Where to host:</strong> Upload to YouTube or Hudl, then paste the link in your College Rugby Portal profile. Coaches can watch it directly from your player card.</p>
+  </div>
+  <div class="swipe">SWIPE &#8594;</div>
+</div>
+
+<!-- SLIDE 4: Tip 3 -->
+<div class="slide">
+  <div class="watermark">@collegerugbyportal</div>
+  <div class="slide-num">3 / 5</div>
+  <div class="tip-number">3</div>
+  <div class="tip-header">
+    <div class="tip-label">Tip 3</div>
+    <div class="tip-title">Favorite Programs <span>You Want</span></div>
+    <div class="tip-rule"></div>
+  </div>
+  <div class="tip-body">
+    When you favorite a program on the portal, the <strong>coaching staff gets notified automatically</strong>. Your name, position, and grad year land right in their dashboard.
+    <br><br>
+    It's the easiest way to say <strong>"I'm interested"</strong> without writing a single word.
+  </div>
+  <div class="tip-callout">
+    <p><strong>Pro move:</strong> Favorite your top 5-10 programs. Coaches see the interest and often follow up with a message or check out your profile.</p>
+  </div>
+  <div class="swipe">SWIPE &#8594;</div>
+</div>
+
+<!-- SLIDE 5: Tip 4 -->
+<div class="slide">
+  <div class="watermark">@collegerugbyportal</div>
+  <div class="slide-num">4 / 5</div>
+  <div class="tip-number">4</div>
+  <div class="tip-header">
+    <div class="tip-label">Tip 4</div>
+    <div class="tip-title">Message Coaches <span>Directly</span></div>
+    <div class="tip-rule"></div>
+  </div>
+  <div class="tip-body">
+    Don't wait for coaches to find you. <strong>Reach out first.</strong> A short, professional message goes a long way.
+    <br><br>
+    Coaches on the portal get <strong>email and push notifications</strong> when you message them, so they'll see it fast.
+  </div>
+  <div class="tip-callout">
+    <p><strong>What to say:</strong> "Hi Coach, I'm [name], a [position] graduating in [year] from [state]. I'm interested in your program because [reason]. Here's my profile: [link]." Keep it short.</p>
+  </div>
+  <div class="swipe">SWIPE &#8594;</div>
+</div>
+
+<!-- SLIDE 6: Tip 5 -->
+<div class="slide">
+  <div class="watermark">@collegerugbyportal</div>
+  <div class="slide-num">5 / 5</div>
+  <div class="tip-number">5</div>
+  <div class="tip-header">
+    <div class="tip-label">Tip 5</div>
+    <div class="tip-title">Do Your <span>Research</span></div>
+    <div class="tip-rule"></div>
+  </div>
+  <div class="tip-body">
+    Coaches can tell when a player has actually looked into their program. <strong>Use the portal to compare</strong> academics, tuition, rankings, and scholarships before reaching out.
+    <br><br>
+    Mention something specific about the program in your message. It shows you're <strong>serious, not mass-emailing.</strong>
+  </div>
+  <div class="tip-callout">
+    <p><strong>Use Compare:</strong> Select up to 3 programs to see them side-by-side. It helps you narrow your list and ask better questions when you talk to coaches.</p>
+  </div>
+  <div class="swipe">SWIPE &#8594;</div>
+</div>
+
+<!-- SLIDE 7: CTA -->
+<div class="slide">
+  <svg viewBox="0 0 280 250" class="logo" xmlns="http://www.w3.org/2000/svg">
+    <rect x="37" y="15" width="206" height="220" rx="22" fill="rgba(255,255,255,0.08)"/>
+    <rect x="108" y="35" width="8" height="177" fill="rgba(255,255,255,0.3)"/>
+    <rect x="164" y="35" width="8" height="177" fill="rgba(255,255,255,0.3)"/>
+    <rect x="98" y="165" width="84" height="8" fill="rgba(255,255,255,0.3)"/>
+    <g transform="translate(54.640 140.000) scale(0.064000 -0.064000)"><path d="M419 -14Q336 -14 265.5 13.0Q195 40 143.5 88.5Q92 137 63.0 203.5Q34 270 34 350Q34 430 63.0 496.5Q92 563 143.5 611.5Q195 660 265.5 687.0Q336 714 419 714Q516 714 592.5 680.0Q669 646 720 582L594 468Q561 508 520.0 529.0Q479 550 429 550Q371 550 327.5 525.0Q284 500 259.0 455.0Q234 410 234 350Q234 290 259.0 245.0Q284 200 327.5 175.0Q371 150 429 150Q479 150 520.0 171.0Q561 192 594 232L720 118Q669 54 592.5 20.0Q516 -14 419 -14Z" fill="#FFFFFF"/></g>
+    <g transform="translate(116.320 140.000) scale(0.064000 -0.064000)"><path d="M70 0V700H383Q537 700 619.0 630.5Q701 561 701 441Q701 364 665.0 307.5Q629 251 563 220L715 0H503L376 186H268V0ZM268 339H378Q440 339 470.5 366.0Q501 393 501 441Q501 490 470.5 517.0Q440 544 378 544H268Z" fill="#00FF00"/></g>
+    <g transform="translate(178.416 140.000) scale(0.064000 -0.064000)"><path d="M70 0V700H390Q485 700 555.0 668.5Q625 637 663.0 579.0Q701 521 701 441Q701 362 663.0 304.0Q625 246 555.0 214.5Q485 183 390 183H268V0ZM268 339H378Q440 339 470.5 366.0Q501 393 501 441Q501 490 470.5 517.0Q440 544 378 544H268Z" fill="#FFFFFF"/></g>
+    <rect x="57" y="212" width="166" height="5" fill="#00FF00"/>
+  </svg>
+  <div class="headline">Ready to get <span>recruited?</span></div>
+  <div class="divider"></div>
+  <div class="cover-sub" style="margin-top:20px">Create your free profile and start connecting with college rugby coaches today.</div>
+  <div class="cta-btn">collegerugbyportal.com</div>
+  <div class="free-badge">Always Free</div>
+  <div class="tagline" style="margin-top:48px">Explore. Connect. Play.</div>
+</div>
+
+</body>
+</html>

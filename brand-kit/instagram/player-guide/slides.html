@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Instagram Carousel — Player Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #222; font-family: 'Inter', system-ui, sans-serif; display: flex; flex-direction: column; align-items: center; gap: 40px; padding: 40px; }
+
+  .slide {
+    width: 1080px; height: 1080px;
+    background: linear-gradient(160deg, #0E2550 0%, #0A1F44 40%, #081A3A 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; padding: 60px 80px;
+  }
+  .slide::before {
+    content: ''; position: absolute; right: -80px; top: -80px;
+    width: 360px; height: 360px; border-radius: 50%;
+    border: 3px solid rgba(0,255,0,0.07);
+  }
+  .slide::after {
+    content: ''; position: absolute; left: -120px; bottom: -120px;
+    width: 300px; height: 300px; border-radius: 50%;
+    border: 2px solid rgba(0,255,0,0.05);
+  }
+  .slide * { position: relative; z-index: 1; }
+
+  .logo { width: 180px; height: auto; margin-bottom: 24px; }
+  .brand { font-family: 'Montserrat', sans-serif; font-size: 42px; font-weight: 900; color: #fff; text-align: center; }
+  .tagline { color: #00FF00; font-size: 16px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-top: 8px; }
+  .section-title {
+    font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 900;
+    color: #fff; text-transform: uppercase; letter-spacing: 1px; text-align: center;
+  }
+  .divider { width: 80px; height: 4px; background: #00CC00; border-radius: 2px; margin: 20px auto 0; }
+  .headline { font-family: 'Montserrat', sans-serif; font-size: 34px; font-weight: 800; color: #fff; text-align: center; line-height: 1.25; }
+  .headline span { color: #00FF00; }
+  .subtitle { color: rgba(255,255,255,0.7); font-size: 18px; text-align: center; line-height: 1.6; max-width: 720px; }
+  .swipe { color: rgba(255,255,255,0.35); font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; position: absolute; bottom: 48px; }
+  .slide-num { color: rgba(255,255,255,0.2); font-size: 13px; font-weight: 600; letter-spacing: 1px; position: absolute; top: 48px; right: 60px; }
+
+  /* Step rows */
+  .step-row {
+    display: flex; gap: 20px; align-items: flex-start; width: 100%; margin-bottom: 20px;
+  }
+  .step-circle {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: #00CC00; color: #0A1F44;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900;
+    flex-shrink: 0;
+  }
+  .step-content h4 { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .step-content p { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+  /* Card */
+  .card {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 28px 32px; width: 100%; margin-bottom: 16px;
+  }
+  .card h3 { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+  .card p { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+  .card-row { display: flex; gap: 20px; align-items: flex-start; }
+  .card-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: #00CC00; color: #0A1F44;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  /* Tip box */
+  .tip {
+    background: rgba(0,204,0,0.08); border-left: 4px solid #00CC00;
+    border-radius: 0 12px 12px 0; padding: 20px 24px; width: 100%; margin-top: 8px;
+  }
+  .tip-label { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: #00CC00; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+  .tip p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+
+  /* Bullet list */
+  .bullet-list { list-style: none; width: 100%; }
+  .bullet-list li {
+    display: flex; gap: 14px; align-items: baseline; margin-bottom: 14px;
+    font-size: 16px; color: rgba(255,255,255,0.65); line-height: 1.5;
+  }
+  .bullet-list li::before { content: ''; display: none; }
+  .bullet-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #00CC00; flex-shrink: 0; margin-top: 7px;
+  }
+  .bullet-list strong { color: #fff; font-weight: 700; }
+
+  /* CTA */
+  .cta-btn {
+    background: #00CC00; color: #0A1F44; font-family: 'Montserrat', sans-serif;
+    font-size: 22px; font-weight: 800; padding: 20px 48px; border-radius: 12px;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-top: 32px;
+  }
+  .free-badge {
+    display: inline-block; background: rgba(0,255,0,0.15); color: #00FF00;
+    font-size: 14px; font-weight: 700; padding: 6px 16px; border-radius: 6px;
+    text-transform: uppercase; letter-spacing: 2px; margin-top: 20px;
+    border: 1px solid rgba(0,255,0,0.25);
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: Cover -->
+<div class="slide">
+  <svg viewBox="0 0 280 250" class="logo" xmlns="http://www.w3.org/2000/svg">
+    <rect x="37" y="15" width="206" height="220" rx="22" fill="rgba(255,255,255,0.08)"/>
+    <rect x="108" y="35" width="8" height="177" fill="rgba(255,255,255,0.3)"/>
+    <rect x="164" y="35" width="8" height="177" fill="rgba(255,255,255,0.3)"/>
+    <rect x="98" y="165" width="84" height="8" fill="rgba(255,255,255,0.3)"/>
+    <g transform="translate(54.640 140.000) scale(0.064000 -0.064000)"><path d="M419 -14Q336 -14 265.5 13.0Q195 40 143.5 88.5Q92 137 63.0 203.5Q34 270 34 350Q34 430 63.0 496.5Q92 563 143.5 611.5Q195 660 265.5 687.0Q336 714 419 714Q516 714 592.5 680.0Q669 646 720 582L594 468Q561 508 520.0 529.0Q479 550 429 550Q371 550 327.5 525.0Q284 500 259.0 455.0Q234 410 234 350Q234 290 259.0 245.0Q284 200 327.5 175.0Q371 150 429 150Q479 150 520.0 171.0Q561 192 594 232L720 118Q669 54 592.5 20.0Q516 -14 419 -14Z" fill="#FFFFFF"/></g>
+    <g transform="translate(116.320 140.000) scale(0.064000 -0.064000)"><path d="M70 0V700H383Q537 700 619.0 630.5Q701 561 701 441Q701 364 665.0 307.5Q629 251 563 220L715 0H503L376 186H268V0ZM268 339H378Q440 339 470.5 366.0Q501 393 501 441Q501 490 470.5 517.0Q440 544 378 544H268Z" fill="#00FF00"/></g>
+    <g transform="translate(178.416 140.000) scale(0.064000 -0.064000)"><path d="M70 0V700H390Q485 700 555.0 668.5Q625 637 663.0 579.0Q701 521 701 441Q701 362 663.0 304.0Q625 246 555.0 214.5Q485 183 390 183H268V0ZM268 339H378Q440 339 470.5 366.0Q501 393 501 441Q501 490 470.5 517.0Q440 544 378 544H268Z" fill="#FFFFFF"/></g>
+    <rect x="57" y="212" width="166" height="5" fill="#00FF00"/>
+  </svg>
+  <div class="brand">PLAYER GUIDE</div>
+  <div class="tagline">Explore. Connect. Play.</div>
+  <div class="divider" style="margin:28px auto"></div>
+  <div class="headline">Your complete guide to<br>finding a college rugby<br>program <span>for you.</span></div>
+  <div class="subtitle" style="margin-top:28px">From creating your account to connecting with coaches — everything you need in one place.</div>
+  <div class="swipe">SWIPE TO GET STARTED &#8594;</div>
+</div>
+
+<!-- SLIDE 2: Getting Started -->
+<div class="slide">
+  <div class="slide-num">1 / 6</div>
+  <div class="section-title">GETTING STARTED</div>
+  <div class="divider" style="margin-bottom:40px"></div>
+
+  <div class="step-row">
+    <div class="step-circle">1</div>
+    <div class="step-content">
+      <h4>Create a Free Account</h4>
+      <p>Visit collegerugbyportal.com and tap Sign In. Use Google, Apple, or email.</p>
+    </div>
+  </div>
+  <div class="step-row">
+    <div class="step-circle">2</div>
+    <div class="step-content">
+      <h4>Verify Your Email</h4>
+      <p>If using email/password, check your inbox and click the verification link.</p>
+    </div>
+  </div>
+  <div class="step-row">
+    <div class="step-circle">3</div>
+    <div class="step-content">
+      <h4>Add to Home Screen</h4>
+      <p>iPhone: Safari > Share > Add to Home Screen. Android: Chrome > Menu > Install App. Works like a native app.</p>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-label">Tip</div>
+    <p>Use the email you check most. Coaches contact you through the portal and you get email notifications.</p>
+  </div>
+
+  <div class="swipe">SWIPE &#8594;</div>
+</div>
+
+<!-- SLIDE 3: Search & Filter -->
+<div class="slide">
+  <div class="slide-num">2 / 6</div>
+  <div class="section-title">SEARCH AND FILTER</div>
+  <div class="divider" style="margin-bottom:36px"></div>
+
+  <div class="subtitle" style="margin-bottom:32px">Browse 900+ programs. Search by name, city, state, or conference, then filter by:</div>
+
+  <ul class="bullet-list">
+    <li><div class="bullet-dot"></div><strong>Gender</strong> &mdash; Men's or Women's programs</li>
+    <li><div class="bullet-dot"></div><strong>State</strong> &mdash; Find programs near you or anywhere in the US</li>
+    <li><div class="bullet-dot"></div><strong>League</strong> &mdash; NCR D1, CRAA D1A, NIRA, and more</li>
+    <li><div class="bullet-dot"></div><strong>Scholarship</strong> &mdash; Show only programs offering rugby scholarships</li>
+    <li><div class="bullet-dot"></div><strong>School-Funded</strong> &mdash; Programs funded by the school</li>
+    <li><div class="bullet-dot"></div><strong>Min GPA / Max Tuition</strong> &mdash; Set academic and budget filters</li>
+  </ul>
+
+  <div class="tip">
+    <div class="tip-label">Tip</div>
+    <p>Click any program to see full details: academics, rankings, tuition, coach contacts, and program notes.</p>
+  </div>
+
+  <div class="swipe">SWIPE &#8594;</div>
+</div>
+
+<!-- SLIDE 4: Favorites & Compare -->
+<div class="slide">
+  <div class="slide-num">3 / 6</div>
+  <div class="section-title">FAVORITES AND COMPARE</div>
+  <div class="divider" style="margin-bottom:36px"></div>
+
+  <div class="card">
+    <div class="card-row">
+      <div class="card-icon">F</div>
+      <div>
+        <h3>Save Your Favorites</h3>
+        <p>Tap the heart on any program to save it. Access your list from the Favorites tab anytime.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:0;margin-bottom:20px">
+    <div class="tip-label">Important</div>
+    <p>When you favorite a program, the coaching staff is notified automatically. This is an easy way to get on a coach's radar.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-row">
+      <div class="card-icon">C</div>
+      <div>
+        <h3>Compare Up to 3 Programs</h3>
+        <p>Select programs to compare, then see them side-by-side: academics, tuition, rankings, rugby info, and coach contacts. Best values are highlighted in green.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="swipe">SWIPE &#8594;</div>
+</div>
+
+<!-- SLIDE 5: Player Profile -->
+<div class="slide">
+  <div class="slide-num">4 / 6</div>
+  <div class="section-title">BUILD YOUR PROFILE</div>
+  <div class="divider" style="margin-bottom:32px"></div>
+
+  <div class="subtitle" style="margin-bottom:28px">Your profile is how coaches discover you. Complete it to maximize your visibility.</div>
+
+  <div style="display:flex;gap:16px;width:100%">
+    <div class="card" style="flex:1">
+      <h3>Personal Info</h3>
+      <p>Name, email, phone, high school, city, state, grad year</p>
+    </div>
+    <div class="card" style="flex:1">
+      <h3>Academics</h3>
+      <p>GPA, SAT, ACT, intended major</p>
+    </div>
+  </div>
+  <div style="display:flex;gap:16px;width:100%">
+    <div class="card" style="flex:1">
+      <h3>Rugby Background</h3>
+      <p>Position, years playing, club, height, weight, coach info</p>
+    </div>
+    <div class="card" style="flex:1">
+      <h3>Highlight Video</h3>
+      <p>Add your Hudl, YouTube, or other video link</p>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-label">Key Step</div>
+    <p>Toggle "Make my profile visible" to ON. Coaches actively browse the Player Directory to find recruits. A public profile with a highlight video gets the most attention.</p>
+  </div>
+
+  <div class="swipe">SWIPE &#8594;</div>
+</div>
+
+<!-- SLIDE 6: Message Coaches & Explore -->
+<div class="slide">
+  <div class="slide-num">5 / 6</div>
+  <div class="section-title">CONNECT WITH COACHES</div>
+  <div class="divider" style="margin-bottom:36px"></div>
+
+  <div class="step-row">
+    <div class="step-circle">1</div>
+    <div class="step-content">
+      <h4>Message Coaches Directly</h4>
+      <p>Visit a program page and tap Message. Coaches get email and push notifications instantly.</p>
+    </div>
+  </div>
+  <div class="step-row">
+    <div class="step-circle">2</div>
+    <div class="step-content">
+      <h4>Check Your Messages</h4>
+      <p>The Messages tab shows all your conversations. Enable push notifications so you never miss a reply.</p>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-bottom:28px">
+    <div class="tip-label">Tip</div>
+    <p>Keep your first message brief: introduce yourself, mention your position and grad year, and explain why you're interested in their program.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-row">
+      <div class="card-icon">R</div>
+      <div>
+        <h3>Explore Rankings, Leagues, and Conferences</h3>
+        <p>Browse national rankings by league, see every team in the league hierarchy, and explore conference pages with full team rosters.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="swipe">SWIPE &#8594;</div>
+</div>
+
+<!-- SLIDE 7: CTA -->
+<div class="slide">
+  <div class="slide-num">6 / 6</div>
+  <svg viewBox="0 0 280 250" class="logo" style="width:200px;margin-bottom:32px" xmlns="http://www.w3.org/2000/svg">
+    <rect x="37" y="15" width="206" height="220" rx="22" fill="rgba(255,255,255,0.08)"/>
+    <rect x="108" y="35" width="8" height="177" fill="rgba(255,255,255,0.3)"/>
+    <rect x="164" y="35" width="8" height="177" fill="rgba(255,255,255,0.3)"/>
+    <rect x="98" y="165" width="84" height="8" fill="rgba(255,255,255,0.3)"/>
+    <g transform="translate(54.640 140.000) scale(0.064000 -0.064000)"><path d="M419 -14Q336 -14 265.5 13.0Q195 40 143.5 88.5Q92 137 63.0 203.5Q34 270 34 350Q34 430 63.0 496.5Q92 563 143.5 611.5Q195 660 265.5 687.0Q336 714 419 714Q516 714 592.5 680.0Q669 646 720 582L594 468Q561 508 520.0 529.0Q479 550 429 550Q371 550 327.5 525.0Q284 500 259.0 455.0Q234 410 234 350Q234 290 259.0 245.0Q284 200 327.5 175.0Q371 150 429 150Q479 150 520.0 171.0Q561 192 594 232L720 118Q669 54 592.5 20.0Q516 -14 419 -14Z" fill="#FFFFFF"/></g>
+    <g transform="translate(116.320 140.000) scale(0.064000 -0.064000)"><path d="M70 0V700H383Q537 700 619.0 630.5Q701 561 701 441Q701 364 665.0 307.5Q629 251 563 220L715 0H503L376 186H268V0ZM268 339H378Q440 339 470.5 366.0Q501 393 501 441Q501 490 470.5 517.0Q440 544 378 544H268Z" fill="#00FF00"/></g>
+    <g transform="translate(178.416 140.000) scale(0.064000 -0.064000)"><path d="M70 0V700H390Q485 700 555.0 668.5Q625 637 663.0 579.0Q701 521 701 441Q701 362 663.0 304.0Q625 246 555.0 214.5Q485 183 390 183H268V0ZM268 339H378Q440 339 470.5 366.0Q501 393 501 441Q501 490 470.5 517.0Q440 544 378 544H268Z" fill="#FFFFFF"/></g>
+    <rect x="57" y="212" width="166" height="5" fill="#00FF00"/>
+  </svg>
+  <div class="headline" style="margin-top:0">Start your search<br><span>today.</span></div>
+  <div class="cta-btn">collegerugbyportal.com</div>
+  <div class="subtitle" style="margin-top:28px">No fees. No subscriptions. Just rugby.</div>
+  <div class="free-badge">ALWAYS FREE</div>
+  <div class="tagline" style="margin-top:48px">Explore. Connect. Play.</div>
+</div>
+
+</body>
+</html>

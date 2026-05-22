@@ -552,6 +552,28 @@ export default function App() {
   // Check if current route is one that uses the admin layout
   const isAdminRoute = location.pathname === "/admin";
 
+  // Admin route — separate layout, AdminPage handles its own auth
+  if (isAdminRoute) {
+    return (
+      <ToastProvider>
+        <div style={{ minHeight: "100vh", background: "#f1f5f9",
+          fontFamily: "'Inter', system-ui, sans-serif", padding: "40px 24px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
+              <img src="/logo-icon.svg" alt="" style={{ width: 28, height: 28 }} />
+              <span style={{ fontWeight: 800, fontSize: 18, color: "#0f172a" }}>
+                College Rugby Portal &mdash; Admin
+              </span>
+            </div>
+            <Suspense fallback={<LazyFallback />}>
+              <AdminPage />
+            </Suspense>
+          </div>
+        </div>
+      </ToastProvider>
+    );
+  }
+
   if (loading) return (
     <div style={{
       display: "flex", alignItems: "center", justifyContent: "center",
@@ -581,28 +603,6 @@ export default function App() {
       <div style={{ fontSize: 18, fontWeight: 600, color: "#dc2626", textAlign: "center" }}>{error}</div>
     </div>
   );
-
-  // Admin route — separate layout, AdminPage handles its own auth
-  if (isAdminRoute) {
-    return (
-      <ToastProvider>
-        <div style={{ minHeight: "100vh", background: "#f1f5f9",
-          fontFamily: "'Inter', system-ui, sans-serif", padding: "40px 24px" }}>
-          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
-              <img src="/logo-icon.svg" alt="" style={{ width: 28, height: 28 }} />
-              <span style={{ fontWeight: 800, fontSize: 18, color: "#0f172a" }}>
-                College Rugby Portal &mdash; Admin
-              </span>
-            </div>
-            <Suspense fallback={<LazyFallback />}>
-              <AdminPage />
-            </Suspense>
-          </div>
-        </div>
-      </ToastProvider>
-    );
-  }
 
   // Shared inline content for programs grid (used by both "/" and "/favorites")
   const programGridContent = (isFavorites) => (

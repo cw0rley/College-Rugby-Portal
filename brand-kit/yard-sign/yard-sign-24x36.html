@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Yard Sign — 24x36 — College Rugby Portal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #444;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 40px; font-family: 'Inter', system-ui, sans-serif;
+  }
+  .label {
+    color: #aaa; font-size: 14px; margin-bottom: 12px; letter-spacing: 1px;
+    text-transform: uppercase; font-weight: 600;
+  }
+  .bleed-note {
+    color: #888; font-size: 12px; margin-bottom: 40px; max-width: 600px; text-align: center; line-height: 1.6;
+  }
+
+  /* 24x36 at 72dpi = 1728x2592, scaled to 50% for screen preview */
+  .sign {
+    width: 864px; height: 1296px;
+    background: #0A1F44;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: space-between;
+    padding: 60px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative circles */
+  .sign::before {
+    content: ''; position: absolute;
+    right: -60px; top: -60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    border: 4px solid rgba(0,255,0,0.1);
+  }
+  .sign::after {
+    content: ''; position: absolute;
+    left: -80px; bottom: -80px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    border: 3px solid rgba(0,255,0,0.06);
+  }
+  .sign * { position: relative; z-index: 1; }
+
+  /* Top section */
+  .top { text-align: center; }
+  .logo { width: 180px; height: auto; margin-bottom: 16px; }
+  .brand {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 42px; font-weight: 900; color: #fff;
+    letter-spacing: -0.5px; line-height: 1.1;
+  }
+  .tagline-line {
+    color: #00FF00; font-size: 15px; font-weight: 700;
+    letter-spacing: 4px; text-transform: uppercase; margin-top: 8px;
+  }
+
+  /* Middle section */
+  .middle { text-align: center; }
+  .headline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 38px; font-weight: 900; color: #fff;
+    line-height: 1.2; margin-bottom: 16px;
+  }
+  .headline span { color: #00FF00; }
+  .divider { width: 80px; height: 5px; background: #00CC00; border-radius: 3px; margin: 0 auto 20px; }
+  .desc {
+    color: rgba(255,255,255,0.75); font-size: 18px; line-height: 1.6;
+    max-width: 580px; margin: 0 auto;
+  }
+
+  /* Stats row */
+  .stats {
+    display: flex; gap: 28px; justify-content: center;
+    margin-top: 28px;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px; font-weight: 900; color: #00FF00;
+  }
+  .stat-label {
+    font-size: 11px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px;
+  }
+
+  /* Bottom section */
+  .bottom { text-align: center; width: 100%; }
+  .url-bar {
+    background: #00CC00; color: #0A1F44;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px; font-weight: 900;
+    padding: 18px 40px; border-radius: 14px;
+    display: inline-block; letter-spacing: 0.3px;
+    text-transform: lowercase;
+  }
+  .free-line {
+    color: rgba(255,255,255,0.5); font-size: 15px;
+    font-weight: 600; margin-top: 14px; letter-spacing: 0.5px;
+  }
+  .free-badge {
+    display: inline-block; background: rgba(0,255,0,0.12);
+    color: #00FF00; font-size: 12px; font-weight: 700;
+    padding: 4px 12px; border-radius: 5px;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin-left: 6px; vertical-align: middle;
+    border: 1px solid rgba(0,255,0,0.2);
+  }
+</style>
+</head>
+<body>
+
+<div class="label">24" x 36" Yard Sign (50% preview — actual 1728 x 2592 px at 72dpi)</div>
+<div class="bleed-note">
+  For print: export at 2x (1728x2592) or set up at 24"x36" / 300dpi (7200x10800).
+  Add 0.25" bleed on all sides. Use CMYK color profile for printing.
+  Both sides are identical — send the same file for front and back.
+</div>
+
+<div class="sign">
+
+  <!-- Top: Logo + Brand -->
+  <div class="top">
+    <svg viewBox="0 0 280 250" class="logo" xmlns="http://www.w3.org/2000/svg">
+      <rect x="37" y="15" width="206" height="220" rx="22" fill="rgba(255,255,255,0.08)"/>
+      <rect x="108" y="35" width="8" height="177" fill="rgba(255,255,255,0.3)"/>
+      <rect x="164" y="35" width="8" height="177" fill="rgba(255,255,255,0.3)"/>
+      <rect x="98" y="165" width="84" height="8" fill="rgba(255,255,255,0.3)"/>
+      <g transform="translate(54.640 140.000) scale(0.064000 -0.064000)"><path d="M419 -14Q336 -14 265.5 13.0Q195 40 143.5 88.5Q92 137 63.0 203.5Q34 270 34 350Q34 430 63.0 496.5Q92 563 143.5 611.5Q195 660 265.5 687.0Q336 714 419 714Q516 714 592.5 680.0Q669 646 720 582L594 468Q561 508 520.0 529.0Q479 550 429 550Q371 550 327.5 525.0Q284 500 259.0 455.0Q234 410 234 350Q234 290 259.0 245.0Q284 200 327.5 175.0Q371 150 429 150Q479 150 520.0 171.0Q561 192 594 232L720 118Q669 54 592.5 20.0Q516 -14 419 -14Z" fill="#FFFFFF"/></g>
+      <g transform="translate(116.320 140.000) scale(0.064000 -0.064000)"><path d="M70 0V700H383Q537 700 619.0 630.5Q701 561 701 441Q701 364 665.0 307.5Q629 251 563 220L715 0H503L376 186H268V0ZM268 339H378Q440 339 470.5 366.0Q501 393 501 441Q501 490 470.5 517.0Q440 544 378 544H268Z" fill="#00FF00"/></g>
+      <g transform="translate(178.416 140.000) scale(0.064000 -0.064000)"><path d="M70 0V700H390Q485 700 555.0 668.5Q625 637 663.0 579.0Q701 521 701 441Q701 362 663.0 304.0Q625 246 555.0 214.5Q485 183 390 183H268V0ZM268 339H378Q440 339 470.5 366.0Q501 393 501 441Q501 490 470.5 517.0Q440 544 378 544H268Z" fill="#FFFFFF"/></g>
+      <rect x="57" y="212" width="166" height="5" fill="#00FF00"/>
+    </svg>
+    <div class="brand">COLLEGE<br>RUGBY PORTAL</div>
+    <div class="tagline-line">Explore. Connect. Play.</div>
+  </div>
+
+  <!-- Middle: Headline + Stats -->
+  <div class="middle">
+    <div class="headline">Find the right<br>college rugby program<br><span>for you.</span></div>
+    <div class="divider"></div>
+    <div class="desc">The free platform for high school and club rugby players to discover, compare, and connect with college programs across the US.</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">900+</div><div class="stat-label">Programs</div></div>
+      <div class="stat"><div class="stat-num">50</div><div class="stat-label">States</div></div>
+      <div class="stat"><div class="stat-num">100+</div><div class="stat-label">Conferences</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Free</div></div>
+    </div>
+  </div>
+
+  <!-- Bottom: URL + Free -->
+  <div class="bottom">
+    <div class="url-bar">collegerugbyportal.com</div>
+    <div class="free-line">No fees. No subscriptions. Just rugby. <span class="free-badge">Always Free</span></div>
+  </div>
+
+</div>
+
+</body>
+</html>

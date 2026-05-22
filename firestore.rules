@@ -6,12 +6,13 @@ service cloud.firestore {
     // Anyone can read program data — this is the core public content
     match /programs/{programId} {
       allow read: if true;
-      allow update: if isAdmin() || isCoach();
+      allow update: if isAdmin() || isCoachOfProgram(programId);
       allow create, delete: if isAdmin();
     }
     match /programContacts/{contactId} {
       allow read: if true;
-      allow write: if isAdmin() || isCoach();
+      allow create: if isAdmin() || isCoachOfProgram(request.resource.data.programId);
+      allow update, delete: if isAdmin() || isCoachOfProgram(resource.data.programId);
     }
     match /conferences/{confId} {
       allow read: if true;

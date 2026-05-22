@@ -7,8 +7,8 @@
 - [x] Fix `isMobile` not updating on resize — extracted useIsMobile hook, updated all components
 
 ## Security
-- [ ] Firestore rules: `isCoachOfProgram()` is defined but never used — coaches can currently update any program, not just their own
-- [ ] Validate URL scheme in ProgramDetailPage `renderMarkdown()` link handling to prevent `javascript:` URIs
+- [x] Firestore rules: use `isCoachOfProgram()` so coaches can only update their own programs/contacts
+- [x] Validate URL scheme in ProgramDetailPage `renderMarkdown()` — already safe (regex requires https?://)
 
 ## UI / Design
 - [ ] Declutter the header — logo + title + tagline + search + auth is a lot stacked up top

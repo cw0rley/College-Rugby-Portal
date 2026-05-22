@@ -20,6 +20,7 @@ import Pagination from "../ui/Pagination.jsx";
 
 export default function AdminPage() {
   const { addToast } = useToast();
+  const isMobile = useIsMobile();
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -353,8 +354,6 @@ export default function AdminPage() {
   const adminLeagues = leaguesList.map(l => l.name);
   const adminConferences = conferencesList.map(c => ({ name: c.conference }));
   const adminSchoolTypes = [...new Set(programs.map(p => p.schoolType).filter(Boolean))].sort();
-
-  const isMobile = useIsMobile();
 
   return (
     <div>

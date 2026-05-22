@@ -17,6 +17,7 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
   const [sortDir, setSortDir] = useState("asc");
   const [confirmAction, setConfirmAction] = useState(null);
   const { addToast } = useToast();
+  const isMobile = useIsMobile();
 
   function handleSort(col) {
     if (sortCol === col) { setSortDir(d => d === "asc" ? "desc" : "asc"); }
@@ -153,8 +154,6 @@ export default function AdminUsers({ programs = [], programContacts = [] }) {
     const p = programs.find(pr => pr.id === programId);
     return p ? `${p.school} (${p.gender === "womens" ? "Women's" : "Men's"})` : programId.substring(0, 12) + "...";
   }
-
-  const isMobile = useIsMobile();
 
   return (
     <div>

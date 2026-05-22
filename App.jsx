@@ -565,9 +565,11 @@ export default function App() {
                 College Rugby Portal &mdash; Admin
               </span>
             </div>
-            <Suspense fallback={<LazyFallback />}>
-              <AdminPage />
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<LazyFallback />}>
+                <AdminPage />
+              </Suspense>
+            </ErrorBoundary>
           </div>
         </div>
       </ToastProvider>

@@ -6,7 +6,7 @@
 - [x] Replace browser `alert()`/`confirm()` calls with Toast notifications and ConfirmDialog modals
 - [x] Fix `isMobile` not updating on resize — extracted useIsMobile hook, updated all components
 
-- [ ] Fix analytics dashboard — all values show 0, events may not be writing to Firestore
+- [x] Fix analytics dashboard — Promise.all failed fast on permission-denied, added per-collection catches + admin read rule for conversations
 
 ## Security
 - [x] Firestore rules: use `isCoachOfProgram()` so coaches can only update their own programs/contacts

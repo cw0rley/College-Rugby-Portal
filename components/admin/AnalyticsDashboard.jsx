@@ -72,17 +72,17 @@ export default function AnalyticsDashboard() {
   async function loadAnalytics() {
     setLoading(true);
     try {
-      // Fetch all data in parallel
+      // Fetch all data in parallel — individual catches so one failure doesn't zero everything
       const [programsSnap, playersSnap, submissionsSnap, conversationsSnap] = await Promise.all([
-        getDocs(collection(db, "programs")),
-        getDocs(collection(db, "playerProfiles")),
-        getDocs(collection(db, "submissions")),
-        getDocs(collection(db, "conversations")),
+        getDocs(collection(db, "programs")).catch(e => { console.warn("Analytics: programs read failed:", e.message); return { docs: [], size: 0 }; }),
+        getDocs(collection(db, "playerProfiles")).catch(e => { console.warn("Analytics: playerProfiles read failed:", e.message); return { docs: [], size: 0 }; }),
+        getDocs(collection(db, "submissions")).catch(e => { console.warn("Analytics: submissions read failed:", e.message); return { docs: [], size: 0 }; }),
+        getDocs(collection(db, "conversations")).catch(e => { console.warn("Analytics: conversations read failed:", e.message); return { docs: [], size: 0 }; }),
       ]);
 
-      const programs = programsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-      const players = playersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-      const submissions = submissionsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const programs = (programsSnap.docs || []).map(d => ({ id: d.id, ...d.data() }));
+      const players = (playersSnap.docs || []).map(d => ({ id: d.id, ...d.data() }));
+      const submissions = (submissionsSnap.docs || []).map(d => ({ id: d.id, ...d.data() }));
 
       // Overview stats
       setStats({

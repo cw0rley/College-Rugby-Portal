@@ -74,7 +74,7 @@ service cloud.firestore {
 
     // ── Conversations & messages ──
     match /conversations/{convId} {
-      allow read: if isSignedIn() && isParticipant();
+      allow read: if isAdmin() || (isSignedIn() && isParticipant());
       allow create: if isSignedIn();
       allow update: if isSignedIn() && isParticipant();
       allow delete: if isAdmin();

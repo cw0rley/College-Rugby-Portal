@@ -892,7 +892,7 @@ export default function App() {
       }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
-          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 6 : 10, marginBottom: isMobile ? 8 : 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 6 : 10, marginBottom: isMobile ? 8 : 12, paddingLeft: isMobile ? 0 : "10%" }}>
             <img src="/logo-goalposts.svg" alt="" style={{ width: isMobile ? 64 : 110, height: isMobile ? 64 : 110, flexShrink: 0, cursor: "pointer" }} onClick={() => navigate("/")} />
             <div style={{ flex: 1 }}>
               <h1 style={{ margin: 0, fontSize: isMobile ? 20 : 32, fontWeight: 800, letterSpacing: "-0.03em",
@@ -917,7 +917,7 @@ export default function App() {
           )}
 
           {/* Search bar */}
-          <div style={{ position: "relative", maxWidth: 600, width: "100%" }}>
+          <div style={{ position: "relative", maxWidth: 800, width: "100%", margin: "0 auto" }}>
             <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)",
               fontSize: 16, color: "#94a3b8" }}>&#128269;</span>
             <input
@@ -970,7 +970,7 @@ export default function App() {
             )}
           </>
         ) : (
-          <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap", justifyContent: "center" }}>
             {navItems.map(item => (
               <NavLink key={item.to} to={item.to} end={item.end || false}
                 style={({ isActive }) => ({

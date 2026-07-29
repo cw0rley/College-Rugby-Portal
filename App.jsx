@@ -409,15 +409,37 @@ export default function App() {
     fetchData();
   }, []);
 
+  // Only surface leagues/conferences that actually have programs for the
+  // selected gender, so a stray record can't create a dead-end filter option.
+  const genderPrograms = useMemo(() =>
+    genderFilter === "all" ? programs : programs.filter(p => p.gender === genderFilter),
+    [programs, genderFilter]);
+
   const uniqueLeagues = useMemo(() =>
+    [...new Set(genderPrograms.map(p => p.league).filter(Boolean))].sort(), [genderPrograms]);
+
+  // All-gender league list for the Conferences page grouping (not tied to the
+  // Men's/Women's tab, which only scopes the program filter dropdowns).
+  const allLeagues = useMemo(() =>
     [...new Set(programs.map(p => p.league).filter(Boolean))].sort(), [programs]);
 
   const uniqueConferences = useMemo(() => {
     const source = leagueFilter
-      ? programs.filter(p => p.league === leagueFilter)
-      : programs;
+      ? genderPrograms.filter(p => p.league === leagueFilter)
+      : genderPrograms;
     return [...new Set(source.map(p => p.conference).filter(Boolean))].sort();
-  }, [programs, leagueFilter]);
+  }, [genderPrograms, leagueFilter]);
+
+  // If the active league/conference no longer exists for the selected gender,
+  // clear it so the user isn't left staring at "No programs found".
+  useEffect(() => {
+    if (leagueFilter && !uniqueLeagues.includes(leagueFilter)) {
+      setLeagueFilter("");
+      setConferenceFilter("");
+    } else if (conferenceFilter && !uniqueConferences.includes(conferenceFilter)) {
+      setConferenceFilter("");
+    }
+  }, [leagueFilter, conferenceFilter, uniqueLeagues, uniqueConferences]);
 
   const confNameMap = useMemo(() =>
     Object.fromEntries(conferences.map(c => [c.conference, c.fullName || c.conference])),
@@ -825,7 +847,7 @@ export default function App() {
   const conferencesContent = (
     <>
       <div style={{ fontSize: 13, color: "#64748b", marginBottom: 20 }}>
-        {confSearch.length} conferences across {uniqueLeagues.length} leagues
+        {confSearch.length} conferences across {allLeagues.length} leagues
       </div>
       {(() => {
         // Group conferences by league
@@ -835,7 +857,7 @@ export default function App() {
           if (!confByLeague[league]) confByLeague[league] = [];
           confByLeague[league].push(c);
         });
-        const leagueOrder = [...uniqueLeagues, "Other"];
+        const leagueOrder = [...allLeagues, "Other"];
         return leagueOrder.filter(l => confByLeague[l]).map(league => (
           <div key={league} style={{ marginBottom: 32 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>

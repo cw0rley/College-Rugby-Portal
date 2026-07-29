@@ -1,3 +1,7 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # College Rugby Portal
 
 A web app for discovering and comparing college rugby programs across the US. Players find programs, coaches recruit players. Live at **collegerugbyportal.com**.

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1200px;
+      height: 630px;
+      background: #0A1F44;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .field-line-1 { position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background: rgba(255,255,255,0.04); }
+    .field-line-2 { position: absolute; top: 0; left: 25%; width: 1px; height: 100%; background: rgba(255,255,255,0.03); }
+    .field-line-3 { position: absolute; top: 0; left: 75%; width: 1px; height: 100%; background: rgba(255,255,255,0.03); }
+    .accent-top { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: #00FF00; }
+    .accent-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 6px; background: #00FF00; }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      z-index: 1;
+      max-width: 900px;
+    }
+    .heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 56px;
+      color: #FFFFFF;
+      letter-spacing: 3px;
+      text-align: center;
+      line-height: 1.15;
+    }
+    .heading span { color: #00FF00; }
+    .features {
+      display: flex;
+      gap: 40px;
+      margin-top: 8px;
+    }
+    .feature {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+    .feature-icon {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 36px;
+      color: #00FF00;
+    }
+    .feature-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      line-height: 1.4;
+    }
+    .url {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 2px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="accent-top"></div>
+  <div class="accent-bottom"></div>
+  <div class="field-line-1"></div>
+  <div class="field-line-2"></div>
+  <div class="field-line-3"></div>
+  <div class="container">
+    <div class="heading">FIND YOUR <span>COLLEGE<br>RUGBY</span> PROGRAM</div>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">900+</div>
+        <div class="feature-text">Programs to<br>explore</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">50</div>
+        <div class="feature-text">States<br>covered</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">FREE</div>
+        <div class="feature-text">Player profile<br>creation</div>
+      </div>
+    </div>
+    <div class="url">collegerugbyportal.com</div>
+  </div>
+</body>
+</html>

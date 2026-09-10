@@ -26,13 +26,7 @@
  *   node sync.js --skip-goff      # Skip Goff (slow, ~60 conference pages)
  */
 
-import { scrapeNCR } from "./scrape-ncr.js";
-import { scrapeCRAA } from "./scrape-craa.js";
-import { scrapeNIRA } from "./scrape-nira.js";
-import { scrapeGoff } from "./scrape-goff.js";
-import { scrapeNextPhase, scrapeNextPhaseFeatured, scrapeNextPhaseScholarships } from "./scrape-nextphase.js";
-import { scrapeConferences } from "./scrape-conferences.js";
-import { scrapeRugbyWebsites } from "./scrape-rugby-websites.js";
+import { STEPS, runSteps, selectSteps, listSteps } from "./steps.js";
 import {
   syncPrograms,
   syncConferenceContacts,
@@ -49,10 +43,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes("--dry-run");
 const SCRAPE_ONLY = args.includes("--scrape-only");
-const SKIP_GOFF = args.includes("--skip-goff");
 const SKIP_CONTACTS = args.includes("--skip-contacts");
 const DIFF_CONTACTS = args.includes("--diff-contacts");
+const LIST_STEPS = args.includes("--list-steps");
 const IMPORT_IDX = args.indexOf("--import");
+
+// Row counts per step, filled in by scrapeAll and read by reportSourceHealth.
+const stepCounts = {};
 
 // ─── Conference full-name → abbreviation mapping ─────────────────────────────
 // The programs table stores conference as an abbreviation (e.g. "ARC").
@@ -235,115 +232,36 @@ function normaliseConference(raw) {
   return trimmed;
 }
 
-async function scrapeAll() {
+async function scrapeAll(selected) {
+  const scrapeSteps = STEPS.filter(st => st.phase === "scrape");
+  const running = scrapeSteps.filter(st => selected.has(st.name)).length;
+
   console.log("🏉 College Rugby Portal — Data Sync\n");
   console.log("════════════════════════════════════════════");
-  console.log("  Scraping 6 sources for college rugby data");
+  console.log(`  Scraping ${running} of ${scrapeSteps.length} sources`);
   console.log("════════════════════════════════════════════\n");
 
-  // ── 1. NCR ──────────────────────────────────────────────────────────
-  console.log("📗 Source 1: NCR (ncr.rugby/clubs)");
-  console.log("   Coverage: All registered clubs across D1, D1-AA, D2, D3");
-  console.log("   Data: school name, gender, conference\n");
-  let ncrClubs = [];
-  try {
-    ncrClubs = await scrapeNCR();
-  } catch (err) {
-    console.error(`  ❌ NCR scrape failed: ${err.message}`);
+  const { results, counts } = await runSteps(selected, "scrape");
+
+  // Bind step results to the names the merge below already uses.
+  const ncrClubs         = results["ncr"];
+  const craaClubs        = results["craa"];
+  const niraTeams        = results["nira"];
+  const goffTeams        = results["goff"];
+  const nextPhaseTeams   = results["nextphase"];
+  const featuredTeams    = results["nextphase-featured"];
+  const scholarshipTeams = results["nextphase-scholarships"];
+  const confTeams        = results["conferences"].teams;
+  const confContacts     = results["conferences"].contacts;
+
+  // Conference contacts go to disk for the contact-diff step.
+  if (confContacts.length > 0) {
+    const contactsPath = resolve(__dirname, "conference-contacts.json");
+    writeFileSync(contactsPath, JSON.stringify(confContacts, null, 2));
+    console.log(`  💾 Saved ${confContacts.length} contact entries to conference-contacts.json`);
   }
 
-  // ── 2. CRAA ─────────────────────────────────────────────────────────
-  console.log("\n📕 Source 2: CRAA (craa.rugby)");
-  console.log("   Coverage: Top-tier D1A, D1AA, D1 Elite divisions");
-  console.log("   Data: school name, gender, league\n");
-  let craaClubs = [];
-  try {
-    craaClubs = await scrapeCRAA();
-  } catch (err) {
-    console.error(`  ❌ CRAA scrape failed: ${err.message}`);
-  }
-
-  // ── 3. NIRA ─────────────────────────────────────────────────────────
-  console.log("\n📘 Source 3: NIRA (nira.rugby/teams)");
-  console.log("   Coverage: NCAA varsity women's rugby (D1, D2, D3)");
-  console.log("   Data: school name, athletics website link\n");
-  let niraTeams = [];
-  try {
-    niraTeams = await scrapeNIRA();
-  } catch (err) {
-    console.error(`  ❌ NIRA scrape failed: ${err.message}`);
-  }
-
-  // ── 4. Goff Rugby Report ────────────────────────────────────────────
-  let goffTeams = [];
-  if (!SKIP_GOFF) {
-    console.log("\n📙 Source 4: Goff Rugby Report (goffrugbyreport.com)");
-    console.log("   Coverage: ~60 conferences with standings tables");
-    console.log("   Data: school name, conference, gender\n");
-    try {
-      goffTeams = await scrapeGoff();
-    } catch (err) {
-      console.error(`  ❌ Goff scrape failed: ${err.message}`);
-    }
-  } else {
-    console.log("\n📙 Source 4: Goff Rugby Report — SKIPPED (--skip-goff)\n");
-  }
-
-  // ── 5. Next Phase Rugby ─────────────────────────────────────────────
-  console.log("\n📒 Source 5: Next Phase Rugby (app.nextphaserugby.com)");
-  console.log("   Coverage: 275+ programs with recruiting data");
-  console.log("   Data: school, city, state, gender, division, conference, program status\n");
-  let nextPhaseTeams = [];
-  try {
-    nextPhaseTeams = await scrapeNextPhase();
-  } catch (err) {
-    console.error(`  ❌ Next Phase scrape failed: ${err.message}`);
-    console.error(`     (Set NEXTPHASE_TOKEN or create nextphase-token.txt)`);
-  }
-
-  // ── 5b. Next Phase Featured Schools ─────────────────────────────────
-  console.log("\n📒 Source 5b: Next Phase Featured Schools");
-  console.log("   Coverage: ~90 featured/promoted programs");
-  console.log("   Data: school, city, state, gender, division, tuition, grants, isFeatured\n");
-  let featuredTeams = [];
-  try {
-    featuredTeams = await scrapeNextPhaseFeatured();
-  } catch (err) {
-    console.error(`  ❌ Next Phase featured scrape failed: ${err.message}`);
-  }
-
-  // ── 5c. Next Phase Scholarships (detail pages) ─────────────────────
-  console.log("\n📒 Source 5c: Next Phase Scholarship Data");
-  console.log("   Coverage: All 275 programs (detail page for each)");
-  console.log("   Data: scholarships offered, grants, tuition, coach, enrollment\n");
-  let scholarshipTeams = [];
-  try {
-    scholarshipTeams = await scrapeNextPhaseScholarships();
-  } catch (err) {
-    console.error(`  ❌ Next Phase scholarship scrape failed: ${err.message}`);
-    console.error(`     (Set NEXTPHASE_TOKEN or create nextphase-token.txt)`);
-  }
-
-  // ── 6. Conference Websites ───────────────────────────────────────────
-  console.log("\n📓 Source 6: Conference Websites (14 sites)");
-  console.log("   Coverage: Individual conference teams, contacts, standings");
-  console.log("   Data: team rosters, coach contacts, conference leadership\n");
-  let confTeams = [];
-  let confContacts = [];
-  try {
-    const confResult = await scrapeConferences();
-    confTeams = confResult.teams;
-    confContacts = confResult.contacts;
-
-    // Save contacts to a separate file for reference
-    if (confContacts.length > 0) {
-      const contactsPath = resolve(__dirname, "conference-contacts.json");
-      writeFileSync(contactsPath, JSON.stringify(confContacts, null, 2));
-      console.log(`  💾 Saved ${confContacts.length} contact entries to conference-contacts.json`);
-    }
-  } catch (err) {
-    console.error(`  ❌ Conference scrape failed: ${err.message}`);
-  }
+  Object.assign(stepCounts, counts);
 
   // ── Merge all sources ───────────────────────────────────────────────
   console.log("\n🔀 Merging data from all sources...");
@@ -486,24 +404,16 @@ async function scrapeAll() {
     console.log(`  🔤 Normalised ${confNormalised} conference names → abbreviations`);
   }
 
-  // Record what each source returned so the run can fail loudly if a
-  // scraper silently breaks (see reportSourceHealth).
-  sourceHealth.NCR = ncrClubs.length;
-  sourceHealth.CRAA = craaClubs.length;
-  sourceHealth.NIRA = niraTeams.length;
-  sourceHealth.Goff = goffTeams.length;
-  sourceHealth.NextPhase = nextPhaseTeams.length;
-  sourceHealth.Conferences = confTeams.length;
-  sourceHealth.Merged = allPrograms.length;
+  stepCounts.merged = allPrograms.length;
 
   console.log(`\n╔═══════════════════════════════════════╗`);
   console.log(`║  SCRAPE SUMMARY                       ║`);
   console.log(`╠═══════════════════════════════════════╣`);
-  console.log(`║  NCR:   ${String(ncrClubs.length).padStart(5)} clubs               ║`);
-  console.log(`║  CRAA:  ${String(craaClubs.length).padStart(5)} programs            ║`);
-  console.log(`║  NIRA:  ${String(niraTeams.length).padStart(5)} teams               ║`);
-  console.log(`║  Goff:  ${String(goffTeams.length).padStart(5)} teams               ║`);
-  console.log(`║  Conf:  ${String(confTeams.length).padStart(5)} teams               ║`);
+  for (const step of STEPS.filter(st => st.phase === "scrape")) {
+    const n = stepCounts[step.name];
+    const shown = n === null || n === undefined ? "  skip" : String(n).padStart(6);
+    console.log(`║  ${step.name.padEnd(24)} ${shown}       ║`);
+  }
   console.log(`║─────────────────────────────────────── ║`);
   console.log(`║  Merged: ${String(allPrograms.length).padStart(4)} unique programs    ║`);
   console.log(`╚═══════════════════════════════════════╝`);
@@ -517,14 +427,9 @@ async function scrapeAll() {
 // 0 and reports success while doing nothing — which is how the NCR scraper sat
 // broken from late July to September 2026 across six "green" weekly runs.
 
-const sourceHealth = {};
-
-// Sources that must return rows for a sync to be meaningful.  NCR is the base
-// every other source overlays onto; CRAA and NIRA cover the top divisions.
-// Goff has long returned 0 and its data overlaps NCR, and Next Phase needs a
-// token that CI does not have — both warn instead of failing the run.
-const CRITICAL_SOURCES = ["NCR", "CRAA", "NIRA"];
-
+// A step marked `critical: true` in the registry must return rows.  A step
+// that was deliberately skipped reports a null count and is never a failure.
+//
 // A healthy full scrape merges ~800 programs.  Well below that means several
 // sources degraded at once even if each individually returned something.
 const MIN_MERGED_PROGRAMS = 500;
@@ -532,38 +437,67 @@ const MIN_MERGED_PROGRAMS = 500;
 /**
  * Print a per-source health block.  Returns an array of failure strings —
  * empty when the scrape looks healthy.
+ *
+ * The merged-programs floor only applies to a full run: a deliberate partial
+ * run (--only ncr) is expected to merge less and must not fail for it.
  */
-function reportSourceHealth() {
+function reportSourceHealth({ partial = false } = {}) {
   const failures = [];
   const warnings = [];
 
   console.log(`\n🩺 Source health`);
-  for (const [source, count] of Object.entries(sourceHealth)) {
-    if (source === "Merged") continue;
-    const critical = CRITICAL_SOURCES.includes(source);
+  for (const step of STEPS.filter(st => st.phase === "scrape")) {
+    const count = stepCounts[step.name];
+
+    if (count === null || count === undefined) {
+      console.log(`  ⬜ ${step.name.padEnd(24)} skipped`);
+      continue;
+    }
+
     let mark = "✅";
     if (count === 0) {
-      mark = critical ? "❌" : "⚠️ ";
-      const msg = `${source} returned 0 rows`;
-      if (critical) failures.push(msg);
-      else warnings.push(msg);
+      mark = step.critical ? "❌" : "⚠️ ";
+      const msg = `${step.label} returned 0 rows`;
+      if (step.critical) failures.push(msg);
+      else warnings.push(step.needs ? `${msg} (${step.needs})` : msg);
     }
-    console.log(`  ${mark} ${source.padEnd(13)} ${count}`);
+    console.log(`  ${mark} ${step.name.padEnd(24)} ${count}`);
   }
 
-  if (sourceHealth.Merged < MIN_MERGED_PROGRAMS) {
-    failures.push(
-      `merged only ${sourceHealth.Merged} programs (expected at least ${MIN_MERGED_PROGRAMS})`
-    );
+  const merged = stepCounts.merged ?? 0;
+  const mergedLow = !partial && merged < MIN_MERGED_PROGRAMS;
+  if (mergedLow) {
+    failures.push(`merged only ${merged} programs (expected at least ${MIN_MERGED_PROGRAMS})`);
   }
-  console.log(`  ${sourceHealth.Merged < MIN_MERGED_PROGRAMS ? "❌" : "✅"} ${"Merged".padEnd(13)} ${sourceHealth.Merged}`);
+  console.log(`  ${mergedLow ? "❌" : "✅"} ${"merged".padEnd(24)} ${merged}`);
 
   for (const w of warnings) console.log(`\n  ⚠️  ${w} — not fatal, but worth checking.`);
+  if (partial) console.log(`\n  ℹ️  Partial run — merged-program floor not enforced.`);
 
   return failures;
 }
 
 async function main() {
+  // ─── Step selection ───────────────────────────────────────────────────
+  let selected;
+  try {
+    selected = selectSteps(args);
+  } catch (err) {
+    console.error(`\n❌ ${err.message}\n`);
+    process.exit(1);
+  }
+
+  if (LIST_STEPS) {
+    listSteps(selected);
+    process.exit(0);
+  }
+
+  const allStepNames = STEPS.map(s => s.name);
+  const isPartial = allStepNames.some(n => !selected.has(n));
+  if (isPartial) {
+    console.log(`\n▶ Partial run: ${[...selected].join(", ") || "(nothing selected)"}\n`);
+  }
+
   // ─── Import mode ──────────────────────────────────────────────────────
   if (IMPORT_IDX !== -1) {
     const filePath = resolve(args[IMPORT_IDX + 1]);
@@ -585,12 +519,14 @@ async function main() {
   }
 
   // ─── Scrape mode ──────────────────────────────────────────────────────
-  const programs = await scrapeAll();
+  const programs = await scrapeAll(selected);
 
-  // Save scraped data to JSON
+  // Save scraped data to JSON.  A partial run gets its own filename so it can
+  // never overwrite the canonical full-scrape output.
+  const stamp = new Date().toISOString().slice(0, 10);
   const outPath = resolve(
     __dirname,
-    `scraped-${new Date().toISOString().slice(0, 10)}.json`
+    isPartial ? `scraped-${stamp}-partial.json` : `scraped-${stamp}.json`
   );
   writeFileSync(outPath, JSON.stringify(programs, null, 2));
   console.log(`\n💾 Saved scraped data to ${outPath}`);
@@ -599,7 +535,7 @@ async function main() {
   // Checked before the rugby-website scrape (~25 min) and before any
   // Firestore write, so a broken scraper is reported in seconds and never
   // reaches production data.
-  const healthFailures = reportSourceHealth();
+  const healthFailures = reportSourceHealth({ partial: isPartial });
   if (healthFailures.length > 0) {
     console.error(`\n❌ Scrape is degraded:`);
     for (const f of healthFailures) console.error(`   • ${f}`);
@@ -610,24 +546,25 @@ async function main() {
     process.exit(1);
   }
 
-  // ─── Scrape rugby websites for coaching staff ───────────────────────
-  console.log("\n📗 Source 7: Rugby Websites (coaching staff pages)");
-  console.log("   Coverage: Programs with a rugby website URL");
-  console.log("   Data: coach names, titles, emails from staff pages\n");
-  let rugbyWebsiteContacts = [];
-  try {
+  // ─── Post-scrape steps (need Firestore) ─────────────────────────────
+  let programsWithUrl = [];
+  if (selected.has("websites")) {
     const existingProgs = await getExistingPrograms();
-    const progsWithUrl = existingProgs.filter(p => p.rugbyWebsite);
-    rugbyWebsiteContacts = await scrapeRugbyWebsites(progsWithUrl);
+    programsWithUrl = existingProgs.filter(p => p.rugbyWebsite);
+  }
+  const post = await runSteps(selected, "post", { programsWithUrl });
+  const rugbyWebsiteContacts = post.results["websites"] || [];
+  if (selected.has("websites")) {
     console.log(`  ✅ Found staff on ${rugbyWebsiteContacts.length} rugby websites`);
-  } catch (err) {
-    console.error(`  ❌ Rugby website scrape failed: ${err.message}`);
   }
 
-  // Save rugby website contacts
-  const rwPath = resolve(__dirname, `rugby-website-contacts-${new Date().toISOString().slice(0, 10)}.json`);
-  writeFileSync(rwPath, JSON.stringify(rugbyWebsiteContacts, null, 2));
-  console.log(`  💾 Saved to ${rwPath}`);
+  // Save rugby website contacts — only when the step actually ran, so a run
+  // that skipped it does not overwrite a good file with an empty one.
+  if (selected.has("websites")) {
+    const rwPath = resolve(__dirname, `rugby-website-contacts-${stamp}.json`);
+    writeFileSync(rwPath, JSON.stringify(rugbyWebsiteContacts, null, 2));
+    console.log(`  💾 Saved to ${rwPath}`);
+  }
 
   if (SCRAPE_ONLY) {
     console.log("\n--scrape-only flag set, skipping Firestore sync.");

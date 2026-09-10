@@ -74,6 +74,11 @@ node_modules/
 # Firebase service account keys
 sync/service-account.json
 sync/service-account..json
+sync/service-account*.json
+
+# Scraper API tokens
+sync/nextphase-token.txt
+sync/*-token.txt
 nul
 contacts/send-log.json
 contacts/scraped-comparison.csv

@@ -1,0 +1,2337 @@
+{
+  "generated": "2026-09-10T13:41:44.626Z",
+  "assignments": [
+    {
+      "programId": "HvsyPqmmkbJZrQbtVND7",
+      "school": "United States Naval Academy",
+      "status": "varsity"
+    },
+    {
+      "programId": "XMCJQAjRdIHgsYAiU1qb",
+      "school": "Belmont Abbey College",
+      "status": "varsity"
+    },
+    {
+      "programId": "E4ariqgkcdJ6nWJZ5ylX",
+      "school": "Claremont Colleges",
+      "status": "club"
+    },
+    {
+      "programId": "cXMLRg3aTlcMAGVtPeLB",
+      "school": "United States Military Academy",
+      "status": "varsity"
+    },
+    {
+      "programId": "NKIsyrZR5VRudDmhTGXu",
+      "school": "Queens University of Charlotte",
+      "status": "varsity"
+    },
+    {
+      "programId": "ZF8qBOpF99VnkctOvCRW",
+      "school": "Trine University",
+      "status": "varsity"
+    },
+    {
+      "programId": "gOXrh5zQLS1yrB58Qgi0",
+      "school": "Loyola Marymount University",
+      "status": "club"
+    },
+    {
+      "programId": "75GSiX26geUHyQ9xpxXf",
+      "school": "Life University",
+      "status": "varsity"
+    },
+    {
+      "programId": "VqdYAc5KIxwfCllDaRv7",
+      "school": "St. Bonaventure University",
+      "status": "varsity"
+    },
+    {
+      "programId": "Lm8i9P079Cwjginj7itj",
+      "school": "Wayne State College",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "jkD6YLotSyGEOLmwtWDD",
+      "school": "Southern Virginia University",
+      "status": "varsity"
+    },
+    {
+      "programId": "UU5tJ2dEBDLO29kbETE0",
+      "school": "Walsh University",
+      "status": "varsity"
+    },
+    {
+      "programId": "JOPGmjTwcXuumxBFMF1E",
+      "school": "Principia College",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "giYEWvkX93KOoYcNes23",
+      "school": "University of Southern California",
+      "status": "club"
+    },
+    {
+      "programId": "37egPKAa7rakbQ0DJxhC",
+      "school": "McKendree University",
+      "status": "varsity"
+    },
+    {
+      "programId": "MSWsFxkEl2gpoKS2JZid",
+      "school": "Wheeling University",
+      "status": "varsity"
+    },
+    {
+      "programId": "Pm5q4KD7NPPh4on4VNz7",
+      "school": "Central Washington University",
+      "status": "club"
+    },
+    {
+      "programId": "CT54LuNOevBTqP7RvLHU",
+      "school": "University of St. Thomas",
+      "status": "varsity"
+    },
+    {
+      "programId": "3X93BWC7BxH74khY1lVq",
+      "school": "Babson College",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "SVEtUS0NWIdEviuvYD4g",
+      "school": "University of Washington",
+      "status": "club"
+    },
+    {
+      "programId": "UbvXuhsHs570jG0M6X5G",
+      "school": "University of California, Berkeley",
+      "status": "varsity"
+    },
+    {
+      "programId": "f5RSPOhhYOUNUtbuv2JQ",
+      "school": "Iona University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "N8Gcm1cn6H0CsISCtx6k",
+      "school": "University of Oregon",
+      "status": "club"
+    },
+    {
+      "programId": "LKneACjycnA8RvW5h2iP",
+      "school": "Mount St. Mary's University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "hqOqmRVHpniqz2DMTk9L",
+      "school": "Marian University",
+      "status": "varsity"
+    },
+    {
+      "programId": "Siq1xPrDe0dACXqYQaew",
+      "school": "Clemson University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "GmSLhIM8Fphq90EfHFkQ",
+      "school": "Oregon State University",
+      "status": "club"
+    },
+    {
+      "programId": "g0UBR7wSxtkkJBTXTzYT",
+      "school": "University of Mary Washington",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "XbCEGWYTOhskEcNcuw7T",
+      "school": "University of Rio Grande",
+      "status": "varsity"
+    },
+    {
+      "programId": "bBARYE2gyLOOMeEnpAfe",
+      "school": "University of Kentucky",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "k58DDP3lnE48J7DYuAhW",
+      "school": "University of Arkansas",
+      "status": "club"
+    },
+    {
+      "programId": "9bCzzLDgUMVr1HilZq1Q",
+      "school": "Lindenwood University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "kP9eElgBSZqOQfZwskHZ",
+      "school": "Thomas More University",
+      "status": "varsity"
+    },
+    {
+      "programId": "1ubclzhkIz2b9F425KU3",
+      "school": "University of Tennessee",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "97KGpG3BYSKOZG5fhceW",
+      "school": "University of Kansas",
+      "status": "club"
+    },
+    {
+      "programId": "5oUbnJ3i4s0uiPz8prwb",
+      "school": "Davenport University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "CGMpM0moyDG8wIAw8nLb",
+      "school": "American International College",
+      "status": "varsity"
+    },
+    {
+      "programId": "FKSUWWN3lNOXWCdb9ISS",
+      "school": "Stanford University",
+      "status": "endowed"
+    },
+    {
+      "programId": "s53SRvl5VPQITqGgGt8u",
+      "school": "Kansas State University",
+      "status": "club"
+    },
+    {
+      "programId": "Zc8yl8g9YXEASdrmKPrJ",
+      "school": "Grand Canyon University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "vpxMHObcGjqAdv6zlKsA",
+      "school": "Wingate University",
+      "status": "varsity"
+    },
+    {
+      "programId": "5Pdmvcwp8qeXhsQOeV8o",
+      "school": "Texas A&M University",
+      "status": "endowed"
+    },
+    {
+      "programId": "2URm1kEW3q04xMBTwdz4",
+      "school": "University of Missouri",
+      "status": "club"
+    },
+    {
+      "programId": "EgS95fUGwsvboe2xq78E",
+      "school": "Southern Nazarene University",
+      "status": "varsity"
+    },
+    {
+      "programId": "gVsO9liKuN4btiO2Smcq",
+      "school": "Harvard University",
+      "status": "endowed"
+    },
+    {
+      "programId": "3CYqixveB8EgXtKkAzgd",
+      "school": "Arkansas State University",
+      "status": "endowed"
+    },
+    {
+      "programId": "5BpRZ8cSDlC8ncbYyShp",
+      "school": "University of Notre Dame",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "l3U4Fs43t8rzdeCWhLTm",
+      "school": "Yale University",
+      "status": "endowed"
+    },
+    {
+      "programId": "NCmuOlp30V8UF0tq4PR2",
+      "school": "University of Oklahoma",
+      "status": "club"
+    },
+    {
+      "programId": "Jl3OY6St25tIgfw9CHwp",
+      "school": "University of Arizona",
+      "status": "endowed"
+    },
+    {
+      "programId": "IDeLBFmxQQVpb39fYVi5",
+      "school": "Kutztown University of Pennsylvania",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "p2zEf1tyNuAbUxmHjMXH",
+      "school": "Bowling Green State University",
+      "status": "endowed"
+    },
+    {
+      "programId": "0kXovy7FOYM8dAJ2VMsJ",
+      "school": "Oklahoma State University",
+      "status": "club"
+    },
+    {
+      "programId": "wGaqtmHQRr50KjTuKCuS",
+      "school": "Western Washington University",
+      "status": "endowed"
+    },
+    {
+      "programId": "fYZybfOTDBqM2AuTBRnz",
+      "school": "Adrian College",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "gELDhRpwwJiX2Nwvq5S8",
+      "school": "University of Louisville",
+      "status": "endowed"
+    },
+    {
+      "programId": "5te8euKK7DDjye6w5jmY",
+      "school": "Rice University",
+      "status": "club"
+    },
+    {
+      "programId": "KVorHfNr8My9FluIWm7S",
+      "school": "Brigham Young University",
+      "status": "endowed"
+    },
+    {
+      "programId": "xfzZgleNc9RY815pp2OW",
+      "school": "Aquinas College",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "iUhWqvu0c5ZHcKrvt2rb",
+      "school": "Western Michigan University",
+      "status": "endowed"
+    },
+    {
+      "programId": "TAEITsUjg8wB5bN8bLKu",
+      "school": "Saint Marys College of California",
+      "status": "endowed"
+    },
+    {
+      "programId": "x9J4hZmum0DmjmKlERJx",
+      "school": "Drury University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "q0awgR7mYOBqZeLo5oDK",
+      "school": "Texas State University",
+      "status": "club"
+    },
+    {
+      "programId": "4dBWmdmiyUywwTKMq6s9",
+      "school": "California Polytechnic State University",
+      "status": "endowed"
+    },
+    {
+      "programId": "WU892aA5VgYOxOdWBmJp",
+      "school": "Brown University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "H5QdB3Q9QgO4X1ETOY98",
+      "school": "University of South Carolina",
+      "status": "endowed"
+    },
+    {
+      "programId": "bt86twKvoz8BDzrJQSKc",
+      "school": "University of San Diego",
+      "status": "endowed"
+    },
+    {
+      "programId": "wdLZkeLIqMQgMllFbVS4",
+      "school": "Fairfield University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "56n7RCkV5ekUozEOybUv",
+      "school": "University of Florida",
+      "status": "club"
+    },
+    {
+      "programId": "Id6XOOsIbrsKZsL1FyAF",
+      "school": "Boston College",
+      "status": "club"
+    },
+    {
+      "programId": "kPl6FCFCZKfjTnvStxbv",
+      "school": "Ohio State University",
+      "status": "club"
+    },
+    {
+      "programId": "W9gCCcR9fcE1xXoAIFkm",
+      "school": "Siena College",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "dW5Q7x9mitheHS1YYgTd",
+      "school": "Florida State University",
+      "status": "club"
+    },
+    {
+      "programId": "mVP5Wn4VlaaLGVppO2uo",
+      "school": "University of Colorado Boulder",
+      "status": "club"
+    },
+    {
+      "programId": "Nvi6whSbtYEMMLsMNHtb",
+      "school": "Lander University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "6bHpOhcbzWr1hP3rOq31",
+      "school": "University of Central Florida",
+      "status": "club"
+    },
+    {
+      "programId": "pjVQB0vJDyuq4GpVxnlN",
+      "school": "Colgate University",
+      "status": "club"
+    },
+    {
+      "programId": "f7cBON1vGDygF5lLsWuW",
+      "school": "Colorado State University",
+      "status": "club"
+    },
+    {
+      "programId": "KyjqqAGdN4zepPtynKAJ",
+      "school": "University of South Florida",
+      "status": "club"
+    },
+    {
+      "programId": "lhqS0Lu3RNlwizdGIW1p",
+      "school": "Columbia University",
+      "status": "club"
+    },
+    {
+      "programId": "dqS1tmLkUkbbFwrxj8LS",
+      "school": "University of Utah",
+      "status": "club"
+    },
+    {
+      "programId": "xEWAuDvogslyipMg0m47",
+      "school": "Dartmouth College",
+      "status": "endowed"
+    },
+    {
+      "programId": "tu643g8R1zo9tlUaseJo",
+      "school": "Florida Atlantic University",
+      "status": "club"
+    },
+    {
+      "programId": "bstYtmlf6PV8UDzMBCY8",
+      "school": "Northeastern University",
+      "status": "club"
+    },
+    {
+      "programId": "pMlReMUA8X7T5tEHhQJv",
+      "school": "University of Wyoming",
+      "status": "club"
+    },
+    {
+      "programId": "JEjSMCfe83LNUNFU9G2F",
+      "school": "Fordham University",
+      "status": "endowed"
+    },
+    {
+      "programId": "rgL3SYDMq2yySe5BoqHo",
+      "school": "Iowa State University",
+      "status": "club"
+    },
+    {
+      "programId": "E5O9ysOqhjEGI2iZL8Hw",
+      "school": "Princeton University",
+      "status": "club"
+    },
+    {
+      "programId": "kps1ag8qylrZux6qQ2ln",
+      "school": "United States Air Force Academy",
+      "status": "club"
+    },
+    {
+      "programId": "9EzAdK1aC0kFfu9Jn5j3",
+      "school": "Syracuse University",
+      "status": "endowed"
+    },
+    {
+      "programId": "SNyQRBGqxeppzb5VJuoj",
+      "school": "University of Iowa",
+      "status": "club"
+    },
+    {
+      "programId": "VtcBpTPe4ml0jYzgsXFi",
+      "school": "University of Rhode Island",
+      "status": "club"
+    },
+    {
+      "programId": "8HPnmTHMIyh95ikYx1Vq",
+      "school": "Utah State University",
+      "status": "club"
+    },
+    {
+      "programId": "yLYxKe5fIfe0jH460raz",
+      "school": "University of California, Los Angeles",
+      "status": "endowed"
+    },
+    {
+      "programId": "5PIat6YQAYOnOjtBj32a",
+      "school": "University of Connecticut",
+      "status": "club"
+    },
+    {
+      "programId": "vkSXE1S2iij96Grf3m7h",
+      "school": "Utah Valley University",
+      "status": "club"
+    },
+    {
+      "programId": "pKQbIGe6HbQudseHgiWM",
+      "school": "University of Michigan",
+      "status": "club"
+    },
+    {
+      "programId": "oYHQnLSHQb5NtsFxjRYf",
+      "school": "Truman State University",
+      "status": "club"
+    },
+    {
+      "programId": "Y04uDAPej40sbzR40ot6",
+      "school": "University of Massachusetts Amherst",
+      "status": "club"
+    },
+    {
+      "programId": "OY6djwQVAHOgMRW41MVo",
+      "school": "Santa Clara University",
+      "status": "club"
+    },
+    {
+      "programId": "2sjbolD1QcdAB2GSrny8",
+      "school": "Purdue University",
+      "status": "club"
+    },
+    {
+      "programId": "lM69OmSjvLADIUJ6cNFw",
+      "school": "University of North Carolina at Chapel Hill",
+      "status": "club"
+    },
+    {
+      "programId": "LiLXP2bINUeJH78yr1eh",
+      "school": "California State University, Long Beach",
+      "status": "club"
+    },
+    {
+      "programId": "eRRe22eWdT63YPsdKQM6",
+      "school": "University of Texas at El Paso",
+      "status": "club"
+    },
+    {
+      "programId": "sQ6dmt9ZqPsaT52YBwEY",
+      "school": "North Carolina State University",
+      "status": "club"
+    },
+    {
+      "programId": "xAJC3dXYWndd0B6EWjAi",
+      "school": "California State University, Sacramento",
+      "status": "club"
+    },
+    {
+      "programId": "FuBomi4jlr3PlqnNtNNo",
+      "school": "Appalachian State University",
+      "status": "club"
+    },
+    {
+      "programId": "TxibOeGTj56xMNzU2MVA",
+      "school": "University of California, Santa Cruz",
+      "status": "club"
+    },
+    {
+      "programId": "X2LFcaFyE8KplOlT22sj",
+      "school": "California State University, Chico",
+      "status": "club"
+    },
+    {
+      "programId": "5FiljzJkdSXkBIntiAoF",
+      "school": "University of North Carolina at Charlotte",
+      "status": "club"
+    },
+    {
+      "programId": "Ug7gwmrpcO1MMLCqhT9w",
+      "school": "University of California, Davis",
+      "status": "club"
+    },
+    {
+      "programId": "z6WoXaHhqz6T1Ja4gAoc",
+      "school": "California State University, Fresno",
+      "status": "club"
+    },
+    {
+      "programId": "zeuaC15k1LJX1ZDipBtn",
+      "school": "Virginia Polytechnic Institute and State University",
+      "status": "club"
+    },
+    {
+      "programId": "PbmpZNF31EqeIS0WXeiO",
+      "school": "University of California, Santa Barbara",
+      "status": "club"
+    },
+    {
+      "programId": "P13hsiu4gRIyioQvxPUs",
+      "school": "San Francisco State University",
+      "status": "club"
+    },
+    {
+      "programId": "xpcMhfqMG36NDfh55FOb",
+      "school": "University of Cincinnati",
+      "status": "club"
+    },
+    {
+      "programId": "paR0202snns5XGUu0pcF",
+      "school": "San Diego State University",
+      "status": "club"
+    },
+    {
+      "programId": "qQb6psxoXOfogTFftlkB",
+      "school": "San Jose State University",
+      "status": "club"
+    },
+    {
+      "programId": "s8MWmExkIBR5w1fFHx0r",
+      "school": "University of Delaware",
+      "status": "club"
+    },
+    {
+      "programId": "1iFe7GVIRZOQTYaTB8Lh",
+      "school": "Michigan State University",
+      "status": "club"
+    },
+    {
+      "programId": "Vvtu25DqakUOdiVuF7xX",
+      "school": "University of Nevada, Reno",
+      "status": "club"
+    },
+    {
+      "programId": "KH7yP3w43chEkbPgiVKe",
+      "school": "James Madison University",
+      "status": "club"
+    },
+    {
+      "programId": "fW8lPg1nXV5fPnO6C9qd",
+      "school": "Arizona State University",
+      "status": "club"
+    },
+    {
+      "programId": "XQ8vmpm7aiDcMZPfrE3B",
+      "school": "University of Maryland",
+      "status": "club"
+    },
+    {
+      "programId": "c9wqbRt3HmG7qlPy4Ehq",
+      "school": "University of Pennsylvania",
+      "status": "club"
+    },
+    {
+      "programId": "GwxAs6R9fpMrqbtF4cmd",
+      "school": "University of Pittsburgh",
+      "status": "club"
+    },
+    {
+      "programId": "ECiUuP6Ar9ItpNJFGYPx",
+      "school": "Rowan University",
+      "status": "club"
+    },
+    {
+      "programId": "98uakWXKowWDTQbogAXk",
+      "school": "Rutgers University",
+      "status": "club"
+    },
+    {
+      "programId": "leALfKXgpsAsLlVKeJ4p",
+      "school": "Temple University",
+      "status": "club"
+    },
+    {
+      "programId": "ryut4GthWbgvXvton53Q",
+      "school": "West Chester University of Pennsylvania",
+      "status": "club"
+    },
+    {
+      "programId": "sgo0OBA5mmGOViH6FUqU",
+      "school": "University of Alabama",
+      "status": "club"
+    },
+    {
+      "programId": "J4PcN3AwzxwJo1W2YC11",
+      "school": "Louisiana State University",
+      "status": "club"
+    },
+    {
+      "programId": "xXzUDpI7fZffcp8nOpoZ",
+      "school": "Auburn University",
+      "status": "club"
+    },
+    {
+      "programId": "gkNuNENXeo7FWXckhnJc",
+      "school": "University of Georgia",
+      "status": "club"
+    },
+    {
+      "programId": "1l7elZneRv6V1Fz4aRgU",
+      "school": "Kennesaw State University",
+      "status": "club"
+    },
+    {
+      "programId": "lKSkekvF9YC6wwb6WgxH",
+      "school": "Norwich University",
+      "status": "varsity"
+    },
+    {
+      "programId": "DFHuO1R1fG7cQXLeGCzB",
+      "school": "MiraCosta College",
+      "status": "club"
+    },
+    {
+      "programId": "ghV11vdlvS4RF3ARkH1c",
+      "school": "The Catholic University of America",
+      "status": "varsity"
+    },
+    {
+      "programId": "a01yRmNQDuOhykmVFLm8",
+      "school": "East Stroudsburg University",
+      "status": "club"
+    },
+    {
+      "programId": "TZX5wnsrDwkGKubl40Y0",
+      "school": "Old Dominion University",
+      "status": "club"
+    },
+    {
+      "programId": "RhLGFPMhLbPFLOoPt8xm",
+      "school": "University of Alabama in Huntsville",
+      "status": "club"
+    },
+    {
+      "programId": "YRTiRQmNxUqzjpy1BJKJ",
+      "school": "California State University Maritime Academy",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "IEI2z2VMUIoAxDLC3rAG",
+      "school": "Mississippi State University",
+      "status": "club"
+    },
+    {
+      "programId": "hZBXuI8WN7rfxd6Qktwd",
+      "school": "Christendom College",
+      "status": "varsity"
+    },
+    {
+      "programId": "YKkWK95oC9TxsW4sPUn0",
+      "school": "Eastern Connecticut State University",
+      "status": "club"
+    },
+    {
+      "programId": "ptAjpvMkJJ9tmVXfAxcM",
+      "school": "Oregon Institute of Technology",
+      "status": "club"
+    },
+    {
+      "programId": "uyKnJYxfb8YhnEoIBpQM",
+      "school": "University of Colorado Colorado Springs",
+      "status": "club"
+    },
+    {
+      "programId": "pHzyjeC8FLCsKXV4r23L",
+      "school": "United States Coast Guard Academy",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "BymOcASvYDXxrRcreQl4",
+      "school": "Franciscan University of Steubenville",
+      "status": "varsity"
+    },
+    {
+      "programId": "uT7QB8XLRgcEbrPPYkfT",
+      "school": "Eastern Kentucky University",
+      "status": "club"
+    },
+    {
+      "programId": "LPwviYIVrf5pQGQWXEOT",
+      "school": "University of Dallas",
+      "status": "club"
+    },
+    {
+      "programId": "7CBv456nQGiGE22rTu3q",
+      "school": "University of Montana",
+      "status": "club"
+    },
+    {
+      "programId": "rJviUJb4aPQiFfcFGwE3",
+      "school": "Endicott College",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "VH2xgAGFSbGXDWKzAQI3",
+      "school": "Elon University",
+      "status": "club"
+    },
+    {
+      "programId": "k11FZdgpULVTyltuiqhO",
+      "school": "Penn State Berks",
+      "status": "club"
+    },
+    {
+      "programId": "jaxbU4RUb1f6w4EyQJL9",
+      "school": "University of Hartford",
+      "status": "club"
+    },
+    {
+      "programId": "aTnwl9ZwwXneNlOi7Ptv",
+      "school": "Saint Louis University",
+      "status": "endowed"
+    },
+    {
+      "programId": "62LGoNY5yPaLZXE1gGmC",
+      "school": "Montana State University",
+      "status": "club"
+    },
+    {
+      "programId": "5e5DIYwHb5Ct7xnv7pEv",
+      "school": "Frostburg State University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "60Hh3muYdNuG8J7KJAfm",
+      "school": "Emory and Henry College",
+      "status": "club"
+    },
+    {
+      "programId": "zoLGCxKF26PO04qOZwqY",
+      "school": "University of Idaho",
+      "status": "club"
+    },
+    {
+      "programId": "LCqAzuD2izJEPRUMBI4b",
+      "school": "Indiana University of Pennsylvania",
+      "status": "endowed"
+    },
+    {
+      "programId": "4xCUSVm1aJox64b2oOuh",
+      "school": "Montclair State University",
+      "status": "club"
+    },
+    {
+      "programId": "BiAbB75P8ZSTGDrzOeDi",
+      "school": "Furman University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "pkhY66rgrGTMx3OnD123",
+      "school": "Emory University",
+      "status": "club"
+    },
+    {
+      "programId": "5hoZYmir2GjECkYtsocu",
+      "school": "University of Louisiana at Lafayette",
+      "status": "club"
+    },
+    {
+      "programId": "q4FaSy59r1BJjDKHl3RD",
+      "school": "Louisiana Tech University",
+      "status": "endowed"
+    },
+    {
+      "programId": "LMNz3KImeG7X0r6KesYq",
+      "school": "Nazareth University",
+      "status": "club"
+    },
+    {
+      "programId": "evD5wokxoEyfKhIs2fnw",
+      "school": "Hampden-Sydney College",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "i5mVMx3cZZQ6akEfrBJZ",
+      "school": "University of Maine",
+      "status": "club"
+    },
+    {
+      "programId": "Q5AYiPfrGEyEfVwSgCZu",
+      "school": "Grand Valley State University",
+      "status": "endowed"
+    },
+    {
+      "programId": "jTgTaA2qRKz1PE1tcWLY",
+      "school": "University of New Hampshire",
+      "status": "club"
+    },
+    {
+      "programId": "Qwes3KduquFx5K1NoCtV",
+      "school": "Marywood University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "hYbpj6kVftxrcMe06yi5",
+      "school": "Fairmont State University",
+      "status": "club"
+    },
+    {
+      "programId": "6t6Mv0C7I0aUVZYwE9mj",
+      "school": "Plymouth State University",
+      "status": "club"
+    },
+    {
+      "programId": "aIzXGvre4a7zzUSu9W2b",
+      "school": "University of Massachusetts Dartmouth",
+      "status": "club"
+    },
+    {
+      "programId": "vP7pV9AfJL2vhEuYAkAv",
+      "school": "Miami University of Ohio",
+      "status": "endowed"
+    },
+    {
+      "programId": "VidLPXKMbBTzw20euyA8",
+      "school": "Norco College",
+      "status": "club"
+    },
+    {
+      "programId": "uP3y6vPAPLz5tfSkP0Lw",
+      "school": "Roger Williams University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "7rP0nF5GtldIf7igriGA",
+      "school": "Franklin & Marshall College",
+      "status": "club"
+    },
+    {
+      "programId": "ZOsIJ9Jef9lOa7C8UX5X",
+      "school": "Point Park University",
+      "status": "club"
+    },
+    {
+      "programId": "g0E6hbJ8p5Kr9L3skrkQ",
+      "school": "University of Minnesota Morris",
+      "status": "club"
+    },
+    {
+      "programId": "JqXUagJYGK5th1u8feGZ",
+      "school": "Cornell University",
+      "status": "endowed"
+    },
+    {
+      "programId": "odnDyUgRIFR3vjUVlE0u",
+      "school": "University of North Dakota",
+      "status": "club"
+    },
+    {
+      "programId": "hszRqY6oS1Mhe15nNMzC",
+      "school": "Slippery Rock University",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "oXcbS1TIg1o4mrJH8q4x",
+      "school": "Franklin Pierce University",
+      "status": "club"
+    },
+    {
+      "programId": "B4TkMQv9kCl2zl26Ehfs",
+      "school": "Providence College",
+      "status": "club"
+    },
+    {
+      "programId": "rBmFSg7yT8LapH4TJJqy",
+      "school": "University of New England",
+      "status": "club"
+    },
+    {
+      "programId": "rbiwxnyGGaZixTKWfqCi",
+      "school": "Ave Maria University",
+      "status": "club"
+    },
+    {
+      "programId": "ldhiL8dqvtOpqf7yJZwV",
+      "school": "North Dakota State University",
+      "status": "club"
+    },
+    {
+      "programId": "zZSesIBKHvPOPKekm6C9",
+      "school": "United States Merchant Marine Academy",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "AtzjXTahDDgRXBe4UsgG",
+      "school": "Geneva College",
+      "status": "club"
+    },
+    {
+      "programId": "gpNbextKA53XnxAGqWxP",
+      "school": "Quinnipiac University",
+      "status": "club"
+    },
+    {
+      "programId": "T78PKaEiia3mVninkWIW",
+      "school": "University of New Haven",
+      "status": "club"
+    },
+    {
+      "programId": "Sr0R99ToIdDgEN4LZWvC",
+      "school": "Baylor University",
+      "status": "club"
+    },
+    {
+      "programId": "MxW1zPtRNDs303D8MFXO",
+      "school": "University of North Florida",
+      "status": "club"
+    },
+    {
+      "programId": "LWxS81aQoHIHxkCyPaqI",
+      "school": "University of Denver",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "7Z6WjMwxtsFpKivfGcyi",
+      "school": "George Mason University",
+      "status": "club"
+    },
+    {
+      "programId": "8OKz7VCaVf19z6JelzYn",
+      "school": "Radford University",
+      "status": "club"
+    },
+    {
+      "programId": "ojEVbbbYX6PlVPXJxVJo",
+      "school": "University of New Mexico",
+      "status": "club"
+    },
+    {
+      "programId": "5v3ASpexDAESufWKsY5D",
+      "school": "Benedictine University",
+      "status": "club"
+    },
+    {
+      "programId": "ciFEHcMD42usVeZ5lxi4",
+      "school": "University of North Georgia",
+      "status": "club"
+    },
+    {
+      "programId": "Bqxv1tdlggpidPPALezB",
+      "school": "Vassar College",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "AD6ADiHBP268IgkCEK7q",
+      "school": "George Washington University",
+      "status": "club"
+    },
+    {
+      "programId": "pjsOfqO0lx1k50DyVPxf",
+      "school": "Regis University",
+      "status": "club"
+    },
+    {
+      "programId": "SyQOGcH5MvAxWdkwYNqr",
+      "school": "University of North Alabama",
+      "status": "club"
+    },
+    {
+      "programId": "QAB8RzQUTdWfcRUA7qCS",
+      "school": "Benedictine College",
+      "status": "club"
+    },
+    {
+      "programId": "6LqZ9AXuY1dOR0p5bObz",
+      "school": "Northern Illinois University",
+      "status": "club"
+    },
+    {
+      "programId": "y5gMq7T05DlU8f5t9IbU",
+      "school": "Georgia College and State University",
+      "status": "club"
+    },
+    {
+      "programId": "Zcoi6KVlhj0K6J6GWHlF",
+      "school": "University of Richmond",
+      "status": "club"
+    },
+    {
+      "programId": "RyTBesbx7mJrcwRnUHh0",
+      "school": "University of North Carolina at Greensboro",
+      "status": "club"
+    },
+    {
+      "programId": "yjx6DzhTu8KeYlhZ27tT",
+      "school": "Binghamton University (SUNY)",
+      "status": "club"
+    },
+    {
+      "programId": "grM0FnRMxUODmn0YyPfv",
+      "school": "University of Northern Iowa",
+      "status": "club"
+    },
+    {
+      "programId": "pUdgDojzZerayIS3CoDU",
+      "school": "Albright College",
+      "status": "club"
+    },
+    {
+      "programId": "0SGxDharAOFbUUrTKjl8",
+      "school": "Georgia Institute of Technology",
+      "status": "club"
+    },
+    {
+      "programId": "NJsl0nw8sVU7GSLZ0QNd",
+      "school": "Roanoke College",
+      "status": "club"
+    },
+    {
+      "programId": "9zBc9LanUyfVOHwEuGCH",
+      "school": "Bloomsburg University of Pennsylvania",
+      "status": "club"
+    },
+    {
+      "programId": "VH4y8rR5GtjUbpvPgW51",
+      "school": "Northern Michigan University",
+      "status": "club"
+    },
+    {
+      "programId": "V1B0p2cxGJFgHz2Sn7wI",
+      "school": "Alfred University",
+      "status": "club"
+    },
+    {
+      "programId": "GGiVrPtOJaHaYEBlus7d",
+      "school": "Gettysburg College",
+      "status": "club"
+    },
+    {
+      "programId": "F9rS7mjT7vsMMKIdTwlj",
+      "school": "University of Northern Colorado",
+      "status": "club"
+    },
+    {
+      "programId": "X6PMO6tXqifegFafVBuy",
+      "school": "Boise State University",
+      "status": "club"
+    },
+    {
+      "programId": "Iho7kC6joNrhajcxQg8f",
+      "school": "Northwestern University",
+      "status": "club"
+    },
+    {
+      "programId": "nJSO5bSJqP8oVP4cZlfU",
+      "school": "Allegheny College",
+      "status": "club"
+    },
+    {
+      "programId": "Kr1FAKtSFyHvb3cXXjCl",
+      "school": "Gonzaga University",
+      "status": "club"
+    },
+    {
+      "programId": "wZZOVGWBWyUXycXd0puu",
+      "school": "Robert Morris University",
+      "status": "club"
+    },
+    {
+      "programId": "ANsfPlo3OesP0HYKTAYy",
+      "school": "University of Pittsburgh at Johnstown",
+      "status": "club"
+    },
+    {
+      "programId": "g9nOehTRfxFV08C7mrXi",
+      "school": "Boston University",
+      "status": "club"
+    },
+    {
+      "programId": "QDQcbCrh0yY43misdDMO",
+      "school": "Occidental College",
+      "status": "club"
+    },
+    {
+      "programId": "XBskLP1czVIjJVQELqLX",
+      "school": "American University",
+      "status": "club"
+    },
+    {
+      "programId": "UAOTL2FKix13sUekAA4K",
+      "school": "Grove City College",
+      "status": "club"
+    },
+    {
+      "programId": "gVmhgPztTWBgFspGu1ub",
+      "school": "Sacred Heart University",
+      "status": "club"
+    },
+    {
+      "programId": "xMDBmeFZbAw4GmqcdVjB",
+      "school": "University of Puget Sound",
+      "status": "club"
+    },
+    {
+      "programId": "0OJ4HNz51m2KJdGK4i9O",
+      "school": "Bucknell University",
+      "status": "club"
+    },
+    {
+      "programId": "HXo8O7khEJUgdhZ2vv05",
+      "school": "Ohio University",
+      "status": "club"
+    },
+    {
+      "programId": "YozOXYX8HVQZC3H62M6h",
+      "school": "Amherst College",
+      "status": "club"
+    },
+    {
+      "programId": "gkXS872YdoI1qQXq4KYh",
+      "school": "Hamilton College",
+      "status": "club"
+    },
+    {
+      "programId": "wCQVy5oq19aPnPYbfOTi",
+      "school": "Saint Vincent College",
+      "status": "club"
+    },
+    {
+      "programId": "ho90YK7f16JTe7qWIzDd",
+      "school": "California Lutheran University",
+      "status": "club"
+    },
+    {
+      "programId": "Vp65t9mpp39sRwQXHDQ6",
+      "school": "Angelo State University",
+      "status": "club"
+    },
+    {
+      "programId": "AJaqs7DAcpVPmhb6yptw",
+      "school": "Haverford College",
+      "status": "club"
+    },
+    {
+      "programId": "7EHlwLLRMO8VwjtJpBiP",
+      "school": "Salve Regina University",
+      "status": "club"
+    },
+    {
+      "programId": "6tVCtndtDJRzJU8jyjZi",
+      "school": "University of Rochester",
+      "status": "club"
+    },
+    {
+      "programId": "2aG5paa7tUAZSgAuAjRQ",
+      "school": "California State University, Fullerton",
+      "status": "club"
+    },
+    {
+      "programId": "JFuAHb2nt0oxQrt2lSFR",
+      "school": "Baldwin Wallace University",
+      "status": "club"
+    },
+    {
+      "programId": "A1yp29uAulkKS0vzSbuT",
+      "school": "Hillsdale College",
+      "status": "club"
+    },
+    {
+      "programId": "pWjGwl9GDd0PcnJ6W4BA",
+      "school": "Seton Hall University",
+      "status": "club"
+    },
+    {
+      "programId": "PIXRQT3Xc9jkU52npyiy",
+      "school": "University of Southern Indiana",
+      "status": "club"
+    },
+    {
+      "programId": "UfkEa4v3CAk4aZGcJHM5",
+      "school": "Central Michigan University",
+      "status": "club"
+    },
+    {
+      "programId": "NfNs5Tx4IrYb25TV9zzj",
+      "school": "Pepperdine University",
+      "status": "club"
+    },
+    {
+      "programId": "HbDnoxLFNiZLtVcoJfh0",
+      "school": "Bard College",
+      "status": "club"
+    },
+    {
+      "programId": "RbnBeLiu41jasAmf5ncf",
+      "school": "Hofstra University",
+      "status": "club"
+    },
+    {
+      "programId": "sPtoiWQXcBT6CsgqTHhg",
+      "school": "Sewanee: The University of the South",
+      "status": "club"
+    },
+    {
+      "programId": "e2lVZa3p5zQxIqmRplKe",
+      "school": "University of Texas at Dallas",
+      "status": "club"
+    },
+    {
+      "programId": "4G0mK3hllNlTXyLXyyR4",
+      "school": "University of Central Missouri",
+      "status": "club"
+    },
+    {
+      "programId": "zhvIcKO7cZVirSO3FHoL",
+      "school": "Pittsburg State University",
+      "status": "club"
+    },
+    {
+      "programId": "YlVbLHLhzaVbCKUbWRNN",
+      "school": "Bates College",
+      "status": "club"
+    },
+    {
+      "programId": "ESP8do08owDJrPYRFseH",
+      "school": "Howard University",
+      "status": "club"
+    },
+    {
+      "programId": "ZNrSYdJdwMsbp0XX6efG",
+      "school": "Shippensburg University",
+      "status": "club"
+    },
+    {
+      "programId": "3UE6VNOCdbvWucO1z0o3",
+      "school": "University of Virginia",
+      "status": "club"
+    },
+    {
+      "programId": "0phQgI4gU1dMjmg599cg",
+      "school": "University of Chicago",
+      "status": "club"
+    },
+    {
+      "programId": "5siPw35PSgPapDhyKW8H",
+      "school": "Point Loma Nazarene University",
+      "status": "club"
+    },
+    {
+      "programId": "9YWDZOfU5KjFCe5SrGbL",
+      "school": "Bemidji State University",
+      "status": "club"
+    },
+    {
+      "programId": "tzXgoyxgno9OtfR5xt5d",
+      "school": "Idaho State University",
+      "status": "club"
+    },
+    {
+      "programId": "7FPEeJII3G59IG5o0ej8",
+      "school": "Southeastern Louisiana University",
+      "status": "club"
+    },
+    {
+      "programId": "pugrxUuHc3UZMDdjRWeD",
+      "school": "University of Wisconsin-Stout",
+      "status": "club"
+    },
+    {
+      "programId": "leR41ea83z9c3A7uZUEF",
+      "school": "Coastal Carolina University",
+      "status": "club"
+    },
+    {
+      "programId": "D518bASLKEl5w7SmlzHy",
+      "school": "Bentley University",
+      "status": "club"
+    },
+    {
+      "programId": "ke2ALx8OAUEXmYZgXEfY",
+      "school": "Ithaca College",
+      "status": "club"
+    },
+    {
+      "programId": "a5Hp7GROdbsc2IY3xVXb",
+      "school": "Southern Connecticut State University",
+      "status": "club"
+    },
+    {
+      "programId": "PToI6LAZ4Nn7BuFfwP9v",
+      "school": "Ursinus College",
+      "status": "club"
+    },
+    {
+      "programId": "CDaxnxKdAGM4zX2R7X9f",
+      "school": "Colorado Mesa University",
+      "status": "club"
+    },
+    {
+      "programId": "G9IZis2qKcuoO5VywE1v",
+      "school": "Rochester Institute of Technology",
+      "status": "club"
+    },
+    {
+      "programId": "fmf5Pw6pHIxl0IYY6gbU",
+      "school": "John Carroll University",
+      "status": "club"
+    },
+    {
+      "programId": "Ycl3odbhC4v57C38a4E7",
+      "school": "Southern Methodist University",
+      "status": "club"
+    },
+    {
+      "programId": "ZjRTEsTvvZtF2rsBswIM",
+      "school": "Valdosta State University",
+      "status": "club"
+    },
+    {
+      "programId": "bxDWVXGJCZCQW8SMzPip",
+      "school": "Colorado School of Mines",
+      "status": "club"
+    },
+    {
+      "programId": "LWPIlQFDfGdP6kMRWnBS",
+      "school": "Saginaw Valley State University",
+      "status": "club"
+    },
+    {
+      "programId": "H2wTJl9Fj4TS34cYuSlx",
+      "school": "Johns Hopkins University",
+      "status": "club"
+    },
+    {
+      "programId": "YHebq62x20Qzo0UneDMR",
+      "school": "Southwest Minnesota State University",
+      "status": "club"
+    },
+    {
+      "programId": "spDULyn3s5Iof2E7nXD4",
+      "school": "Valley Forge Military College",
+      "status": "club"
+    },
+    {
+      "programId": "fV8Rf62vARf9PWpAfYcT",
+      "school": "California State University, Monterey Bay",
+      "status": "club"
+    },
+    {
+      "programId": "TIAs7vxKYHsahuXcVKmj",
+      "school": "Salisbury University",
+      "status": "club"
+    },
+    {
+      "programId": "AmekQztUmU502ojqKzzr",
+      "school": "Bowdoin College",
+      "status": "club"
+    },
+    {
+      "programId": "sA88wfoqorWkzSq8HCMQ",
+      "school": "Spring Hill College",
+      "status": "club"
+    },
+    {
+      "programId": "6f6v61YSuenTh5sCQCyV",
+      "school": "Vanderbilt University",
+      "status": "club"
+    },
+    {
+      "programId": "UZkeAYtLzfr81C98Gby5",
+      "school": "University of Scranton",
+      "status": "club"
+    },
+    {
+      "programId": "PVVqiD9u3fy2liy6b7ye",
+      "school": "Bridgewater State University",
+      "status": "club"
+    },
+    {
+      "programId": "FNYgWK6xPAOJYv5jHNld",
+      "school": "Juniata College",
+      "status": "club"
+    },
+    {
+      "programId": "IR3sVxeAFgKQaIiVDdrw",
+      "school": "Springfield College",
+      "status": "club"
+    },
+    {
+      "programId": "ME7ielcuxAwkWbSV3G3Z",
+      "school": "Virginia Commonwealth University",
+      "status": "club"
+    },
+    {
+      "programId": "MwGNOjiGdgXYDQJe7Nc7",
+      "school": "University of Dayton",
+      "status": "club"
+    },
+    {
+      "programId": "Y2BmVjGavpqd7mWQ1rBq",
+      "school": "Sonoma State University",
+      "status": "club"
+    },
+    {
+      "programId": "IwwhlosEc5UwdF3ZrFBO",
+      "school": "Bryant University",
+      "status": "club"
+    },
+    {
+      "programId": "haGsj4BC1BpGmoA1jiII",
+      "school": "Keene State College",
+      "status": "club"
+    },
+    {
+      "programId": "of4NHQ8Gm54WG2D3YpWN",
+      "school": "Virginia Military Institute",
+      "status": "club"
+    },
+    {
+      "programId": "6Sgna4KycJ1Al7eyMfUP",
+      "school": "DePaul University",
+      "status": "club"
+    },
+    {
+      "programId": "wEB9j2e9SFOpv8IrSFQa",
+      "school": "Kent State University",
+      "status": "club"
+    },
+    {
+      "programId": "jnxsghXg1aIT0C0y9akV",
+      "school": "Wabash College",
+      "status": "club"
+    },
+    {
+      "programId": "voe0MyvKtWeqgPYjXpNp",
+      "school": "Drexel University",
+      "status": "club"
+    },
+    {
+      "programId": "HrWgjDrmNIIyvjr027YU",
+      "school": "Canisius University",
+      "status": "club"
+    },
+    {
+      "programId": "VIko0sCmdpBk4haoJSd1",
+      "school": "Kenyon College",
+      "status": "club"
+    },
+    {
+      "programId": "gCcszO8ON3VvV8BgvyuP",
+      "school": "St. Francis College",
+      "status": "club"
+    },
+    {
+      "programId": "Qp3wLpdtN2Nj2w9SbOKu",
+      "school": "Wake Forest University",
+      "status": "club"
+    },
+    {
+      "programId": "fozc2ExB6Ixy8sjaUfPR",
+      "school": "East Carolina University",
+      "status": "club"
+    },
+    {
+      "programId": "sOcofQkhwGQG5zqnRIwV",
+      "school": "Stony Brook University (SUNY)",
+      "status": "club"
+    },
+    {
+      "programId": "6C1ePdzuKi5uZVUKCg5D",
+      "school": "Carleton College",
+      "status": "club"
+    },
+    {
+      "programId": "OmXs1TW0GsiKgtZ0kI6c",
+      "school": "Lafayette College",
+      "status": "club"
+    },
+    {
+      "programId": "Du8knaPZkb8jFwVr2MMB",
+      "school": "St. John's University",
+      "status": "club"
+    },
+    {
+      "programId": "TsiMxXD8A0d5H7yu2T5G",
+      "school": "Washington and Lee University",
+      "status": "club"
+    },
+    {
+      "programId": "sc6O976KmvfOn4uoAvu2",
+      "school": "University at Albany (SUNY)",
+      "status": "club"
+    },
+    {
+      "programId": "wOWTS3dz64meSAcdcCX9",
+      "school": "Carnegie Mellon University",
+      "status": "club"
+    },
+    {
+      "programId": "fluaYSaTnPIr2D8D1JGG",
+      "school": "St. Lawrence University",
+      "status": "club"
+    },
+    {
+      "programId": "mJZLTPZV8YJKP2TF8ZDt",
+      "school": "Washington State University",
+      "status": "club"
+    },
+    {
+      "programId": "PLh3DAxq7r1csqRUfmL5",
+      "school": "Case Western Reserve University",
+      "status": "club"
+    },
+    {
+      "programId": "IVwj078ORPLPdpH0frjE",
+      "school": "Lasell University",
+      "status": "club"
+    },
+    {
+      "programId": "PxAnJEQblXLGn4gRAZiG",
+      "school": "Weber State University",
+      "status": "club"
+    },
+    {
+      "programId": "zqmWRbpPrLViQgpVE6xX",
+      "school": "Eckerd College",
+      "status": "club"
+    },
+    {
+      "programId": "yByohZ2BtynJc9WLC3xM",
+      "school": "SUNY Oswego",
+      "status": "club"
+    },
+    {
+      "programId": "ePpl3ex1V5GEjhK2OSGT",
+      "school": "Cedarville University",
+      "status": "club"
+    },
+    {
+      "programId": "avy3KovxuwDyOBT5xoyb",
+      "school": "Le Moyne College",
+      "status": "club"
+    },
+    {
+      "programId": "BH0lbINaKIHjgqJ8uCof",
+      "school": "St. Michael's College",
+      "status": "club"
+    },
+    {
+      "programId": "FdTt2HYDmKg0NamI8nPj",
+      "school": "Wentworth Institute of Technology",
+      "status": "club"
+    },
+    {
+      "programId": "wn2mFk3nOXfcnDxPZy63",
+      "school": "Embry-Riddle Aeronautical University",
+      "status": "club"
+    },
+    {
+      "programId": "0qXI8C9YsQLNSP2W1bl0",
+      "school": "Tennessee Tech University",
+      "status": "club"
+    },
+    {
+      "programId": "9WAW7pBR7ghWGrQxBTda",
+      "school": "Central Connecticut State University",
+      "status": "club"
+    },
+    {
+      "programId": "GORXPAL8PVUYnORP1gZJ",
+      "school": "Lee University",
+      "status": "club"
+    },
+    {
+      "programId": "LawFfwgYl6EFw2yw2Tkh",
+      "school": "St. Olaf College",
+      "status": "club"
+    },
+    {
+      "programId": "K0rQKGSByfauxyeyn7B5",
+      "school": "Wesleyan University",
+      "status": "club"
+    },
+    {
+      "programId": "6ey9FKqVGSnvv4BD6Fe2",
+      "school": "Ferris State University",
+      "status": "club"
+    },
+    {
+      "programId": "oxxYNMYZ6tuHF6FhT8Hd",
+      "school": "Texas Christian University",
+      "status": "club"
+    },
+    {
+      "programId": "3YUOgQfaE8S6cGSqaUEZ",
+      "school": "Central Oregon Community College",
+      "status": "club"
+    },
+    {
+      "programId": "aE98VG7TkRjKc6zO7Sov",
+      "school": "Lehigh University",
+      "status": "club"
+    },
+    {
+      "programId": "gZZpomVyeDf7Ey0vYoTV",
+      "school": "Stonehill College",
+      "status": "club"
+    },
+    {
+      "programId": "ZkzBbicAdWtdRLcGX4wH",
+      "school": "West Virginia University",
+      "status": "club"
+    },
+    {
+      "programId": "w889niiwi4nAPXcPqv3u",
+      "school": "Towson University",
+      "status": "club"
+    },
+    {
+      "programId": "PjT9BVzgleXPqTkEXaES",
+      "school": "Champlain College",
+      "status": "club"
+    },
+    {
+      "programId": "MwqQDXgJiWLtG62xi8FO",
+      "school": "LeTourneau University",
+      "status": "club"
+    },
+    {
+      "programId": "zQgFNPljwLuBIiGp7DtS",
+      "school": "SUNY Brockport",
+      "status": "club"
+    },
+    {
+      "programId": "TCf2UtHO3JueCnIXfhIO",
+      "school": "Western Carolina University",
+      "status": "club"
+    },
+    {
+      "programId": "dhjZShQ98diqbxlHbEhS",
+      "school": "Longwood University",
+      "status": "club"
+    },
+    {
+      "programId": "ephzerik188r8Jw1JYjn",
+      "school": "SUNY Buffalo State College",
+      "status": "club"
+    },
+    {
+      "programId": "DsEedQ4ZG9a6TYW3ljJB",
+      "school": "Western Colorado University",
+      "status": "club"
+    },
+    {
+      "programId": "nTYzF60jYrgjcd3Id2Dd",
+      "school": "Georgetown University",
+      "status": "club"
+    },
+    {
+      "programId": "GxIv6pyLFYsO3ZAcSjjC",
+      "school": "University of California, San Diego",
+      "status": "club"
+    },
+    {
+      "programId": "OO3ECZnMQGKtK5P6PYRb",
+      "school": "Christopher Newport University",
+      "status": "club"
+    },
+    {
+      "programId": "IWjqtkug0VRJBAf7DrLd",
+      "school": "SUNY Fredonia",
+      "status": "club"
+    },
+    {
+      "programId": "2Sy5zKNGGfWl4zcYoEIn",
+      "school": "Western Kentucky University",
+      "status": "club"
+    },
+    {
+      "programId": "mA8yHyYh4hQWX6rGMkW0",
+      "school": "Clarkson University",
+      "status": "club"
+    },
+    {
+      "programId": "DiOQJgyPNYCT9hf43tQy",
+      "school": "Loyola University Maryland",
+      "status": "club"
+    },
+    {
+      "programId": "BZr8PXdtpEGLe9uwcez6",
+      "school": "SUNY Geneseo",
+      "status": "club"
+    },
+    {
+      "programId": "O9R6czveyHLDmhgwe5nW",
+      "school": "Western New England University",
+      "status": "club"
+    },
+    {
+      "programId": "US2upWPSPIYvQENItcyl",
+      "school": "University of Maryland, Baltimore County",
+      "status": "club"
+    },
+    {
+      "programId": "KNuXiuzOIQrNCwCpNen7",
+      "school": "Macalester College",
+      "status": "club"
+    },
+    {
+      "programId": "MjJeEeFTkKYl8ZATfjVo",
+      "school": "SUNY Maritime College",
+      "status": "club"
+    },
+    {
+      "programId": "wkQdb8qFKl3tEynGretB",
+      "school": "Western Oregon University",
+      "status": "club"
+    },
+    {
+      "programId": "M5pjYmzJXD9zPRhs57gP",
+      "school": "University of Houston",
+      "status": "club"
+    },
+    {
+      "programId": "33F0B2zzVmupPzY00iGl",
+      "school": "Colby College",
+      "status": "club"
+    },
+    {
+      "programId": "FO6AYEP8HzhlfIDJeRim",
+      "school": "Marshall University",
+      "status": "club"
+    },
+    {
+      "programId": "vfakCSoCl0PRkncR80W5",
+      "school": "SUNY New Paltz",
+      "status": "club"
+    },
+    {
+      "programId": "0yCiefLVYuYQrEgwZJzP",
+      "school": "Westfield State University",
+      "status": "club"
+    },
+    {
+      "programId": "TcXHaP9WTwBrbRPwG7ek",
+      "school": "Massachusetts Maritime Academy",
+      "status": "club"
+    },
+    {
+      "programId": "wU9qcyru5Tcp8sxPqdZL",
+      "school": "SUNY Oneonta",
+      "status": "club"
+    },
+    {
+      "programId": "f85EJIdenYpAMfC8cO7w",
+      "school": "Wheaton College",
+      "status": "club"
+    },
+    {
+      "programId": "XOAa4xS9Tczv07NDGdY2",
+      "school": "Illinois State University",
+      "status": "club"
+    },
+    {
+      "programId": "YqO7fxxMBoV5gNWbM6kg",
+      "school": "College of Charleston",
+      "status": "club"
+    },
+    {
+      "programId": "DRC1yfb3MF1AFvFIcq0X",
+      "school": "SUNY Plattsburgh",
+      "status": "club"
+    },
+    {
+      "programId": "9KDskT8pEG0CYNVM2oDG",
+      "school": "Widener University",
+      "status": "club"
+    },
+    {
+      "programId": "tPYrWGfu1i299gm32No3",
+      "school": "College of St. Scholastica",
+      "status": "club"
+    },
+    {
+      "programId": "YC52ydVRea3oy2InhZnE",
+      "school": "Merrimack College",
+      "status": "club"
+    },
+    {
+      "programId": "3WMArrnnJ0kDVpELkAwD",
+      "school": "SUNY Potsdam",
+      "status": "club"
+    },
+    {
+      "programId": "bAgGLWZjXbYosDcgxvo0",
+      "school": "Willamette University",
+      "status": "club"
+    },
+    {
+      "programId": "ll8HNrLBIwv6LxzWPnJV",
+      "school": "John Brown University",
+      "status": "club"
+    },
+    {
+      "programId": "KH56hNaCGEMKcTjPSsBe",
+      "school": "College of the Holy Cross",
+      "status": "club"
+    },
+    {
+      "programId": "qd75Vk4CfgTnGOjvai8S",
+      "school": "Middle Tennessee State University",
+      "status": "club"
+    },
+    {
+      "programId": "ENaEdr3s0lcJXxoOgNA9",
+      "school": "Susquehanna University",
+      "status": "club"
+    },
+    {
+      "programId": "VnsoGzXP66glpSaRSyC3",
+      "school": "William Paterson University",
+      "status": "club"
+    },
+    {
+      "programId": "8OtJFk0YpeQj1DaonHBB",
+      "school": "College of William & Mary",
+      "status": "club"
+    },
+    {
+      "programId": "XBrnRXMpaAf7v8Cxsz8l",
+      "school": "Middlebury College",
+      "status": "club"
+    },
+    {
+      "programId": "IKu72oQFaBisL0MpMbIH",
+      "school": "Swarthmore College",
+      "status": "club"
+    },
+    {
+      "programId": "JgOxLvcc89moiugR6pRM",
+      "school": "Williams College",
+      "status": "club"
+    },
+    {
+      "programId": "cP6OIMeX0WKc2CJTeYeo",
+      "school": "Colorado College",
+      "status": "club"
+    },
+    {
+      "programId": "g7ohMzrZuv3ud7ZDFANr",
+      "school": "Millersville University of Pennsylvania",
+      "status": "club"
+    },
+    {
+      "programId": "jDeO5zHFHbKIpzrV7r31",
+      "school": "Taylor University",
+      "status": "club"
+    },
+    {
+      "programId": "HjoEPIGjvsiX6LT5IvlY",
+      "school": "Winona State University",
+      "status": "club"
+    },
+    {
+      "programId": "oJIAWXWa3PXawcPGGv3A",
+      "school": "Loyola University Chicago",
+      "status": "club"
+    },
+    {
+      "programId": "MjWGZ3zQ8hENkK9MiGvJ",
+      "school": "University of Vermont",
+      "status": "club"
+    },
+    {
+      "programId": "nXid1E1w8KT0QVGhaYN2",
+      "school": "Minnesota State University Moorhead",
+      "status": "club"
+    },
+    {
+      "programId": "FS6Uh3YN3yv2WlCHdLp6",
+      "school": "Texas A&M University-Corpus Christi",
+      "status": "club"
+    },
+    {
+      "programId": "csEzJH8IeELwSZ1hVWNH",
+      "school": "Worcester Polytechnic Institute",
+      "status": "club"
+    },
+    {
+      "programId": "yi3smGBmVcov6J6CXiO0",
+      "school": "University of Maine - Orono",
+      "status": "club"
+    },
+    {
+      "programId": "vhVmuYTlLXmZ1hOwOGzX",
+      "school": "Villanova University",
+      "status": "club"
+    },
+    {
+      "programId": "zhDQCzzAP6qmqLxK1Ey7",
+      "school": "Mitchell College",
+      "status": "club"
+    },
+    {
+      "programId": "fC3bx0ZMNuvHE7U0Qcrx",
+      "school": "Xavier University",
+      "status": "club"
+    },
+    {
+      "programId": "WcCclO0iDG33KHddOMVQ",
+      "school": "Marist College",
+      "status": "club"
+    },
+    {
+      "programId": "WqeFPSAhAp5X1pMN2qaT",
+      "school": "Connecticut College",
+      "status": "club"
+    },
+    {
+      "programId": "wo6vb19zeVZsomM7RPls",
+      "school": "Molloy University",
+      "status": "club"
+    },
+    {
+      "programId": "SNyypVLFWvqlm8EIuoob",
+      "school": "The Citadel",
+      "status": "club"
+    },
+    {
+      "programId": "1qjMry3v24IUomtysQip",
+      "school": "York College of Pennsylvania",
+      "status": "club"
+    },
+    {
+      "programId": "9h2trhfRp3JODHH5x5f5",
+      "school": "Maryville University",
+      "status": "club"
+    },
+    {
+      "programId": "aVV8oTBUvt1sVO0fKsiV",
+      "school": "Washington University in St. Louis",
+      "status": "club"
+    },
+    {
+      "programId": "zIXUFrM6doEVJ67c7Bd0",
+      "school": "Curry College",
+      "status": "club"
+    },
+    {
+      "programId": "y9wqDsWeknMuxw2HMlU0",
+      "school": "Morehouse College",
+      "status": "club"
+    },
+    {
+      "programId": "4UxbdkaQtYXcfp6ZfpBE",
+      "school": "The College of New Jersey",
+      "status": "club"
+    },
+    {
+      "programId": "2C05Mnv4ejShHn5Vh2r4",
+      "school": "University of Memphis",
+      "status": "club"
+    },
+    {
+      "programId": "A8KfN2PmjcYJgbQLdIBX",
+      "school": "Denison University",
+      "status": "club"
+    },
+    {
+      "programId": "9PDXW5GfQ1BLuYAcSpky",
+      "school": "New England College",
+      "status": "club"
+    },
+    {
+      "programId": "zhaufhPHWronHFGgf4ar",
+      "school": "Thomas College",
+      "status": "club"
+    },
+    {
+      "programId": "AjPa0AVV4AroqB4RW3iD",
+      "school": "University of Miami",
+      "status": "club"
+    },
+    {
+      "programId": "y7bnZvfy4sPA3DByMXxb",
+      "school": "New Mexico Highlands University",
+      "status": "club"
+    },
+    {
+      "programId": "BFq2T1J1euzq6wKNVYNd",
+      "school": "Tiffin University",
+      "status": "club"
+    },
+    {
+      "programId": "W2LnjQLwPvNSu2zl6pkH",
+      "school": "Michigan Technological University",
+      "status": "club"
+    },
+    {
+      "programId": "oMHXJaFt4uqKYLBtJyX5",
+      "school": "University of Wisconsin-Milwaukee",
+      "status": "club"
+    },
+    {
+      "programId": "6VpAFGh7pG0K3PPNYmnK",
+      "school": "DeSales University",
+      "status": "club"
+    },
+    {
+      "programId": "4jb1VBzjePuUbXPKPDpy",
+      "school": "New Mexico Institute of Mining and Technology",
+      "status": "club"
+    },
+    {
+      "programId": "L69wIVRJd8lAuxjXE9WW",
+      "school": "Trinity College",
+      "status": "club"
+    },
+    {
+      "programId": "rDspdulhDc0PE2EXWWDg",
+      "school": "University of Wisconsin-Platteville",
+      "status": "club"
+    },
+    {
+      "programId": "HKbpvAQOMfYGIssxJsuX",
+      "school": "Drew University",
+      "status": "club"
+    },
+    {
+      "programId": "5iN5D3T6yvrp2Po4lXOZ",
+      "school": "Nichols College",
+      "status": "club"
+    },
+    {
+      "programId": "2ZkXwv2SmxKcOZKb0GxL",
+      "school": "Trinity University",
+      "status": "club"
+    },
+    {
+      "programId": "Ukb5ELafrMdrYz8D5AfO",
+      "school": "University of Minnesota Duluth",
+      "status": "club"
+    },
+    {
+      "programId": "QDb4ltPjHKyAddQBS2LI",
+      "school": "University of Wisconsin-Whitewater",
+      "status": "club"
+    },
+    {
+      "programId": "8SQluMfBqCqUcO2p4y8z",
+      "school": "Duke University",
+      "status": "club"
+    },
+    {
+      "programId": "7Etncp56F4jhA0ICZP3L",
+      "school": "Oberlin College",
+      "status": "club"
+    },
+    {
+      "programId": "UHqO3sBmDIeWuqWidfT6",
+      "school": "Tufts University",
+      "status": "club"
+    },
+    {
+      "programId": "3eXFCqVdGDEE0YcWMe7A",
+      "school": "Ohio Northern University",
+      "status": "club"
+    },
+    {
+      "programId": "xlzmRGZ4hvF9RFtt9sUH",
+      "school": "Tulane University",
+      "status": "club"
+    },
+    {
+      "programId": "U5cyuNeBfa5DMO49Q7ji",
+      "school": "Union College",
+      "status": "club"
+    },
+    {
+      "programId": "AG39Yxa8RwXz0uEg25SL",
+      "school": "Millennia Atlantic University",
+      "status": "varsity"
+    },
+    {
+      "programId": "T6Lsqacs8ZHHpH6mBazD",
+      "school": "American River College",
+      "status": "sanctioned"
+    },
+    {
+      "programId": "ktwXfH2bwZjpAIVp5hGG",
+      "school": "Indiana Institute of Technology",
+      "status": "varsity"
+    },
+    {
+      "programId": "Z0Xl5ad5QSbvh9cyi1WS",
+      "school": "Iowa Central Community College",
+      "status": "varsity"
+    },
+    {
+      "programId": "A5qAEytvtB740VTjCPf9",
+      "school": "Pennsylvania State University",
+      "status": "endowed"
+    },
+    {
+      "programId": "ZXuvtoYPYJ6oD3dNdDhl",
+      "school": "University of Nebraska-Lincoln",
+      "status": "club"
+    },
+    {
+      "programId": "m3Qr0SHLIdqRWFpEKqH2",
+      "school": "University of Texas at Austin",
+      "status": "club"
+    },
+    {
+      "programId": "f2UU2DX9LrHPU6DKRcMe",
+      "school": "Saint Josephs University",
+      "status": "endowed"
+    },
+    {
+      "programId": "tbUerw9mg2RG453Q9GIE",
+      "school": "University at Buffalo (SUNY)",
+      "status": "club"
+    },
+    {
+      "programId": "2PUZlk6AlXi6wHLjnEWw",
+      "school": "Indiana University Bloomington",
+      "status": "endowed"
+    },
+    {
+      "programId": "ZUl1jZCSqa4murenE38h",
+      "school": "University of Minnesota Twin Cities",
+      "status": "club"
+    },
+    {
+      "programId": "8Kpxw7GTJ69fI5LWWY90",
+      "school": "University of Wisconsin-Madison",
+      "status": "club"
+    },
+    {
+      "programId": "iV8V1SW2RZdGgSAhHqpJ",
+      "school": "California State Polytechnic University, Humboldt",
+      "status": "club"
+    },
+    {
+      "programId": "ypnPKVZUn8zmbvoZqCSt",
+      "school": "University of Illinois Urbana-Champaign",
+      "status": "club"
+    },
+    {
+      "programId": "OyHBOW84H1z3MAuxRjPx",
+      "school": "University of Missouri - Science & Technology",
+      "status": "club"
+    },
+    {
+      "programId": "XnkBMrUU7OTGPHHM7itP",
+      "school": "Paul Smiths College",
+      "status": "club"
+    },
+    {
+      "programId": "26xdYCdO9TuQmRgP7P0T",
+      "school": "California University of Pennsylvania",
+      "status": "club"
+    },
+    {
+      "programId": "dYhDc4wZFtk02HxFyiW7",
+      "school": "Clarion University of Pennsylvania",
+      "status": "club"
+    },
+    {
+      "programId": "VSS2FcsGScg0NhkHm9MZ",
+      "school": "Saint Anselm College",
+      "status": "club"
+    },
+    {
+      "programId": "LIZk5JzspXkJjbRZRDkM",
+      "school": "St. Edward's University",
+      "status": "club"
+    },
+    {
+      "programId": "QaNr3wHYaJWaK0pcoDIh",
+      "school": "St. Marys College of Maryland",
+      "status": "club"
+    },
+    {
+      "programId": "9TinSG7vJv3PzEkC3wV0",
+      "school": "Florida International University",
+      "status": "club"
+    },
+    {
+      "programId": "n7NPCQC3hNKFvDLIcEKf",
+      "school": "University of California, Riverside",
+      "status": "club"
+    },
+    {
+      "programId": "3fftCPRmJ257Lwme5u1T",
+      "school": "University of Massachusetts Lowell",
+      "status": "club"
+    },
+    {
+      "programId": "JUH0R57MO5ixgYCSSGTI",
+      "school": "University of North Carolina Wilmington",
+      "status": "club"
+    },
+    {
+      "programId": "8ltfpLBR99utEzy3yVuS",
+      "school": "IUPUI (Indiana Univ–Purdue Univ Indy)",
+      "status": "club"
+    },
+    {
+      "programId": "b2v7hmWwhGrNpEmQnT9c",
+      "school": "University of Texas at San Antonio",
+      "status": "club"
+    },
+    {
+      "programId": "fBDlPT9WDrHsaEXiQhTC",
+      "school": "Minnesota State University, Mankato",
+      "status": "club"
+    }
+  ],
+  "missingPrograms": [
+    {
+      "school": "Northern Arizona University",
+      "gender": "mens",
+      "status": "club",
+      "state": "AZ",
+      "city": "Flagstaff",
+      "league": "CRAA D1AA"
+    },
+    {
+      "school": "Johnson & Wales University",
+      "gender": "mens",
+      "status": "club",
+      "state": "RI",
+      "city": "Providence"
+    },
+    {
+      "school": "Christian Brothers University",
+      "gender": "mens",
+      "status": "club",
+      "state": "TN",
+      "city": "Memphis"
+    },
+    {
+      "school": "Mercyhurst University",
+      "gender": "mens",
+      "status": "club",
+      "state": "PA",
+      "city": "Erie"
+    },
+    {
+      "school": "DePauw University",
+      "gender": "mens",
+      "status": "club",
+      "state": "IN",
+      "city": "Greencastle"
+    },
+    {
+      "school": "Ohio Wesleyan University",
+      "gender": "mens",
+      "status": "club",
+      "state": "OH",
+      "city": "Delaware"
+    },
+    {
+      "school": "Georgia State University",
+      "gender": "mens",
+      "status": "club",
+      "state": "GA",
+      "city": "Atlanta"
+    }
+  ]
+}

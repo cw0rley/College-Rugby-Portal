@@ -1,0 +1,64 @@
+{
+  "_readme": [
+    "Ranking pages the sync should read. Add an entry here and the next run picks",
+    "it up — no code change needed.",
+    "",
+    "  id       short name, shown in logs and the health block",
+    "  site     which parser to use. Only 'goff' exists today; a different site",
+    "           needs a parser in scrape-rankings.js, not just an entry here.",
+    "  gender   'mens' or 'womens' — restricts matching to that side of the",
+    "           programs collection, which rules out a whole class of wrong hits",
+    "  league   written onto matched programs' rankings for context",
+    "  discover substring matched against links on the Goff rankings index. The",
+    "           newest matching article wins, so week-numbered URLs never go",
+    "           stale and never need re-pasting.",
+    "  url      pin one exact article instead of discovering it. Use this when a",
+    "           page does not appear on the index.",
+    "  enabled  set false to park a source without deleting it"
+  ],
+
+  "rankingsIndex": "https://goffrugbyreport.com/related-topics/rankings",
+
+  "rankings": [
+    {
+      "id": "goff-mens-d1a",
+      "site": "goff",
+      "gender": "mens",
+      "league": "CRAA D1A",
+      "discover": "d1a-rankings",
+      "enabled": true
+    },
+    {
+      "id": "goff-mens-d1aa",
+      "site": "goff",
+      "gender": "mens",
+      "league": "CRAA D1AA",
+      "discover": "men-d1aa-rankings",
+      "enabled": true
+    },
+    {
+      "id": "goff-mens-ncr-d1",
+      "site": "goff",
+      "gender": "mens",
+      "league": "NCR D1",
+      "discover": "ncr-d1-rankings",
+      "enabled": true
+    },
+    {
+      "id": "goff-mens-d2",
+      "site": "goff",
+      "gender": "mens",
+      "league": "NCR D2",
+      "discover": "men-d2-college-rankings",
+      "enabled": true
+    }
+  ],
+
+  "_notScraped": [
+    "NCR's own power rankings (ncr.rugby/news/.../preseason-power-rankings-*) are",
+    "written as prose — 'rings in at No. 2' — with no list or table in the page,",
+    "rendered or otherwise. There is nothing to parse, so they stay a manual read.",
+    "",
+    "Goff's boys-school-team-rankings articles are high school and out of scope."
+  ]
+}

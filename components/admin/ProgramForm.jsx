@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase.js";
 import { useToast } from "../ui/Toast.jsx";
+import { PROGRAM_STATUS } from "../../constants.js";
 
 export default function ProgramForm({ initial, onSave, onCancel, leagues = [], conferences = [], schoolTypes = [] }) {
   const [form, setForm] = useState(initial);
@@ -134,6 +135,22 @@ export default function ProgramForm({ initial, onSave, onCancel, leagues = [], c
               onChange={e => set("schoolFunded", e.target.checked)} style={{ width:16, height:16 }} />
             School Funded
           </label>
+        </div>
+      </div>
+
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 2fr", gap:12, marginBottom:12 }}>
+        <div>
+          <label style={lbl}>Program Status</label>
+          <select value={form.programStatus ?? ""} onChange={e => set("programStatus", e.target.value)} style={inp}>
+            <option value="">— Select —</option>
+            {PROGRAM_STATUS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+          </select>
+        </div>
+        <div style={{ display:"flex", alignItems:"flex-end" }}>
+          <p style={{ margin:0, fontSize:12, color:"#64748b", lineHeight:1.4 }}>
+            {PROGRAM_STATUS.find(s => s.value === form.programStatus)?.description
+              || "How the school treats the program — from varsity sport to student-run club."}
+          </p>
         </div>
       </div>
 

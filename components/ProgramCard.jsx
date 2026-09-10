@@ -3,6 +3,14 @@ import SchoolLogo from "./ui/SchoolLogo.jsx";
 import Badge from "./ui/Badge.jsx";
 import StatPill from "./ui/StatPill.jsx";
 
+// Only the tiers that distinguish a program get a badge.  "Club" is the common
+// case — badging two-thirds of the cards with it would be noise, not signal.
+const STATUS_BADGE = {
+  varsity:    { label: "Varsity",    color: "#0A1F44" },
+  sanctioned: { label: "Sanctioned", color: "#1a56db" },
+  endowed:    { label: "Endowed",    color: "#b45309" },
+};
+
 const HeartIcon = ({ filled, size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={filled ? "#dc2626" : "none"}
     stroke={filled ? "#dc2626" : "#94a3b8"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -66,6 +74,10 @@ export default function ProgramCard({ program, onClick, isComparing, onToggleCom
         {program.league && <Badge label={program.league} color="#00CC00" />}
         {program.rugbyScholarship && <Badge label="Scholarship" color="#7e3af2" />}
         {program.schoolFunded && <Badge label="School Funded" color="#ff5a1f" />}
+        {STATUS_BADGE[program.programStatus] && (
+          <Badge label={STATUS_BADGE[program.programStatus].label}
+            color={STATUS_BADGE[program.programStatus].color} />
+        )}
       </div>
 
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>

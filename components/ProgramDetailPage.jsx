@@ -4,6 +4,7 @@ import { doc, getDoc, collection, getDocs, query, where } from "firebase/firesto
 import { db } from "../firebase.js";
 import SchoolLogo from "./ui/SchoolLogo.jsx";
 import { useIsMobile } from "../utils/useIsMobile.js";
+import { PROGRAM_STATUS, PROGRAM_STATUS_LABELS } from "../constants.js";
 import Badge from "./ui/Badge.jsx";
 
 function renderMarkdown(text) {
@@ -325,7 +326,13 @@ export default function ProgramDetailPage({ programs = [], confNameMap = {}, use
             <StatRow label="League" value={program.league} />
             <StatRow label="Scholarship" value={program.rugbyScholarship ? "Yes" : "No"} />
             <StatRow label="School Funded" value={program.schoolFunded ? "Yes" : "No"} />
+            <StatRow label="Program Status" value={PROGRAM_STATUS_LABELS[program.programStatus] || null} />
           </div>
+          {PROGRAM_STATUS.find(s => s.value === program.programStatus) && (
+            <p style={{ margin: "8px 0 0", fontSize: 13, color: "#64748b", lineHeight: 1.5 }}>
+              {PROGRAM_STATUS.find(s => s.value === program.programStatus).description}
+            </p>
+          )}
 
           {/* Notes / Bio */}
           {program.notes && (

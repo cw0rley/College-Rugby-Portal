@@ -12,12 +12,41 @@ export const US_STATES = {
   VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming",
 };
 
+// How the school treats the rugby program.  Ordered most to least institutional
+// support — the browse filter and the program badge both rely on this order.
+export const PROGRAM_STATUS = [
+  {
+    value: "varsity",
+    label: "Varsity",
+    description: "A varsity sport, run by the athletic department.",
+  },
+  {
+    value: "sanctioned",
+    label: "Sanctioned",
+    description: "Overseen by the athletic department — or by student life / rec sports, with the athletic department keeping an eye on it.",
+  },
+  {
+    value: "endowed",
+    label: "Endowed",
+    description: "A club with strong alumni support that gives it money and influence.",
+  },
+  {
+    value: "club",
+    label: "Club",
+    description: "A student-run club.",
+  },
+];
+
+export const PROGRAM_STATUS_LABELS = Object.fromEntries(
+  PROGRAM_STATUS.map(s => [s.value, s.label])
+);
+
 export const EMPTY_PROGRAM = {
   school:"", city:"", state:"", gender:"mens", conference:"", league:"",
   ncaaDivision:"", schoolType:"", gpa:"", sat:"", acceptanceRate:"",
   enrollment:"", inStateTuition:"", outStateTuition:"", rugbyRanking:"",
   rugbyScholarship:false, schoolFunded:false, website:"", rugbyWebsite:"", topPrograms:"", notes:"",
-  featured:false, logoUrl:"", usNewsRank:"", usNewsUrl:"",
+  featured:false, logoUrl:"", usNewsRank:"", usNewsUrl:"", programStatus:"",
 };
 
 export const EMPTY_PROGRAM_CONTACT = {
@@ -30,7 +59,7 @@ export const CSV_COLS = [
   ["schoolType","School Type"],["gpa","GPA"],["sat","SAT"],["acceptanceRate","Acceptance Rate"],
   ["enrollment","Enrollment"],["inStateTuition","In-State Tuition"],
   ["outStateTuition","Out-of-State Tuition"],["rugbyRanking","Rugby Ranking"],
-  ["rugbyScholarship","Rugby Scholarship"],["schoolFunded","School Funded"],["website","Website"],["rugbyWebsite","Rugby Website"],["notes","Notes"],
+  ["rugbyScholarship","Rugby Scholarship"],["schoolFunded","School Funded"],["programStatus","Program Status"],["website","Website"],["rugbyWebsite","Rugby Website"],["notes","Notes"],
 ];
 
 export const CSV_NUM_FIELDS = new Set(["gpa","sat","acceptanceRate","enrollment","inStateTuition","outStateTuition","rugbyRanking"]);

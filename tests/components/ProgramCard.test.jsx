@@ -156,4 +156,28 @@ describe("ProgramCard", () => {
     // Head Coach should come first
     expect(names[0].textContent).toBe("Head");
   });
+
+  describe("program status badge", () => {
+    it("badges a varsity program", () => {
+      render(<ProgramCard program={{ ...mockProgram, programStatus: "varsity" }} onClick={vi.fn()} />);
+      expect(screen.getByText("Varsity")).toBeInTheDocument();
+    });
+
+    it("badges a sanctioned program", () => {
+      render(<ProgramCard program={{ ...mockProgram, programStatus: "sanctioned" }} onClick={vi.fn()} />);
+      expect(screen.getByText("Sanctioned")).toBeInTheDocument();
+    });
+
+    it("does not badge a plain club — it is the common case, so badging it is noise", () => {
+      render(<ProgramCard program={{ ...mockProgram, programStatus: "club" }} onClick={vi.fn()} />);
+      expect(screen.queryByText("Club")).not.toBeInTheDocument();
+    });
+
+    it("does not badge a program with no status set", () => {
+      render(<ProgramCard program={{ ...mockProgram, programStatus: "" }} onClick={vi.fn()} />);
+      for (const label of ["Varsity", "Sanctioned", "Endowed"]) {
+        expect(screen.queryByText(label)).not.toBeInTheDocument();
+      }
+    });
+  });
 });

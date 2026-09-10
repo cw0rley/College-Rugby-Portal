@@ -4,7 +4,7 @@ import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged, signInWithPopup, signInWithRedirect, sendEmailVerification } from "firebase/auth";
 import { httpsCallable } from "firebase/functions";
 import { db, auth, googleProvider, functions } from "./firebase.js";
-import { US_STATES } from "./constants.js";
+import { US_STATES, PROGRAM_STATUS } from "./constants.js";
 import { exportCSV } from "./utils/csv.js";
 import { trackPageView, trackProgramView, trackSearch, trackFilter, trackExport } from "./utils/analytics.js";
 import { loadFavorites, addFavorite, removeFavorite } from "./utils/favorites.js";
@@ -164,6 +164,7 @@ export default function App() {
   const [maxTuition, setMaxTuition] = useState("");
   const [scholarshipOnly, setScholarshipOnly] = useState(false);
   const [schoolFundedOnly, setSchoolFundedOnly] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -461,6 +462,7 @@ export default function App() {
       }
       if (scholarshipOnly && !p.rugbyScholarship) return false;
       if (schoolFundedOnly && !p.schoolFunded) return false;
+      if (statusFilter && p.programStatus !== statusFilter) return false;
       if (search) {
         const q = search.toLowerCase();
         return (
@@ -472,7 +474,7 @@ export default function App() {
       }
       return true;
     });
-  }, [programs, search, genderFilter, stateFilter, conferenceFilter, leagueFilter, minGPA, maxTuition, scholarshipOnly, schoolFundedOnly]);
+  }, [programs, search, genderFilter, stateFilter, conferenceFilter, leagueFilter, minGPA, maxTuition, scholarshipOnly, schoolFundedOnly, statusFilter]);
 
   const confSearch = useMemo(() => {
     if (!search || location.pathname !== "/conferences") return conferences;
@@ -542,7 +544,7 @@ export default function App() {
     programs.filter(p => compareIds.includes(p.id)),
     [programs, compareIds]);
 
-  const activeFiltersCount = [stateFilter, conferenceFilter, leagueFilter, minGPA, maxTuition, scholarshipOnly, schoolFundedOnly].filter(Boolean).length;
+  const activeFiltersCount = [stateFilter, conferenceFilter, leagueFilter, minGPA, maxTuition, scholarshipOnly, schoolFundedOnly, statusFilter].filter(Boolean).length;
   const [disclaimerDismissed, setDisclaimerDismissed] = useState(false);
 
   // Build nav items
@@ -711,9 +713,9 @@ export default function App() {
               )}
             </button>
 
-            {(stateFilter || conferenceFilter || leagueFilter || minGPA || maxTuition || scholarshipOnly || schoolFundedOnly) && (
+            {(stateFilter || conferenceFilter || leagueFilter || minGPA || maxTuition || scholarshipOnly || schoolFundedOnly || statusFilter) && (
               <button onClick={() => { setStateFilter(""); setConferenceFilter(""); setLeagueFilter("");
-                setMinGPA(""); setMaxTuition(""); setScholarshipOnly(false); setSchoolFundedOnly(false); }}
+                setMinGPA(""); setMaxTuition(""); setScholarshipOnly(false); setSchoolFundedOnly(false); setStatusFilter(""); }}
                 style={{ padding: "8px 12px", borderRadius: 8, border: "none",
                   background: "#fee2e2", color: "#dc2626", cursor: "pointer",
                   fontSize: 13, fontWeight: 600, width: isMobile ? "100%" : "auto", textAlign: "center" }}>&#10005; Clear</button>
@@ -725,6 +727,19 @@ export default function App() {
             <div style={{ background: "#fff", borderRadius: 12, padding: 16, marginBottom: 20,
               boxShadow: "0 1px 3px rgba(0,0,0,0.06)", display: "flex", gap: 16, flexWrap: "wrap",
               alignItems: "flex-end" }}>
+              <div>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600,
+                  color: "#64748b", marginBottom: 6 }}>Program Status</label>
+                <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}
+                  style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0",
+                    fontSize: 13, color: "#475569", background: "#fff", cursor: "pointer",
+                    width: isMobile ? "100%" : 180 }}>
+                  <option value="">All Statuses</option>
+                  {PROGRAM_STATUS.map(st => (
+                    <option key={st.value} value={st.value}>{st.label}</option>
+                  ))}
+                </select>
+              </div>
               <div>
                 <label style={{ display: "block", fontSize: 12, fontWeight: 600,
                   color: "#64748b", marginBottom: 6 }}>Conference</label>

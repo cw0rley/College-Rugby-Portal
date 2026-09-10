@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { US_STATES, EMPTY_PROGRAM, CSV_COLS, CSV_NUM_FIELDS, CSV_BOOL_FIELDS, CONF_COLS, CONF_CONTACT_COLS, LEAGUE_COLS, PROG_CONTACT_COLS, EMPTY_PROGRAM_CONTACT } from "../constants.js";
+import { US_STATES, EMPTY_PROGRAM, CSV_COLS, CSV_NUM_FIELDS, CSV_BOOL_FIELDS, CONF_COLS, CONF_CONTACT_COLS, LEAGUE_COLS, PROG_CONTACT_COLS, EMPTY_PROGRAM_CONTACT,
+  PROGRAM_STATUS,
+  PROGRAM_STATUS_LABELS
+} from "../constants.js";
 
 describe("constants", () => {
   describe("US_STATES", () => {
@@ -107,6 +110,37 @@ describe("constants", () => {
       expect(keys).toContain("school");
       expect(keys).toContain("contact");
       expect(keys).toContain("email");
+    });
+
+    it("CSV_COLS includes programStatus", () => {
+      expect(CSV_COLS.map(c => c[0])).toContain("programStatus");
+    });
+  });
+
+  describe("PROGRAM_STATUS", () => {
+    it("has the four tiers in descending order of support", () => {
+      expect(PROGRAM_STATUS.map(s => s.value)).toEqual([
+        "varsity", "sanctioned", "endowed", "club",
+      ]);
+    });
+
+    it("gives every tier a label and a description", () => {
+      for (const s of PROGRAM_STATUS) {
+        expect(s.label).toBeTruthy();
+        expect(s.description).toBeTruthy();
+      }
+    });
+
+    it("PROGRAM_STATUS_LABELS maps every value to its label", () => {
+      expect(PROGRAM_STATUS_LABELS.varsity).toBe("Varsity");
+      expect(PROGRAM_STATUS_LABELS.sanctioned).toBe("Sanctioned");
+      expect(PROGRAM_STATUS_LABELS.endowed).toBe("Endowed");
+      expect(PROGRAM_STATUS_LABELS.club).toBe("Club");
+      expect(Object.keys(PROGRAM_STATUS_LABELS)).toHaveLength(PROGRAM_STATUS.length);
+    });
+
+    it("EMPTY_PROGRAM carries a programStatus field", () => {
+      expect(EMPTY_PROGRAM).toHaveProperty("programStatus");
     });
   });
 });

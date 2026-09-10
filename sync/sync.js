@@ -486,6 +486,16 @@ async function scrapeAll() {
     console.log(`  🔤 Normalised ${confNormalised} conference names → abbreviations`);
   }
 
+  // Record what each source returned so the run can fail loudly if a
+  // scraper silently breaks (see reportSourceHealth).
+  sourceHealth.NCR = ncrClubs.length;
+  sourceHealth.CRAA = craaClubs.length;
+  sourceHealth.NIRA = niraTeams.length;
+  sourceHealth.Goff = goffTeams.length;
+  sourceHealth.NextPhase = nextPhaseTeams.length;
+  sourceHealth.Conferences = confTeams.length;
+  sourceHealth.Merged = allPrograms.length;
+
   console.log(`\n╔═══════════════════════════════════════╗`);
   console.log(`║  SCRAPE SUMMARY                       ║`);
   console.log(`╠═══════════════════════════════════════╣`);
@@ -499,6 +509,58 @@ async function scrapeAll() {
   console.log(`╚═══════════════════════════════════════╝`);
 
   return allPrograms;
+}
+
+// ─── Source health ──────────────────────────────────────────────────────────
+// Populated by scrapeAll().  A scraper that breaks against a redesigned site
+// returns zero rows rather than throwing, so without this check the job exits
+// 0 and reports success while doing nothing — which is how the NCR scraper sat
+// broken from late July to September 2026 across six "green" weekly runs.
+
+const sourceHealth = {};
+
+// Sources that must return rows for a sync to be meaningful.  NCR is the base
+// every other source overlays onto; CRAA and NIRA cover the top divisions.
+// Goff has long returned 0 and its data overlaps NCR, and Next Phase needs a
+// token that CI does not have — both warn instead of failing the run.
+const CRITICAL_SOURCES = ["NCR", "CRAA", "NIRA"];
+
+// A healthy full scrape merges ~800 programs.  Well below that means several
+// sources degraded at once even if each individually returned something.
+const MIN_MERGED_PROGRAMS = 500;
+
+/**
+ * Print a per-source health block.  Returns an array of failure strings —
+ * empty when the scrape looks healthy.
+ */
+function reportSourceHealth() {
+  const failures = [];
+  const warnings = [];
+
+  console.log(`\n🩺 Source health`);
+  for (const [source, count] of Object.entries(sourceHealth)) {
+    if (source === "Merged") continue;
+    const critical = CRITICAL_SOURCES.includes(source);
+    let mark = "✅";
+    if (count === 0) {
+      mark = critical ? "❌" : "⚠️ ";
+      const msg = `${source} returned 0 rows`;
+      if (critical) failures.push(msg);
+      else warnings.push(msg);
+    }
+    console.log(`  ${mark} ${source.padEnd(13)} ${count}`);
+  }
+
+  if (sourceHealth.Merged < MIN_MERGED_PROGRAMS) {
+    failures.push(
+      `merged only ${sourceHealth.Merged} programs (expected at least ${MIN_MERGED_PROGRAMS})`
+    );
+  }
+  console.log(`  ${sourceHealth.Merged < MIN_MERGED_PROGRAMS ? "❌" : "✅"} ${"Merged".padEnd(13)} ${sourceHealth.Merged}`);
+
+  for (const w of warnings) console.log(`\n  ⚠️  ${w} — not fatal, but worth checking.`);
+
+  return failures;
 }
 
 async function main() {
@@ -532,6 +594,21 @@ async function main() {
   );
   writeFileSync(outPath, JSON.stringify(programs, null, 2));
   console.log(`\n💾 Saved scraped data to ${outPath}`);
+
+  // ─── Fail fast on a degraded scrape ───────────────────────────────────
+  // Checked before the rugby-website scrape (~25 min) and before any
+  // Firestore write, so a broken scraper is reported in seconds and never
+  // reaches production data.
+  const healthFailures = reportSourceHealth();
+  if (healthFailures.length > 0) {
+    console.error(`\n❌ Scrape is degraded:`);
+    for (const f of healthFailures) console.error(`   • ${f}`);
+    console.error(
+      `\n   Refusing to continue. A source scraper has probably broken against a\n` +
+      `   site redesign — re-inspect the failing source's page markup.`
+    );
+    process.exit(1);
+  }
 
   // ─── Scrape rugby websites for coaching staff ───────────────────────
   console.log("\n📗 Source 7: Rugby Websites (coaching staff pages)");

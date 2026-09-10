@@ -1,9 +1,15 @@
 /**
  * NCR (National Collegiate Rugby) scraper.
  *
- * Fetches all clubs from ncr.rugby/clubs across every division and gender,
- * handling Webflow CMS pagination.  Returns an array of programme objects
- * matching the Firestore schema used by College Rugby Portal.
+ * Fetches all clubs from ncr.rugby/clubs across every division and gender.
+ * Returns an array of programme objects matching the Firestore schema used
+ * by College Rugby Portal.
+ *
+ * NCR moved from Webflow to WordPress in 2026.  The club directory is now
+ * rendered server-side in a single page — every club is present in the HTML,
+ * so there is no pagination to follow.  Clubs are grouped in
+ * <section class="ncr-cd-group"> blocks, one per conference, and each club is
+ * an <article class="ncr-cd-row"> carrying data-gender and data-division.
  *
  * Usage:
  *   import { scrapeNCR } from "./scrape-ncr.js";
@@ -12,15 +18,7 @@
 
 import * as cheerio from "cheerio";
 
-const BASE = "https://www.ncr.rugby/clubs";
-
-// Division tab pane indices and their pagination query-param keys.
-// These are specific to the current Webflow build – if the site is
-// redesigned they may need updating.  The scraper detects them
-// automatically from the first page load, so this is just fallback.
-const PANE_META = {
-  // Populated dynamically at runtime
-};
+const BASE = "https://ncr.rugby/clubs/";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -35,82 +33,8 @@ async function fetchPage(url) {
   return cheerio.load(await res.text());
 }
 
-function parsePanes($) {
-  const panes = [];
-  $(".w-tab-pane").each((i, pane) => {
-    const $pane = $(pane);
-    // Detect pagination param from "next" link
-    const nextHref = $pane.find(".w-pagination-next").attr("href") || "";
-    const match = nextHref.match(/([a-f0-9_]+_page)=(\d+)/);
-    const paramKey = match ? match[1] : null;
-
-    // Detect max page from numbered pagination links
-    let maxPage = 1;
-    $pane.find("a").each((_, a) => {
-      const href = $(a).attr("href") || "";
-      const m = href.match(/page=(\d+)/);
-      if (m) maxPage = Math.max(maxPage, parseInt(m[1], 10));
-    });
-
-    // Webflow often only shows "Next" without numbered page links,
-    // so maxPage stays at 1 or 2.  Instead of guessing a max, we'll
-    // paginate until a page returns zero items (see scrapeNCR below).
-    // Set a high upper bound so the loop starts; it will stop early
-    // when we encounter an empty page.
-    if (paramKey && maxPage <= 2) {
-      maxPage = 50; // safety cap — we break out when a page has 0 items
-    }
-
-    // Determine gender from first club card
-    const firstTitle = $pane
-      .find('[fs-cmsfilter-field="title"], .sub-header-small')
-      .first()
-      .text()
-      .trim();
-    const gender = firstTitle.toLowerCase().includes("women") ? "womens" : "mens";
-
-    panes.push({ index: i, paramKey, maxPage, gender });
-  });
-  return panes;
-}
-
-function extractClubs($, $pane) {
-  const clubs = [];
-  $pane.find(".w-dyn-item").each((_, item) => {
-    const $item = $(item);
-    const title = $item
-      .find('[fs-cmsfilter-field="title"], .sub-header-small')
-      .text()
-      .trim();
-
-    // ONLY use the CMS filter attribute for conference — the .paragraph-text
-    // fallback was grabbing school names, locations, and other junk text
-    // for cards where the conference attribute is missing.
-    let conference = "";
-    const $confEl = $item.find('[fs-cmsfilter-field="conference"]');
-    if ($confEl.length) {
-      conference = $confEl.text().trim();
-    }
-
-    if (!title) return;
-
-    const isWomen = title.toLowerCase().includes(" women");
-    const school = title.replace(/\s+(Men|Women)$/i, "").trim();
-    const gender = isWomen ? "womens" : "mens";
-
-    // Reject conference values that look like school names
-    if (conference && looksLikeSchoolName(conference)) {
-      conference = "";
-    }
-
-    clubs.push({ school, gender, conference });
-  });
-  return clubs;
-}
-
 /** Reject values that are obviously school names, not conference names */
 function looksLikeSchoolName(val) {
-  const lower = val.toLowerCase();
   return (
     /\buniversity\b/i.test(val) ||
     /\bcollege\b/i.test(val) ||
@@ -129,54 +53,73 @@ function looksLikeSchoolName(val) {
   );
 }
 
+/**
+ * Club rows carry an explicit data-gender attribute.  Fall back to the
+ * "… Men" / "… Women" suffix on the club name if it is ever missing.
+ */
+function readGender($row, title) {
+  const attr = ($row.attr("data-gender") || "").toLowerCase();
+  if (attr.startsWith("women")) return "womens";
+  if (attr.startsWith("men")) return "mens";
+  return /\bwomen('s)?\s*$/i.test(title) ? "womens" : "mens";
+}
+
+/** "Baldwin Wallace University Men" → "Baldwin Wallace University" */
+function cleanSchool(title) {
+  return title.replace(/\s+(Men|Women)(['’]s)?\s*$/i, "").trim();
+}
+
 // ─── main scraper ───────────────────────────────────────────────────────────
 
 export async function scrapeNCR() {
-  console.log("  Fetching NCR clubs page 1...");
+  console.log("  Fetching NCR clubs directory...");
   const $ = await fetchPage(BASE);
-  const panes = parsePanes($);
 
-  let allClubs = [];
+  const groups = $(".ncr-cd-group");
+  if (groups.length === 0) {
+    throw new Error(
+      "No .ncr-cd-group sections found — the NCR club directory markup has " +
+      "likely changed again. Re-inspect https://ncr.rugby/clubs/."
+    );
+  }
 
-  for (const pane of panes) {
-    // Page 1 items
-    const $pane = $($(".w-tab-pane")[pane.index]);
-    const page1 = extractClubs($, $pane);
-    allClubs.push(...page1);
+  const allClubs = [];
 
-    // Fetch remaining pages — keep going until we get an empty page
-    if (pane.paramKey && pane.maxPage > 1) {
-      for (let p = 2; p <= pane.maxPage; p++) {
-        const url = `${BASE}?${pane.paramKey}=${p}`;
-        console.log(`  Fetching pane ${pane.index} page ${p}...`);
-        try {
-          const $page = await fetchPage(url);
-          const $pagePanes = $page($page(".w-tab-pane")[pane.index]);
-          const items = extractClubs($page, $pagePanes);
-          if (items.length === 0) {
-            console.log(`  Pane ${pane.index}: no more items at page ${p}, stopping.`);
-            break;
-          }
-          allClubs.push(...items);
-        } catch (err) {
-          console.warn(`  ⚠ Failed to fetch ${url}: ${err.message}`);
-          break; // Stop pagination on error
-        }
-        // Small delay to be respectful
-        await new Promise(r => setTimeout(r, 200));
-      }
-    }
+  groups.each((_, group) => {
+    const $group = $(group);
+
+    let conference = $group.find(".ncr-cd-group-title").first().text().trim();
+    if (conference && looksLikeSchoolName(conference)) conference = "";
+
+    $group.find(".ncr-cd-row").each((__, row) => {
+      const $row = $(row);
+      const title = $row.find(".ncr-cd-club-name").first().text().trim();
+      if (!title) return;
+
+      allClubs.push({
+        school: cleanSchool(title),
+        gender: readGender($row, title),
+        conference,
+      });
+    });
+  });
+
+  if (allClubs.length === 0) {
+    throw new Error(
+      `Found ${groups.length} conference groups but no club rows — the NCR ` +
+      "club directory markup has likely changed. Re-inspect https://ncr.rugby/clubs/."
+    );
   }
 
   // Deduplicate by school+gender
   const seen = new Set();
-  allClubs = allClubs.filter(c => {
+  const unique = allClubs.filter(c => {
     const key = `${c.school.toLowerCase()}::${c.gender}`;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
   });
 
-  console.log(`  NCR total: ${allClubs.length} unique clubs`);
-  return allClubs;
+  console.log(`  NCR total: ${unique.length} unique clubs`);
+  return unique;
 }

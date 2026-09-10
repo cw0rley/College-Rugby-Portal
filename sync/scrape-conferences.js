@@ -14,6 +14,7 @@
  */
 
 import * as cheerio from "cheerio";
+import { extractEmails } from "./extract-emails.js";
 
 // ─── FETCH HELPER ──────────────────────────────────────────────────────────
 
@@ -90,7 +91,7 @@ async function scrapeRugbyEast() {
     }
 
     // Extract emails + phones
-    const emailMatches = bodyText.match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+    const emailMatches = extractEmails(bodyText);
     const phoneMatches = bodyText.match(/\d{3}[-.]?\d{3}[-.]?\d{4}/g) || [];
     const filteredEmails = [...new Set(emailMatches)].filter(
       (e) => !e.endsWith(".png") && !e.endsWith(".jpg")
@@ -144,7 +145,7 @@ async function scrapeMARC() {
 
     // Grab conference-level email
     const text = $("body").text();
-    const emails = text.match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+    const emails = extractEmails(text);
     const filtered = [...new Set(emails)].filter(
       (e) => !e.endsWith(".png") && !e.endsWith(".jpg") && !e.includes("google.com")
     );
@@ -197,7 +198,7 @@ async function scrapeSouthern() {
     });
 
     // Also extract emails
-    const emails = bodyText.match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+    const emails = extractEmails(bodyText);
     const filtered = [...new Set(emails)].filter(
       (e) => !e.endsWith(".png") && !e.endsWith(".jpg") && !e.includes("wix.com")
     );
@@ -238,7 +239,7 @@ async function scrapeIvy() {
   const contacts = [];
   try {
     const $ = await fetchPage("https://www.ivyrugby.com/");
-    const emails = $("body").text().match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+    const emails = extractEmails($("body").text());
     const filtered = [...new Set(emails)].filter(
       (e) => !e.endsWith(".png") && !e.endsWith(".jpg") && !e.includes("squarespace")
     );
@@ -287,7 +288,7 @@ async function scrapeRugbyNortheast() {
   try {
     const $ = await fetchPage("https://www.rugbynortheast.org/team-contacts");
     const bodyText = $("body").text();
-    const emails = bodyText.match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+    const emails = extractEmails(bodyText);
     const phones = bodyText.match(/\d{3}[-.]?\d{3}[-.]?\d{4}/g) || [];
     const filtered = [...new Set(emails)].filter(
       (e) => !e.endsWith(".png") && !e.endsWith(".jpg") && !e.includes("squarespace")
@@ -308,7 +309,7 @@ async function scrapeRugbyNortheast() {
   // General contact
   try {
     const $ = await fetchPage("https://www.rugbynortheast.org/contact-1");
-    const emails = $("body").text().match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+    const emails = extractEmails($("body").text());
     const filtered = [...new Set(emails)].filter(
       (e) => !e.endsWith(".png") && !e.endsWith(".jpg") && !e.includes("squarespace")
     );
@@ -330,7 +331,7 @@ async function scrapeSoutheastern() {
   const contacts = [];
   try {
     const $ = await fetchPage("https://southeasternrugby.org/");
-    const emails = $("body").text().match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+    const emails = extractEmails($("body").text());
     const filtered = [...new Set(emails)].filter(
       (e) => !e.endsWith(".png") && !e.endsWith(".jpg")
     );
@@ -371,7 +372,7 @@ async function scrapeBigTen() {
   const contacts = [];
   try {
     const $ = await fetchPage("https://www.bigtenrugby.com/standings");
-    const emails = $("body").text().match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+    const emails = extractEmails($("body").text());
     const filtered = [...new Set(emails)].filter(
       (e) => !e.endsWith(".png") && !e.endsWith(".jpg")
     );
@@ -398,7 +399,7 @@ async function scrapeTexas() {
   try {
     const $ = await fetchPage("https://texasrugbyunion.com/contacts/");
     const bodyText = $("body").text();
-    const emails = bodyText.match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+    const emails = extractEmails(bodyText);
     const phones = bodyText.match(/\d{3}[-.]?\d{3}[-.]?\d{4}/g) || [];
     const filtered = [...new Set(emails)].filter(
       (e) => !e.endsWith(".png") && !e.endsWith(".jpg") && !e.includes("wordpress")
@@ -458,7 +459,7 @@ async function scrapeAtlantic() {
   const contacts = [];
   try {
     const $ = await fetchPage("https://atlanticrugbyconference.com/contact/");
-    const emails = $("body").text().match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+    const emails = extractEmails($("body").text());
     const filtered = [...new Set(emails)].filter(
       (e) => !e.endsWith(".png") && !e.endsWith(".jpg") && !e.includes("wordpress")
     );
@@ -507,7 +508,7 @@ async function scrapeFlorida() {
       });
 
       // Emails
-      const emails = bodyText.match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+      const emails = extractEmails(bodyText);
       const filtered = [...new Set(emails)].filter(
         (e) => !e.endsWith(".png") && !e.endsWith(".jpg") && !e.includes("wordpress")
       );
@@ -553,7 +554,7 @@ async function scrapeGreatMidwest() {
       }
     });
 
-    const emails = $("body").text().match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+    const emails = extractEmails($("body").text());
     const filtered = [...new Set(emails)].filter((e) => !e.endsWith(".png") && !e.endsWith(".jpg"));
     if (filtered.length > 0) {
       contacts.push({ conference: conf, type: "conference", emails: filtered, source: "greatmidwest.rugbycentral.io" });
@@ -581,7 +582,7 @@ async function scrapeUmbrellaSites() {
   for (const site of sites) {
     try {
       const $ = await fetchPage(site.url);
-      const emails = $("body").text().match(/[\w.+-]+@[\w-]+\.[\w.]+/g) || [];
+      const emails = extractEmails($("body").text());
       const filtered = [...new Set(emails)].filter(
         (e) => !e.endsWith(".png") && !e.endsWith(".jpg") && !e.includes("sentry")
       );

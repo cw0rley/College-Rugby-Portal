@@ -739,6 +739,11 @@ export default function App() {
                     <option key={st.value} value={st.value}>{st.label}</option>
                   ))}
                 </select>
+                <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 6, maxWidth: 260, lineHeight: 1.45 }}>
+                  {statusFilter
+                    ? PROGRAM_STATUS.find(st => st.value === statusFilter)?.description
+                    : "How the school treats the program — pick one to see what it means."}
+                </div>
               </div>
               <div>
                 <label style={{ display: "block", fontSize: 12, fontWeight: 600,

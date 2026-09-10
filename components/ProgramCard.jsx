@@ -2,14 +2,16 @@ import React from "react";
 import SchoolLogo from "./ui/SchoolLogo.jsx";
 import Badge from "./ui/Badge.jsx";
 import StatPill from "./ui/StatPill.jsx";
+import { PROGRAM_STATUS } from "../constants.js";
 
-// Only the tiers that distinguish a program get a badge.  "Club" is the common
-// case — badging two-thirds of the cards with it would be noise, not signal.
-const STATUS_BADGE = {
-  varsity:    { label: "Varsity",    color: "#0A1F44" },
-  sanctioned: { label: "Sanctioned", color: "#1a56db" },
-  endowed:    { label: "Endowed",    color: "#b45309" },
-};
+// Only the tiers that distinguish a program get a badge on a card.  "Club" is
+// the common case — badging two-thirds of the cards with it would be noise, not
+// signal — so it is shown on the detail page instead, where there is no scan to
+// clutter.
+const CARD_TIERS = ["varsity", "sanctioned", "endowed"];
+const STATUS_BADGE = Object.fromEntries(
+  PROGRAM_STATUS.filter(s => CARD_TIERS.includes(s.value)).map(s => [s.value, s])
+);
 
 const HeartIcon = ({ filled, size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={filled ? "#dc2626" : "none"}
@@ -76,7 +78,8 @@ export default function ProgramCard({ program, onClick, isComparing, onToggleCom
         {program.schoolFunded && <Badge label="School Funded" color="#ff5a1f" />}
         {STATUS_BADGE[program.programStatus] && (
           <Badge label={STATUS_BADGE[program.programStatus].label}
-            color={STATUS_BADGE[program.programStatus].color} />
+            color={STATUS_BADGE[program.programStatus].color}
+            title={STATUS_BADGE[program.programStatus].description} />
         )}
       </div>
 

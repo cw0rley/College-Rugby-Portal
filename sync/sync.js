@@ -27,6 +27,7 @@
  */
 
 import { STEPS, runSteps, selectSteps, listSteps } from "./steps.js";
+import { enrichPrograms } from "./school-info.js";
 import {
   syncPrograms,
   syncConferenceContacts,
@@ -387,7 +388,7 @@ async function scrapeAll(selected) {
     }
   }
 
-  const allPrograms = Array.from(merged.values());
+  let allPrograms = Array.from(merged.values());
 
   // ── Normalise conference names to abbreviations ──────────────────────
   let confNormalised = 0;
@@ -402,6 +403,17 @@ async function scrapeAll(selected) {
   }
   if (confNormalised > 0) {
     console.log(`  🔤 Normalised ${confNormalised} conference names → abbreviations`);
+  }
+
+  // Fill blank city/state/division from the school reference table before the
+  // merged count is taken.  firestore-sync rejects any *new* program without a
+  // state, and the only scraper that supplies one is Next Phase — so without
+  // this a newly discovered club is dropped every week that Next Phase is down.
+  const enriched = enrichPrograms(allPrograms);
+  if (enriched.filled > 0) {
+    allPrograms = enriched.programs;
+    const detail = Object.entries(enriched.byField).map(([f, n]) => `${f} ${n}`).join(", ");
+    console.log(`  🏫 Enriched ${enriched.filled} blank fields from school reference data (${detail})`);
   }
 
   stepCounts.merged = allPrograms.length;

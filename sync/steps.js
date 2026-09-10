@@ -29,6 +29,8 @@ import {
 } from "./scrape-nextphase.js";
 import { scrapeConferences } from "./scrape-conferences.js";
 import { scrapeRugbyWebsites } from "./scrape-rugby-websites.js";
+import { scrapeEPRU } from "./scrape-epru.js";
+import { scrapeSAR } from "./scrape-sar.js";
 
 // Default row-count for a step result; steps returning a richer shape
 // override this with their own `count`.
@@ -136,6 +138,36 @@ export const STEPS = [
     empty: { teams: [], contacts: [] },
     count: r => (r && Array.isArray(r.teams) ? r.teams.length : 0),
     run: () => scrapeConferences(),
+  },
+  // EPRU and South Atlantic return coach/commissioner contacts rather than
+  // programs, so they feed the contact diff rather than the program merge.
+  // Both were written months ago and never imported by sync.js — running them
+  // at least keeps their output files current for the contact review.
+  {
+    name: "epru",
+    label: "EPRU",
+    icon: "📮",
+    site: "epru.rugby/teams-contacts",
+    coverage: "Eastern Pennsylvania college club contacts",
+    data: "coach names, titles, emails",
+    phase: "scrape",
+    critical: false,
+    kind: "contacts",
+    empty: [],
+    run: () => scrapeEPRU(),
+  },
+  {
+    name: "sar",
+    label: "South Atlantic",
+    icon: "📮",
+    site: "southatlanticrugby.com",
+    coverage: "South Atlantic D1/D2/SCR team contacts",
+    data: "school, coach name, division",
+    phase: "scrape",
+    critical: false,
+    kind: "contacts",
+    empty: [],
+    run: () => scrapeSAR(),
   },
   {
     name: "websites",

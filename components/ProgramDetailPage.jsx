@@ -4,7 +4,7 @@ import { doc, getDoc, collection, getDocs, query, where } from "firebase/firesto
 import { db } from "../firebase.js";
 import SchoolLogo from "./ui/SchoolLogo.jsx";
 import { useIsMobile } from "../utils/useIsMobile.js";
-import { PROGRAM_STATUS, PROGRAM_STATUS_LABELS } from "../constants.js";
+import { PROGRAM_STATUS, PROGRAM_STATUS_LABELS, PROGRAM_STATUS_BY_VALUE } from "../constants.js";
 import Badge from "./ui/Badge.jsx";
 
 function renderMarkdown(text) {
@@ -282,6 +282,11 @@ export default function ProgramDetailPage({ programs = [], confNameMap = {}, use
 
           {/* Badges row */}
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
+            {PROGRAM_STATUS_BY_VALUE[program.programStatus] && (
+              <Badge label={PROGRAM_STATUS_BY_VALUE[program.programStatus].label}
+                color={PROGRAM_STATUS_BY_VALUE[program.programStatus].color}
+                title={PROGRAM_STATUS_BY_VALUE[program.programStatus].description} />
+            )}
             {program.ncaaDivision && <Badge label={program.ncaaDivision} color="#0694a2" />}
             {program.schoolType && <Badge label={program.schoolType} color="#64748b" />}
             {program.rugbyScholarship && <Badge label="Rugby Scholarship" color="#00CC00" />}

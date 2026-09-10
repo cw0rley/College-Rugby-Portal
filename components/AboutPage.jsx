@@ -1,4 +1,5 @@
 import React from "react";
+import { PROGRAM_STATUS } from "../constants.js";
 export default function AboutPage() {
   const cardStyle = {
     background: "#fff", borderRadius: 12, padding: 28,
@@ -37,6 +38,26 @@ export default function AboutPage() {
               <div style={{ fontSize: 22, marginBottom: 8 }}>{icon}</div>
               <div style={{ fontWeight: 700, fontSize: 13, color: "#0A1F44", marginBottom: 4 }}>{title}</div>
               <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.5 }}>{desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={cardStyle}>
+        <h3 style={{ margin: "0 0 12px", fontSize: 16, fontWeight: 700, color: "#0A1F44" }}>Program Status</h3>
+        <p style={{ margin: "0 0 16px", fontSize: 14, color: "#475569", lineHeight: 1.8 }}>
+          League and division tell you who a program plays. Program status tells you how the school
+          treats it — which often matters more to a recruit than the division does.
+        </p>
+        <div style={{ display: "grid", gap: 12 }}>
+          {PROGRAM_STATUS.map(st => (
+            <div key={st.value} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{
+                background: st.color + "18", color: st.color, border: `1px solid ${st.color}40`,
+                borderRadius: 20, padding: "2px 10px", fontSize: 11, fontWeight: 600,
+                whiteSpace: "nowrap", flex: "0 0 auto", minWidth: 84, textAlign: "center",
+              }}>{st.label}</span>
+              <span style={{ fontSize: 14, color: "#475569", lineHeight: 1.6 }}>{st.description}</span>
             </div>
           ))}
         </div>

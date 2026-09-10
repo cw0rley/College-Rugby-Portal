@@ -17,21 +17,25 @@ export const US_STATES = {
 export const PROGRAM_STATUS = [
   {
     value: "varsity",
+    color: "#0A1F44",
     label: "Varsity",
     description: "A varsity sport, run by the athletic department.",
   },
   {
     value: "sanctioned",
+    color: "#1a56db",
     label: "Sanctioned",
     description: "Overseen by the athletic department — or by student life / rec sports, with the athletic department keeping an eye on it.",
   },
   {
     value: "endowed",
+    color: "#b45309",
     label: "Endowed",
     description: "A club with strong alumni support that gives it money and influence.",
   },
   {
     value: "club",
+    color: "#475569",
     label: "Club",
     description: "A student-run club.",
   },
@@ -39,6 +43,10 @@ export const PROGRAM_STATUS = [
 
 export const PROGRAM_STATUS_LABELS = Object.fromEntries(
   PROGRAM_STATUS.map(s => [s.value, s.label])
+);
+
+export const PROGRAM_STATUS_BY_VALUE = Object.fromEntries(
+  PROGRAM_STATUS.map(s => [s.value, s])
 );
 
 export const EMPTY_PROGRAM = {

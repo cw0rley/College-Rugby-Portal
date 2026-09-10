@@ -26,6 +26,7 @@ import { db } from "./firebase.js";
 const args = process.argv.slice(2);
 const COMMIT = args.includes("--commit");
 const CLEAR_STALE = args.includes("--clear-stale");
+const JSON_IDX = args.indexOf("--json");
 const BATCH_LIMIT = 400;
 
 /**
@@ -54,6 +55,12 @@ const locked = [];
 const unmatched = [];
 const rankedIds = new Set();
 
+// A school can appear in more than one division's poll — Indiana sits in both
+// the D1A and NCR D1 tables. rugbyRanking holds one number, so the claims are
+// collected first and resolved below rather than letting the last poll written
+// win by accident.
+const claims = new Map();
+
 for (const poll of polls) {
   const index = indexes[poll.gender];
   if (!index) { console.warn(`  ⚠ ${poll.id}: unknown gender "${poll.gender}"`); continue; }
@@ -74,28 +81,67 @@ for (const poll of polls) {
       continue;
     }
 
-    const current = program.rugbyRanking === "" || program.rugbyRanking == null
-      ? null : Number(program.rugbyRanking);
-
-    if (current === row.rank) { unchanged.push(program.school); continue; }
-
-    changes.push({
-      id: program.id,
-      school: program.school,
-      from: current,
-      to: row.rank,
-      poll: poll.id,
-      league: poll.league,
-      how,
-    });
+    if (!claims.has(program.id)) claims.set(program.id, { program, rows: [] });
+    claims.get(program.id).rows.push({ rank: row.rank, poll: poll.id, league: poll.league, how });
   }
 }
 
+// Resolve a multi-poll school to the poll matching the league it plays in.
+const contested = [];
+
+for (const { program, rows } of claims.values()) {
+  let chosen = rows[0];
+
+  if (rows.length > 1) {
+    const byLeague = rows.filter(r => r.league && r.league === program.league);
+    if (byLeague.length === 1) {
+      chosen = byLeague[0];
+    }
+    contested.push({
+      school: program.school,
+      league: program.league || "(none)",
+      rows,
+      chosen,
+      resolved: byLeague.length === 1,
+    });
+  }
+
+  const current = program.rugbyRanking === "" || program.rugbyRanking == null
+    ? null : Number(program.rugbyRanking);
+
+  if (current === chosen.rank) { unchanged.push(program.school); continue; }
+
+  changes.push({
+    id: program.id,
+    school: program.school,
+    from: current,
+    to: chosen.rank,
+    poll: chosen.poll,
+    league: chosen.league,
+    how: chosen.how,
+  });
+}
+
 // Rankings that survive from the old static dataset but appear in no live poll.
+//
+// Only a gender that actually has a poll can have stale rankings. Goff
+// publishes no women's college poll, so every women's ranking would otherwise
+// look stale and get wiped -- deleting the only women's rankings the site has
+// on the strength of a source that never covered them.
+const polledGenders = new Set(polls.filter(p => p.rows.length > 0).map(p => p.gender));
+
 const stale = programs.filter(p => {
   const r = p.rugbyRanking;
   const hasRank = r !== "" && r != null;
-  return hasRank && !rankedIds.has(p.id) && !p.rankingManual;
+  return hasRank
+    && polledGenders.has(p.gender)
+    && !rankedIds.has(p.id)
+    && !p.rankingManual;
+});
+
+const unpolled = programs.filter(p => {
+  const r = p.rugbyRanking;
+  return r !== "" && r != null && !polledGenders.has(p.gender);
 });
 
 console.log(`\n🏆 Rankings — ${COMMIT ? "COMMIT" : "DRY RUN"}\n`);
@@ -106,6 +152,10 @@ console.log(`  already right:  ${unchanged.length}`);
 console.log(`  manual-locked:  ${locked.length}  (left alone)`);
 console.log(`  unmatched:      ${unmatched.length}`);
 console.log(`  stale rankings: ${stale.length}  (ranked here, in no current poll)`);
+if (unpolled.length) {
+  const genders = [...new Set(unpolled.map(p => p.gender))].join(", ");
+  console.log(`  untouched:      ${unpolled.length}  (${genders} -- no poll covers them, so never cleared)`);
+}
 
 if (changes.length) {
   console.log(`\n  Changes:`);
@@ -113,6 +163,19 @@ if (changes.length) {
     console.log(`    ${c.school.padEnd(42)} ${String(c.from ?? "—").padStart(4)} → #${c.to}   [${c.poll}]`);
   }
   if (changes.length > 60) console.log(`    …and ${changes.length - 60} more`);
+}
+
+if (contested.length) {
+  console.log(`
+  Listed in more than one poll:`);
+  for (const c of contested) {
+    const opts = c.rows.map(r => `#${r.rank} ${r.poll}`).join("  vs  ");
+    console.log(`    ${c.school} (${c.league})`);
+    console.log(`      ${opts}`);
+    console.log(`      ${c.resolved
+      ? `-> #${c.chosen.rank} from ${c.chosen.poll}, the poll matching its league`
+      : `-> #${c.chosen.rank} from ${c.chosen.poll}; no poll matches its league, so this is a guess`}`);
+  }
 }
 
 if (locked.length) {
@@ -130,6 +193,23 @@ if (unmatched.length) {
 if (stale.length && !CLEAR_STALE) {
   console.log(`\n  ${stale.length} programs keep a ranking no live poll lists.`);
   console.log(`  Pass --clear-stale to blank them.`);
+}
+
+if (JSON_IDX !== -1) {
+  const out = args[JSON_IDX + 1];
+  const { writeFileSync } = await import("fs");
+  writeFileSync(out, JSON.stringify({
+    generated: new Date().toISOString(),
+    polls: polls.map(p => ({ id: p.id, gender: p.gender, league: p.league, url: p.url, week: p.week, count: p.rows.length })),
+    changes,
+    contested,
+    locked,
+    unmatched,
+    stale: stale.map(p => ({ id: p.id, school: p.school, gender: p.gender, league: p.league, ranking: p.rugbyRanking })),
+    unpolled: unpolled.map(p => ({ id: p.id, school: p.school, gender: p.gender, league: p.league, ranking: p.rugbyRanking })),
+  }, null, 2));
+  console.log(`
+  Plan written to ${out}`);
 }
 
 if (!COMMIT) {

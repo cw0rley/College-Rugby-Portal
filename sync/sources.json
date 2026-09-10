@@ -32,7 +32,7 @@
       "id": "goff-mens-d1aa",
       "site": "goff",
       "gender": "mens",
-      "league": "CRAA D1AA",
+      "league": "NCR D1AA",
       "discover": "men-d1aa-rankings",
       "enabled": true
     },
@@ -40,7 +40,7 @@
       "id": "goff-mens-ncr-d1",
       "site": "goff",
       "gender": "mens",
-      "league": "NCR D1",
+      "league": "NCR D1A",
       "discover": "ncr-d1-rankings",
       "enabled": true
     },

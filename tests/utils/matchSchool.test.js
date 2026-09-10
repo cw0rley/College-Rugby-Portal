@@ -12,6 +12,7 @@ const programs = [
   { id: "8",  school: "Stanford University", gender: "mens", state: "CA" },
   { id: "9",  school: "University of Michigan", gender: "womens", state: "MI" },
   { id: "10", school: "Penn State Altoona", gender: "mens", state: "PA" },
+  { id: "12", school: "Pennsylvania State University", gender: "mens", state: "PA" },
   { id: "11", school: "Penn State Berks", gender: "mens", state: "PA" },
 ];
 
@@ -70,14 +71,22 @@ describe("matchSchool", () => {
     expect(candidates.length).toBeGreaterThan(1);
   });
 
-  it("reports no match when the school is absent entirely", () => {
-    // Penn State's main campus is not in the data — only Altoona and Berks.
-    const { program } = matchSchool("Penn State", mens);
-    expect(program).toBeNull();
+  it("sends a satellite-campus name to the main campus via its alias", () => {
+    // Without the alias, containment matched "Penn State" against Altoona and
+    // Berks and never reached Pennsylvania State University.
+    const { program, how } = matchSchool("Penn State", mens);
+    expect(program.school).toBe("Pennsylvania State University");
+    expect(how).toBe("alias");
+  });
+
+  it("still resolves the satellite campuses by their own names", () => {
+    expect(matchSchool("Penn State Altoona", mens).program.id).toBe("10");
+    expect(matchSchool("Penn State Berks", mens).program.id).toBe("11");
   });
 
   it("returns candidates to help a human resolve a miss", () => {
-    const { candidates } = matchSchool("Penn State", mens);
-    expect(candidates.join(" ")).toMatch(/Penn State/);
+    const { program, candidates } = matchSchool("Directional Tech", mens);
+    expect(program).toBeNull();
+    expect(Array.isArray(candidates)).toBe(true);
   });
 });

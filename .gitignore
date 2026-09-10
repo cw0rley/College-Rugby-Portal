@@ -98,3 +98,10 @@ sync/conferences.json
 
 # Puppeteer cache
 .cache/puppeteer
+
+# Office lock files (created while a workbook is open)
+~$*
+
+# Generated review artifacts — point-in-time dry-run snapshots, regenerate with
+# node sync/apply-rankings.js --json plan.json
+sync/rankings-review.xlsx

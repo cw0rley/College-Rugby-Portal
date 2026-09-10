@@ -90,6 +90,7 @@ export const SCHOOL_ALIASES = {
   "penn west univ. - california": "California University of Pennsylvania",
   "penn west univ. - clarion": "Clarion University of Pennsylvania",
   "wash u (st. louis)": "Washington University in St. Louis",
+  "penn state": "Pennsylvania State University",
   "indiana": "Indiana University Bloomington",
   "texas": "University of Texas at Austin",
   "minnesota": "University of Minnesota Twin Cities",

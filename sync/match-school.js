@@ -107,6 +107,9 @@ export const SCHOOL_ALIASES = {
   "um-duluth": "University of Minnesota Duluth",
   "benedictine (ks)": "Benedictine College",
   "benedictine (il)": "Benedictine University",
+  // NCR's spellings, seen once its dashes are softened to spaces
+  "washington university st. louis": "Washington University in St. Louis",
+  "university of minnesota moorhead": "Minnesota State University Moorhead",
 };
 
 const EXPANSIONS = [
@@ -198,7 +201,17 @@ export function matchSchool(rawName, index, { minScore = 0.75, margin = 0.15, st
   if (exact) return { program: exact.program, how: alias ? "alias" : "exact" };
 
   const contained = index.entries.filter(e => e.norm.includes(norm) || norm.includes(e.norm));
-  if (contained.length === 1) return { program: contained[0].program, how: "contains" };
+  if (contained.length === 1) {
+    // A campus name can contain its flagship's: "University of Maine Farmington"
+    // contains "University of Maine". If a different program matches every
+    // distinguishing word — "University of Maine at Farmington" — that is the
+    // one meant, not the flagship the substring happened to hit first.
+    const perfect = index.entries.filter(
+      e => e.program !== contained[0].program && jaccard(tokens, e.tokens) === 1
+    );
+    if (perfect.length === 1) return { program: perfect[0].program, how: "fuzzy 1.00" };
+    return { program: contained[0].program, how: "contains" };
+  }
   const containedInState = preferState(contained);
   if (containedInState) return { program: containedInState.program, how: "contains+state" };
 

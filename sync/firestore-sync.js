@@ -17,6 +17,7 @@
  *   - ConferenceContacts: matched by (conference abbreviation + gender)
  */
 import { db } from "./firebase.js";
+import { createDuplicateGuard } from "./duplicate-guard.js";
 
 const PROGRAMS_COLLECTION = "programs";
 const PROGRAM_CONTACTS_COLLECTION = "programContacts";
@@ -316,10 +317,23 @@ export async function syncPrograms(newPrograms, options = {}) {
     existingNames.set(normalizeSchool(p.school) + "::" + (p.gender || ""), p);
   });
 
+  // The key above misses punctuation and wording variants ("Wisconsin-Milwaukee"
+  // vs "Wisconsin – Milwaukee", "at Austin" vs "– Austin"), so a program whose
+  // key is new still has to get past the full school matcher. See
+  // duplicate-guard.js for the run that made this necessary.
+  const findExisting = createDuplicateGuard(existingPrograms);
+
   const deduped = validPrograms.filter(p => {
     const key = programKey(p);
     // If it already exists, it's an update — let it through
     if (programMap.has(key)) return true;
+
+    const dup = findExisting(p);
+    if (dup) {
+      console.log(`  ⚠ Rejected likely duplicate: "${p.school}" (${p.gender}) — existing "${dup.existing.school}" [${dup.how}]`);
+      results.programs.rejected++;
+      return false;
+    }
 
     // New program: reject if it has no state (likely bad scrape data)
     if (!p.state) {

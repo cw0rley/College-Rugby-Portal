@@ -97,3 +97,60 @@ describe("createDuplicateGuard — programs that are genuinely new", () => {
     expect(findExisting({ school: "Augustana College", gender: "womens" }).existing.id).toBe("ag");
   });
 });
+
+// The 2026-09-23 run was the first with a Next Phase token, and Next Phase
+// names schools differently from NCR: abbreviations, team suffixes, and typos.
+// 20 of its 21 additions were wrong. Every name below is verbatim from that run.
+describe("createDuplicateGuard — Next Phase naming", () => {
+  const existing = [
+    { id: "sb", school: "University of California, Santa Barbara", gender: "mens", state: "CA" },
+    { id: "fl", school: "California State University, Fullerton", gender: "mens", state: "CA" },
+    { id: "ch", school: "California State University, Chico", gender: "mens", state: "CA" },
+    { id: "sa", school: "California State University, Sacramento", gender: "mens", state: "CA" },
+    { id: "lo", school: "University of Massachusetts Lowell", gender: "mens", state: "MA" },
+    { id: "os", school: "Ohio State University", gender: "mens", state: "OH" },
+    { id: "bo", school: "St. Bonaventure University", gender: "mens", state: "NY" },
+    { id: "vm", school: "Virginia Military Institute", gender: "mens", state: "VA" },
+    { id: "af", school: "United States Air Force Academy", gender: "mens", state: "CO" },
+    { id: "mm", school: "United States Merchant Marine Academy", gender: "mens", state: "NY" },
+    { id: "ip", school: "Indiana University of Pennsylvania", gender: "mens", state: "PA" },
+    { id: "sh", school: "Seton Hall University", gender: "mens", state: "NJ" },
+  ];
+  const findExisting = createDuplicateGuard(existing);
+
+  const cases = [
+    ["UC Santa Barbara", "CA", "sb"],
+    ["Cal State Fullerton", "CA", "fl"],
+    ["UMass Lowell", "MA", "lo"],
+    ["Indiana University of PA", "PA", "ip"],
+    ["U.S. Air Force Academy", "CO", "af"],
+    // typos in the source data
+    ["Ohio State Univeristy", "OH", "os"],
+    ["Virginia Military Institue", "VA", "vm"],
+    ["United States Merchant Marine Acedemy", "NY", "mm"],
+    // the team name rather than the school
+    ["Chico State Men's Rugby Club", "CA", "ch"],
+    ["Sacramento State Men’s", "CA", "sa"],
+    ["Seton Hall Men’s", "NJ", "sh"],
+    // no space after the period
+    ["St.Bonaventure University Men’s", "NY", "bo"],
+  ];
+
+  for (const [school, state, id] of cases) {
+    it(`recognises "${school}"`, () => {
+      const hit = findExisting({ school, gender: "mens", state });
+      expect(hit).not.toBeNull();
+      expect(hit.existing.id).toBe(id);
+    });
+  }
+
+  it("still lets a genuinely new program through", () => {
+    // East Tennessee State was the one correct addition out of the 21.
+    expect(findExisting({ school: "East Tennessee State University", gender: "mens", state: "TN" })).toBeNull();
+  });
+
+  it("does not treat a different campus as a typo", () => {
+    // Two characters apart, but different schools.
+    expect(findExisting({ school: "Penn State Altoona", gender: "mens", state: "PA" })).toBeNull();
+  });
+});

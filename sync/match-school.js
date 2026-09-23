@@ -107,6 +107,21 @@ export const SCHOOL_ALIASES = {
   "um-duluth": "University of Minnesota Duluth",
   "benedictine (ks)": "Benedictine College",
   "benedictine (il)": "Benedictine University",
+  // Next Phase's spellings: it abbreviates where NCR writes the full name
+  "uc santa barbara": "University of California, Santa Barbara",
+  "uc santa cruz": "University of California, Santa Cruz",
+  "uc irvine": "University of California, Irvine",
+  "uc berkeley": "University of California, Berkeley",
+  "cal state fullerton": "California State University, Fullerton",
+  "cal state long beach": "California State University, Long Beach",
+  "cal state monterey bay": "California State University, Monterey Bay",
+  "california u of pa": "California University of Pennsylvania",
+  "pennsylvania western university clarion": "PennWest Clarion",
+  "pennsylvania western university california": "California University of Pennsylvania",
+  "indiana university of pa": "Indiana University of Pennsylvania",
+  "u.s. air force academy": "United States Air Force Academy",
+  "u.s. naval academy": "United States Naval Academy",
+  "u.s. military academy": "United States Military Academy",
   // NCR's spellings, seen once its dashes are softened to spaces
   "washington university st. louis": "Washington University in St. Louis",
   "university of minnesota moorhead": "Minnesota State University Moorhead",
@@ -115,13 +130,51 @@ export const SCHOOL_ALIASES = {
 const EXPANSIONS = [
   [/\buniv\.?\b/g, "university"],
   [/\bcoll\.?\b/g, "college"],
-  [/\bst\.\s/g, "saint "],
+  [/\bst\.\s*/g, "saint "],
   [/\bu\.\s*/g, "university "],
   [/&/g, " and "],
 ];
 
 // Words too common to distinguish one school from another.
 const STOPWORDS = new Set(["university", "college", "the", "of", "at", "and", "school"]);
+
+// Alias keys are matched after normalisation, so punctuation and spacing in the
+// incoming name do not matter: Next Phase writes "UMass Lowell" where the key
+// here is "umass-lowell".
+let ALIAS_BY_NORM = null;
+function aliasFor(name) {
+  if (!ALIAS_BY_NORM) {
+    ALIAS_BY_NORM = new Map(
+      Object.entries(SCHOOL_ALIASES).map(([k, v]) => [normalizeSchool(k), v])
+    );
+  }
+  return ALIAS_BY_NORM.get(normalizeSchool(name)) || null;
+}
+
+/**
+ * Levenshtein distance, giving up once it passes `max` — used only as a last
+ * resort for source-data typos ("Univeristy", "Institue", "Acedemy"), never to
+ * bridge two schools with genuinely different names.
+ */
+function editDistance(a, b, max) {
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    let best = i;
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(
+        prev[j] + 1,
+        cur[j - 1] + 1,
+        prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+      );
+      if (cur[j] < best) best = cur[j];
+    }
+    if (best > max) return max + 1;
+    prev = cur;
+  }
+  return prev[b.length];
+}
 
 export function normalizeSchool(name) {
   let t = (name || "").toLowerCase();
@@ -197,7 +250,7 @@ export function matchSchool(rawName, index, { minScore = 0.75, margin = 0.15, st
     return inState.length === 1 ? inState[0] : null;
   };
 
-  const alias = SCHOOL_ALIASES[(rawName || "").toLowerCase().trim()];
+  const alias = aliasFor(rawName);
   const query = alias || rawName;
   const norm = normalizeSchool(query);
   const tokens = tokenize(query);
@@ -240,6 +293,14 @@ export function matchSchool(rawName, index, { minScore = 0.75, margin = 0.15, st
 
   const scoredInState = preferState(scored.filter(e => e.score >= 0.4));
   if (scoredInState) return { program: scoredInState.program, how: "fuzzy+state" };
+
+  // Last resort: a name one or two characters from an existing one is a typo in
+  // the source, not a different school. Long names only, and only when exactly
+  // one program is that close.
+  if (norm.length >= 12) {
+    const near = index.entries.filter(e => editDistance(norm, e.norm, 2) <= 2);
+    if (near.length === 1) return { program: near[0].program, how: "typo" };
+  }
 
   return {
     program: null,

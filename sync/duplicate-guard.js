@@ -18,9 +18,21 @@
 
 import { buildSchoolIndex, matchSchool } from "./match-school.js";
 
-/** NCR separates campus names with a spaced dash; treat it as a word break. */
-function softenDashes(name) {
-  return (name || "").replace(/\s*[–—]\s*/g, " ");
+/**
+ * Normalise the decoration different sources hang off a school name.
+ *
+ * NCR separates campus names with a spaced dash. Next Phase appends the team
+ * rather than the school -- "Chico State Men's Rugby Club", "Seton Hall Men's" --
+ * which buries the words that actually identify the school.
+ */
+function stripDecoration(name) {
+  return (name || "")
+    .replace(/\s*[–—]\s*/g, " ")
+    .replace(/\s+(men|women)('|’)?s?\s+rugby\s+(club|team)$/i, "")
+    .replace(/\s+rugby\s+(club|team)$/i, "")
+    .replace(/\s+(men|women)('|’)?s$/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 /**
@@ -57,7 +69,7 @@ export function createDuplicateGuard(existingPrograms) {
     const state = (program.state || "").toUpperCase();
 
     const { program: existing, how } = matchSchool(
-      softenDashes(program.school),
+      stripDecoration(program.school),
       indexFor(gender, state),
       { stateHint: state }
     );

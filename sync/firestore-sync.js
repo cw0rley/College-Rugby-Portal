@@ -108,9 +108,16 @@ function splitProgramAndContact(record) {
     if (key === "id") continue;
     if (CONTACT_FIELDS.includes(key)) {
       contactData[key] = value;
-    } else {
-      programData[key] = value;
+      continue;
     }
+    // PROGRAM_FIELDS is an allowlist, and until now nothing enforced it: every
+    // field a scraper happened to emit was written straight onto the program.
+    // That is how Next Phase's own "programStatus" -- "Elevated Club",
+    // "Varsity (non-NCAA)", and some objects -- landed in the field holding the
+    // varsity/sanctioned/endowed/club tiers, and how isFeatured arrived beside
+    // the site's own featured flag.
+    if (!PROGRAM_FIELDS.includes(key)) continue;
+    programData[key] = value;
   }
 
   return { programData, contactData };
@@ -239,6 +246,12 @@ export async function syncPrograms(newPrograms, options = {}) {
   ]);
   // Alternate name patterns that duplicate canonical entries (e.g. "University of Wisconsin - Eau Claire" vs "University of Wisconsin-Eau Claire")
   const JUNK_PATTERNS_EXTRA = [
+    // Next Phase lists more than college programs: national age-grade sides,
+    // academies, and a placeholder school of its own.
+    /U1[5-9]|U2[0-3]/i,
+    /^USA\s/i,
+    /Global Academy/i,
+    /^Next Phase Rugby/i,
     /^University of Wisconsin - /,    // canonical uses hyphen no spaces: "Wisconsin-Eau Claire"
     /^University of (North Carolina|Texas|Pittsburgh|Maine) - /,  // same pattern
     /^Penn (State|West) University/,  // canonical: "Pennsylvania State University" / "PennWest"
@@ -332,6 +345,14 @@ export async function syncPrograms(newPrograms, options = {}) {
     const dup = findExisting(p);
     if (dup) {
       console.log(`  ⚠ Rejected likely duplicate: "${p.school}" (${p.gender}) — existing "${dup.existing.school}" [${dup.how}]`);
+      results.programs.rejected++;
+      return false;
+    }
+
+    // Out of scope: this site covers US college rugby, and Next Phase files
+    // foreign clubs under a state of "International".
+    if (String(p.state || "").toLowerCase() === "international") {
+      console.log(`  ⚠ Rejected non-US program: "${p.school}" (${p.gender})`);
       results.programs.rejected++;
       return false;
     }

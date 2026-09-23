@@ -18,6 +18,7 @@
  */
 import { db } from "./firebase.js";
 import { createDuplicateGuard } from "./duplicate-guard.js";
+import { logChanges } from "./changelog.js";
 
 const PROGRAMS_COLLECTION = "programs";
 const PROGRAM_CONTACTS_COLLECTION = "programContacts";
@@ -196,7 +197,7 @@ function normalizeConference(value, existingConferences) {
  * @returns {Object} - Summary of changes made
  */
 export async function syncPrograms(newPrograms, options = {}) {
-  const { dryRun = false, skipContacts = false } = options;
+  const { dryRun = false, skipContacts = false, source = "sync/sync.js" } = options;
 
   // Fetch existing data from both collections
   const existingPrograms = await getExistingPrograms();
@@ -411,6 +412,8 @@ export async function syncPrograms(newPrograms, options = {}) {
         results.programs.updated++;
         results.details.push({
           action: "update-program",
+          docId: programDocId,
+          data: updates,
           school: programData.school,
           gender: programData.gender,
           fields: Object.keys(updates),
@@ -430,6 +433,8 @@ export async function syncPrograms(newPrograms, options = {}) {
       results.programs.added++;
       results.details.push({
         action: "add-program",
+        docId: programDocId,
+        data: cleaned,
         school: programData.school,
         gender: programData.gender,
       });
@@ -466,6 +471,8 @@ export async function syncPrograms(newPrograms, options = {}) {
           results.contacts.updated++;
           results.details.push({
             action: "update-contact",
+            docId: existingContact.id,
+            data: updates,
             school: programData.school,
             gender: programData.gender,
             fields: Object.keys(updates),
@@ -479,14 +486,16 @@ export async function syncPrograms(newPrograms, options = {}) {
           ...contactData,
           programId: programDocId,
         });
+        const contactRef = db.collection(PROGRAM_CONTACTS_COLLECTION).doc();
         if (!dryRun) {
-          const ref = db.collection(PROGRAM_CONTACTS_COLLECTION).doc();
-          batch.set(ref, contactRecord);
+          batch.set(contactRef, contactRecord);
           batchCount++;
         }
         results.contacts.added++;
         results.details.push({
           action: "add-contact",
+          docId: contactRef.id,
+          data: contactRecord,
           school: programData.school,
           gender: programData.gender,
         });
@@ -500,6 +509,29 @@ export async function syncPrograms(newPrograms, options = {}) {
 
   // Commit remaining
   await commitBatchIfNeeded(true);
+
+  // Record what changed. Only actual writes are logged -- a weekly run that
+  // changes nothing adds nothing -- so this stays proportional to the work
+  // done rather than to the size of the collection.
+  const COLLECTION_OF = {
+    "add-program": PROGRAMS_COLLECTION,
+    "update-program": PROGRAMS_COLLECTION,
+    "add-contact": PROGRAM_CONTACTS_COLLECTION,
+    "update-contact": PROGRAM_CONTACTS_COLLECTION,
+  };
+  const logged = await logChanges(
+    results.details
+      .filter(d => COLLECTION_OF[d.action])
+      .map(d => ({
+        action: d.action.startsWith("add") ? "add" : "update",
+        collection: COLLECTION_OF[d.action],
+        docId: d.docId,
+        data: { ...(d.data || {}), school: d.school, gender: d.gender },
+      })),
+    source,
+    { dryRun }
+  );
+  if (logged > 0) console.log(`  📝 Recorded ${logged} change(s) in the changelog`);
 
   return results;
 }

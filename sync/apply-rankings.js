@@ -22,6 +22,7 @@
 import { scrapeRankings } from "./scrape-rankings.js";
 import { buildSchoolIndex, matchSchool } from "./match-school.js";
 import { db } from "./firebase.js";
+import { logChanges } from "./changelog.js";
 
 const args = process.argv.slice(2);
 const COMMIT = args.includes("--commit");
@@ -244,6 +245,34 @@ if (CLEAR_STALE) {
 }
 
 await flush(true);
+
+// Record the run: a ranking that moves on its own is exactly the kind of
+// change nobody can reconstruct later without a log.
+await logChanges([
+  ...changes.map(c => ({
+    action: "update",
+    collection: "programs",
+    docId: c.id,
+    data: {
+      school: c.school,
+      rugbyRanking: c.to,
+      previousRanking: c.from,
+      poll: c.poll,
+      league: c.league,
+    },
+  })),
+  ...(CLEAR_STALE ? stale.map(p => ({
+    action: "update",
+    collection: "programs",
+    docId: p.id,
+    data: {
+      school: p.school,
+      rugbyRanking: "",
+      previousRanking: p.rugbyRanking,
+      reason: "cleared: no current poll lists this program",
+    },
+  })) : []),
+], "sync/apply-rankings.js");
 
 console.log(`\n  ✅ Updated ${changes.length} rankings${cleared ? `, cleared ${cleared} stale` : ""}.`);
 console.log(`  Remember to click "Publish Changes" in /admin to bust the cache.\n`);

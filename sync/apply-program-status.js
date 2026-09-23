@@ -19,6 +19,7 @@ import { readFileSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { db } from "./firebase.js";
+import { logChanges } from "./changelog.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
@@ -92,6 +93,7 @@ if (!COMMIT) {
 let batch = db.batch();
 let n = 0;
 let written = 0;
+const logEntries = [];
 
 async function flush(force = false) {
   if (n >= BATCH_LIMIT || (force && n > 0)) {
@@ -103,6 +105,12 @@ async function flush(force = false) {
 
 for (const row of toWrite) {
   batch.update(db.collection("programs").doc(row.programId), { programStatus: row.status });
+  logEntries.push({
+    action: "update",
+    collection: "programs",
+    docId: row.programId,
+    data: { school: row.school, programStatus: row.status },
+  });
   n++; written++;
   await flush();
 }
@@ -111,7 +119,7 @@ let created = 0;
 if (ADD_MISSING) {
   for (const m of missing) {
     const ref = db.collection("programs").doc();
-    batch.set(ref, {
+    const record = {
       school: m.school,
       gender: m.gender || "mens",
       state: m.state || "",
@@ -119,13 +127,16 @@ if (ADD_MISSING) {
       league: m.league || "",
       conference: m.conference || "",
       programStatus: m.status,
-    });
+    };
+    batch.set(ref, record);
+    logEntries.push({ action: "add", collection: "programs", docId: ref.id, data: record });
     n++; created++;
     await flush();
   }
 }
 
 await flush(true);
+await logChanges(logEntries, "sync/apply-program-status.js");
 
 console.log(`\n  ✅ Updated ${written} programs${created ? `, created ${created}` : ""}.`);
 console.log(`  Remember to click "Publish Changes" in /admin to bust the cache.\n`);

@@ -17,6 +17,10 @@ jobs:
       - name: Run sync
         env:
           GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          # Optional: without it the Next Phase steps fail and the run warns
+          # rather than failing, but no city/state arrives and every genuinely
+          # new program is rejected for having no state.
+          NEXTPHASE_TOKEN: ${{ secrets.NEXTPHASE_TOKEN }}
         run: |
           echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON" > /tmp/sa.json
           export GOOGLE_APPLICATION_CREDENTIALS=/tmp/sa.json

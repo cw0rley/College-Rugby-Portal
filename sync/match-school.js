@@ -152,13 +152,18 @@ export function buildSchoolIndex(programs, { gender } = {}) {
   const entries = pool.map(p => ({
     program: p,
     norm: normalizeSchool(p.school),
+    collapsed: normalizeSchool(p.school).replace(/ /g, ""),
     tokens: tokenize(p.school),
   }));
 
   const byNorm = new Map();
-  for (const e of entries) if (!byNorm.has(e.norm)) byNorm.set(e.norm, e);
+  const byCollapsed = new Map();
+  for (const e of entries) {
+    if (!byNorm.has(e.norm)) byNorm.set(e.norm, e);
+    if (!byCollapsed.has(e.collapsed)) byCollapsed.set(e.collapsed, e);
+  }
 
-  return { entries, byNorm };
+  return { entries, byNorm, byCollapsed };
 }
 
 /** "Michigan" is the flagship; "Michigan State" is the other one. */
@@ -199,6 +204,12 @@ export function matchSchool(rawName, index, { minScore = 0.75, margin = 0.15, st
 
   const exact = index.byNorm.get(norm);
   if (exact) return { program: exact.program, how: alias ? "alias" : "exact" };
+
+  // Same letters, different spacing: NCR writes "LaCrosse" where the stored name
+  // is "La Crosse". Word-by-word comparison scores those as different schools,
+  // so compare with the spaces taken out too.
+  const collapsed = index.byCollapsed.get(norm.replace(/ /g, ""));
+  if (collapsed) return { program: collapsed.program, how: "spacing" };
 
   const contained = index.entries.filter(e => e.norm.includes(norm) || norm.includes(e.norm));
   if (contained.length === 1) {

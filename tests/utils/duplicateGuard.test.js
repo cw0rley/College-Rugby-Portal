@@ -20,6 +20,7 @@ const existing = [
   { id: "md", school: "St. Marys College of Maryland", gender: "womens", state: "MD" },
   { id: "um", school: "University of Maine", gender: "mens", state: "ME" },
   { id: "uf", school: "University of Maine at Farmington", gender: "mens", state: "ME" },
+  { id: "lc", school: "University of Wisconsin-La Crosse", gender: "womens", state: "WI" },
 ];
 
 const findExisting = createDuplicateGuard(existing);
@@ -75,6 +76,13 @@ describe("createDuplicateGuard — programs that are genuinely new", () => {
     // Matched nationally, Saint Mary's College (IN) scores as well as the Maryland
     // school. Vetoing it afterwards would let this row in as a duplicate.
     expect(findExisting({ school: "St. Mary’s College Maryland", gender: "womens", state: "MD" }).existing.id).toBe("md");
+  });
+
+  it("matches a name that differs only in spacing", () => {
+    // The 2026-09-20 run added "University of Wisconsin – LaCrosse": same letters
+    // as the stored "La Crosse", but one word instead of two, so comparing word
+    // by word scored them as different schools.
+    expect(findExisting({ school: "University of Wisconsin – LaCrosse", gender: "womens", state: "WI" }).existing.id).toBe("lc");
   });
 
   it("attributes a campus to the campus, not the flagship", () => {

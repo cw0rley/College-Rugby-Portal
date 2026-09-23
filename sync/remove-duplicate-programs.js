@@ -56,6 +56,10 @@ const ADDED_2026_09_13 = [
   ["University of North Carolina – Chapel Hill", "womens"],
   ["University of North Carolina – Charlotte", "womens"], ["University of North Carolina – Charlotte", "mens"],
   ["Emory & Henry College", "womens"], ["Mount Saint Mary’s University", "womens"],
+  // The 2026-09-20 run: the guard held everything else, but this one differs
+  // from the stored "La Crosse" only in spacing, which word-by-word matching
+  // scored as a different school.
+  ["University of Wisconsin – LaCrosse", "womens"],
 ];
 
 async function referenceCounts(id) {
